@@ -19,7 +19,7 @@
 
 ### :wrench: System Architecture
 
-[skills](images/markdown-image-2.png)
+![skills](images/markdown-image-2.png)
 
 ### FE
 <div align=center>
