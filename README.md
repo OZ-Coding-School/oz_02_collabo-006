@@ -13,9 +13,10 @@
 - OZ 2기 6조 합동프로젝트  
 
 
-<div align="center">
 
 ## :busts_in_silhouette: 팀 동료
+
+<div align="center">
 
 ### BD
 
