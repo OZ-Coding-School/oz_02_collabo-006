@@ -168,8 +168,9 @@
 > 
 > [📜 요구사항 정의서](https://docs.google.com/spreadsheets/d/17qnVAS8SIELCk1rkMk864vOAvuouq30oplqg8I7ucEw/edit#gid=0)
 > 
-> [📜 ERD](images/markdown-image-3.png)
+> [📜 ERD](images/markdown-image-4.png)
 > 
 > [📜 테이블 명세서](https://docs.google.com/spreadsheets/d/13y8xi67UQYCzX1xgSORtlA1_vXRFq6OQuVDG2o7fhO0/edit#gid=0)
 >
 > [📜 화면 정의서](https://docs.google.com/spreadsheets/d/1vud5xV8rB9Y6akOIma49hSzdZsoj8DVG0-fYE4NdP_g/edit?usp=sharing)
+
