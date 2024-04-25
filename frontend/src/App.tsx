@@ -1,8 +1,14 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
+import LandingPage from "./pages/LandingPage/index";
 import "./App.css";
 
 function App() {
-  return <div className="App">안녕</div>;
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+    </Routes>
+  );
 }
 
 export default App;
