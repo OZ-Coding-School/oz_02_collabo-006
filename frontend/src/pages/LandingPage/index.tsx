@@ -1,4 +1,4 @@
-import SideBar from "components/SideBarContainer/SideBar";
+import SideBar from 'components/layout/sidebar/SideBar';
 
 const LandingPage = () => {
   return <SideBar />;

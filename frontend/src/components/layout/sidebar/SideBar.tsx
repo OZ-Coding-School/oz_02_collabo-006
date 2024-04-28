@@ -1,14 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import LoginWrap from "./LoginWrap";
-import { ReactComponent as ArchiveIcon } from "../../asset/archive.svg";
-import { ReactComponent as MyArchiveIcon } from "../../asset/myarchive.svg";
-import { ReactComponent as DesignIcon } from "../../asset/design.svg";
-import { ReactComponent as NailShopIcon } from "../../asset/nailshop.svg";
-import { ReactComponent as ProductIcon } from "../../asset/product.svg";
-import { ReactComponent as MyPageIcon } from "../../asset/mypage.svg";
-import { ReactComponent as SettingsIcon } from "../../asset/settings.svg";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import LoginWrap from './components/LoginWrap';
+import { ReactComponent as ArchiveIcon } from '../../../asset/archive.svg';
+import { ReactComponent as MyArchiveIcon } from '../../../asset/myarchive.svg';
+import { ReactComponent as DesignIcon } from '../../../asset/design.svg';
+import { ReactComponent as NailShopIcon } from '../../../asset/nailshop.svg';
+import { ReactComponent as ProductIcon } from '../../../asset/product.svg';
+import { ReactComponent as MyPageIcon } from '../../../asset/mypage.svg';
+import { ReactComponent as SettingsIcon } from '../../../asset/settings.svg';
 
 const MenuContainer = styled.div`
   width: 267px;
@@ -88,7 +88,7 @@ const MenuItem = styled.li`
 
   svg {
     margin-right: 12px;
-    fill: inherit; /* Inherit the color from the parent element */
+    fill: inherit;
   }
 
   &:hover ${MenuItemText} {
@@ -98,30 +98,29 @@ const MenuItem = styled.li`
   }
 `;
 
-// Menu items data
 const menuItems = [
-  { icon: ArchiveIcon, text: "아카이브", description: "네일아트 디자인 탐색" },
-  { icon: MyArchiveIcon, text: "내 아카이브" },
+  { icon: ArchiveIcon, text: '아카이브', description: '네일아트 디자인 탐색' },
+  { icon: MyArchiveIcon, text: '내 아카이브' },
   {
     icon: DesignIcon,
-    text: "디자인 제작",
-    description: "네일아트 디자인 제작",
+    text: '디자인 제작',
+    description: '네일아트 디자인 제작',
   },
   {
     icon: NailShopIcon,
-    text: "네일 숍 예약",
-    description: "내 주변 네일 숍 예약",
+    text: '네일 숍 예약',
+    description: '내 주변 네일 숍 예약',
   },
   {
     icon: ProductIcon,
-    text: "제품 구매",
-    description: "수제 네일팁 및 제품 구매",
+    text: '제품 구매',
+    description: '수제 네일팁 및 제품 구매',
   },
 ];
 
 const additionalMenuItems = [
-  { icon: MyPageIcon, text: "마이 페이지", largerFont: true },
-  { icon: SettingsIcon, text: "환경설정", largerFont: true },
+  { icon: MyPageIcon, text: '마이 페이지', largerFont: true },
+  { icon: SettingsIcon, text: '환경설정', largerFont: true },
 ];
 
 const SideBar = () => {
