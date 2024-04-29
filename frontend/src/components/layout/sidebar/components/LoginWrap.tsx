@@ -39,7 +39,8 @@ const LoginWrap = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   // 모달을 열기
-  const openModal = () => {
+  const openModal = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
     setIsModalVisible(true);
   };
 
