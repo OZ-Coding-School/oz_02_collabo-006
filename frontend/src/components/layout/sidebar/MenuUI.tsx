@@ -140,7 +140,7 @@ const additionalMenuItems = [
   },
 ];
 
-const Menu = () => {
+const MenuUI = () => {
   return (
     <MenuContainer>
       <LoginWrap />
@@ -185,4 +185,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default MenuUI;
