@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as SearchIcon } from '../../../asset/search.svg';
 
 const SearchBarContainer = styled.div`
   position: relative;
-  width: 46vw;
-  margin: 32px 20px;
+  width: 79vw;
+  margin: 32px 0 12px 20px;
 `;
 
 const SearchInput = styled.input`
