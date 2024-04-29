@@ -102,7 +102,7 @@ const menuItems = [
     icon: ArchiveIcon,
     text: '아카이브',
     description: '네일아트 디자인 탐색',
-    route: '/archive',
+    route: '/',
   },
   { icon: MyArchiveIcon, text: '내 아카이브', route: '/my-archive' },
   {
@@ -140,7 +140,7 @@ const additionalMenuItems = [
   },
 ];
 
-const SideBar = () => {
+const Menu = () => {
   return (
     <MenuContainer>
       <LoginWrap />
@@ -185,4 +185,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default Menu;
