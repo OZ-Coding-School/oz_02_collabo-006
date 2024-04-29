@@ -1,5 +1,3 @@
-[BackendGithub](https://github.com/OZ-Coding-School/oz_02_collabo-006-BE)
-
 ## $$\color{purple}\fbox{\Huge \color{pink}{네디플}}$$  
 
 ![alt text](images/markdown-image-1.png)

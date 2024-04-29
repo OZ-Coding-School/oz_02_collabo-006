@@ -1,1 +1,1 @@
-# 백엔드 상세내용
+#  [BackendGithub](https://github.com/OZ-Coding-School/oz_02_collabo-006-BE)
