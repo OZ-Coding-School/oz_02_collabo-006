@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import LoginWrap from './components/LoginWrap';
@@ -29,7 +28,7 @@ const MenuList = styled.ul`
   padding: 0;
 `;
 
-const StyledLink = styled(Link)<{ archive?: boolean; largerFont?: boolean }>`
+const StyledLink = styled(Link)<{ $archive?: boolean; $largerFont?: boolean }>`
   text-decoration: none;
   color: inherit;
   display: flex;
@@ -38,14 +37,14 @@ const StyledLink = styled(Link)<{ archive?: boolean; largerFont?: boolean }>`
   border-radius: 20px;
 
   ${(props) =>
-    props.archive &&
+    props.$archive &&
     `
     font-weight: bold;
     background-color: #f2f2f5;
   `}
 
   ${(props) =>
-    props.largerFont &&
+    props.$largerFont &&
     `
     font-size: 16px;
     &:hover {
@@ -65,7 +64,7 @@ const StyledLink = styled(Link)<{ archive?: boolean; largerFont?: boolean }>`
   `}
 
   ${(props) =>
-    !props.largerFont &&
+    !props.$largerFont &&
     `
     &:hover {
       color: white;
@@ -119,8 +118,8 @@ const menuItems = [
 ];
 
 const additionalMenuItems = [
-  { icon: MyPageIcon, text: '마이 페이지', largerFont: true },
-  { icon: SettingsIcon, text: '환경설정', largerFont: true },
+  { icon: MyPageIcon, text: '마이 페이지', $largerFont: true },
+  { icon: SettingsIcon, text: '환경설정', $largerFont: true },
 ];
 
 const SideBar = () => {
@@ -128,18 +127,21 @@ const SideBar = () => {
     <MenuContainer>
       <LoginWrap />
       <MenuListWrap>
+        {/* 메뉴 목록 */}
         <MenuList>
           {menuItems.map((item, index) => (
             <MenuItem key={index}>
               <StyledLink
                 to=""
                 className="menu"
-                archive={index === 0}
-                largerFont={false}
+                $archive={
+                  index === 0
+                } /* 첫 번째 아이템인 경우에만 $archive prop을 true로 설정 */
+                $largerFont={false} /* 항상 false로 설정 */
               >
-                <item.icon />
-                {item.text}
-                {item.description && (
+                <item.icon /> {/* 해당 아이콘 표시 */}
+                {item.text} {/* 메뉴 텍스트 표시 */}
+                {item.description /* 아이템 설명이 있는 경우에만 표시 */ && (
                   <MenuItemText>{item.description}</MenuItemText>
                 )}
               </StyledLink>
@@ -147,12 +149,13 @@ const SideBar = () => {
           ))}
         </MenuList>
 
+        {/* 추가 메뉴 목록 */}
         <MenuList>
           {additionalMenuItems.map((item, index) => (
             <MenuItem key={index}>
-              <StyledLink to="" className="menu" largerFont={item.largerFont}>
-                <item.icon />
-                {item.text}
+              <StyledLink to="" className="menu" $largerFont={item.$largerFont}>
+                <item.icon /> {/* 해당 아이콘 표시 */}
+                {item.text} {/* 메뉴 텍스트 표시 */}
               </StyledLink>
             </MenuItem>
           ))}
