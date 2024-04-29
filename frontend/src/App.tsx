@@ -4,7 +4,7 @@ import './App.css';
 import SignUpPage from 'pages/SignUpPage';
 import MyArchive from 'pages/MyArchive';
 import MyPage from 'pages/MyPage';
-import LayoutWithSidebar from 'components/layout/sidebar/SidebarLayout';
+import LayoutWithSidebar from 'components/layout/CommonLayout';
 
 function App() {
   return (

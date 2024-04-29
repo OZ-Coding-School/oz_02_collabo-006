@@ -12,7 +12,7 @@ import { ReactComponent as SettingsIcon } from '../../../asset/settings.svg';
 const MenuContainer = styled.div`
   width: 267px;
   height: 85vh;
-  margin: 36px 40px;
+  margin: 36px 16px 0 40px;
   font-size: 14px;
 `;
 
@@ -140,7 +140,7 @@ const additionalMenuItems = [
   },
 ];
 
-const MenuUI = () => {
+const Sidebar = () => {
   return (
     <MenuContainer>
       <LoginWrap />
@@ -185,4 +185,4 @@ const MenuUI = () => {
   );
 };
 
-export default MenuUI;
+export default Sidebar;
