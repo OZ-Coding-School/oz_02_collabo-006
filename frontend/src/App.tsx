@@ -11,8 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/myarchive" element={<MyArchive />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/my-archive" element={<MyArchive />} />
+        <Route path="/my-page" element={<MyPage />} />
       </Routes>
     </div>
   );
