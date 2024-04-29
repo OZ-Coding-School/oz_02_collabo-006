@@ -1,7 +1,7 @@
-import React from "react";
+import SideBar from 'components/layout/sidebar/SideBar';
 
 const LandingPage = () => {
-  return <div>LandingPage</div>;
+  return <SideBar />;
 };
 
 export default LandingPage;
