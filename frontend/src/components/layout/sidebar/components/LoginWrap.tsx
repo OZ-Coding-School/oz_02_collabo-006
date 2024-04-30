@@ -8,8 +8,10 @@ const LoginContainer = styled.div`
   margin-bottom: 16px;
 `;
 
-const ProfileImage = styled.img``;
-
+const ProfileImage = styled.img`
+  max-width: 40px; // 이미지가 일정 크기 이상 커지지 않도록 설정
+  max-height: 40px; // 이미지 비율 유지
+`;
 const LoginTextWrap = styled.div`
   margin-left: 12px;
 `;
@@ -27,7 +29,7 @@ const AdditionalText = styled.div`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
-
+  white-space: nowrap;
   &:hover {
     ${LoginText}, ${AdditionalText} {
       color: #b98ce0;
@@ -39,7 +41,8 @@ const LoginWrap = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   // 모달을 열기
-  const openModal = () => {
+  const openModal = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
     setIsModalVisible(true);
   };
 

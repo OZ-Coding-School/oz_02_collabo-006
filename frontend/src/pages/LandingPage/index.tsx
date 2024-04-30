@@ -1,7 +1,5 @@
-import SideBar from 'components/layout/sidebar/SideBar';
-
 const LandingPage = () => {
-  return <SideBar />;
+  return <div>랜딩페이지</div>;
 };
 
 export default LandingPage;

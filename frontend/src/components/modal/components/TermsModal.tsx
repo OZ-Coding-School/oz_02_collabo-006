@@ -5,13 +5,14 @@ import styled from 'styled-components';
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 25vw;
   margin: 0 auto;
 `;
 const SloginButton = styled.button`
   width: 25vw;
   height: 40px;
-  min-width: 150px;
+  min-width: 220px;
   margin-top: 36px;
   font-size: 14px;
   font-weight: bold;

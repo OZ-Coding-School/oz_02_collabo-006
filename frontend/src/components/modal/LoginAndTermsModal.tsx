@@ -93,7 +93,6 @@ const LoginAndTermsModal = ({ onClose }: LoginAndTermsModalProps) => {
       ) : (
         <TermsModal />
       )}
-      
     </ModalContainer>
   );
 };
