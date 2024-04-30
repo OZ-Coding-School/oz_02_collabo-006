@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 25vw;
   margin: 0 auto;
 `;
@@ -16,7 +17,7 @@ const SbodyText = styled.span`
 const SInput = styled.input`
   width: 25vw;
   height: 5.5vh;
-  min-width: 150px;
+  min-width: 230px;
   background-color: #f2f2f5;
   border-width: 0;
   border-radius: 12px;
@@ -33,7 +34,7 @@ const SforgotPW = styled.span`
 const SloginButton = styled.button`
   width: 25vw;
   height: 40px;
-  min-width: 150px;
+  min-width: 230px;
   margin-top: 36px;
   font-size: 14px;
   font-weight: bold;

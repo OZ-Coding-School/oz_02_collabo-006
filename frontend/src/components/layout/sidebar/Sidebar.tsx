@@ -11,13 +11,13 @@ import { ReactComponent as SettingsIcon } from '../../../asset/settings.svg';
 
 const MenuContainer = styled.div`
   width: 267px;
-  height: 85vh;
+  height: 100vh;
   margin: 36px 16px 0 40px;
   font-size: 14px;
 `;
 
 const MenuListWrap = styled.div`
-  height: 100%;
+  height: 85%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
