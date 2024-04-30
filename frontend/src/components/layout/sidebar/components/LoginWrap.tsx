@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import LoginAndTermsModal from 'components/modal/LoginAndTermsModal';
+import LoginAndTermsModal from 'components/modal/LoginModal';
 
 const LoginContainer = styled.div`
   display: flex;

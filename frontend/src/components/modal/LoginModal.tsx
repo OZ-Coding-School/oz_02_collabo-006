@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import closeIcon from '../../asset/close.svg';
 import loginLogo from '../../asset/modalLogo.png';
 import modalBigLogo from '../../asset/modalBigLogo.svg';
 import styled from 'styled-components';
-import LoginModal from './components/LoginModal';
-import TermsModal from './components/TermsModal';
+import LoginDetail from './components/LoginDetail';
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -51,13 +50,12 @@ const CloseButton = styled.button`
   padding: 0;
 `;
 
-interface LoginAndTermsModalProps {
+interface LoginModalProps {
   onClose: () => void;
 }
 
 // 명시적인 함수 선언 방식을 사용하여 컴포넌트를 정의합니다.
-const LoginAndTermsModal = ({ onClose }: LoginAndTermsModalProps) => {
-  const [showTerms, setShowTerms] = useState(false);
+const LoginModal = ({ onClose }: LoginModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -87,13 +85,8 @@ const LoginAndTermsModal = ({ onClose }: LoginAndTermsModalProps) => {
       <ModalHeader>
         <SmodalBigLogo src={modalBigLogo} alt="Big Modal Logo" />
       </ModalHeader>
-
-      {!showTerms ? (
-        <LoginModal onSignUpClick={() => setShowTerms(true)} />
-      ) : (
-        <TermsModal />
-      )}
+      <LoginDetail />
     </ModalContainer>
   );
 };
-export default LoginAndTermsModal;
+export default LoginModal;
