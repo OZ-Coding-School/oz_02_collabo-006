@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import loginLogo from '../../asset/modalLogo.png';
 import { useNavigate } from 'react-router-dom';
+import SsubmitButton from 'components/common/FormSubmitButton';
+import { useState } from 'react';
 
 const Container = styled.div`
   display: flex;
@@ -80,19 +82,6 @@ const SinformText = styled.span`
   margin-top: 6px;
 `;
 
-const SsignupButton = styled.button`
-  width: 512px;
-  height: 40px;
-  min-width: 230px;
-  margin-top: 36px;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
-  color: #ffffff;
-  background-color: #b9b9b9;
-  border-radius: 20px;
-  border: none;
-`;
 const StermsText = styled.span`
   display: block;
   margin-top: 20px;
@@ -121,10 +110,14 @@ const SignUpPage = () => {
     alert('개인정보 수집 안내');
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-    alert('회원가입 완료');
-  };
+  // const [validated, setValidated] = useState(false);
+
+  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   // 유효성 검사 로직 수행 후
+  //   setValidated(true); // 검사가 완료되면 validated 상태를 true
+  //   alert('회원가입 완료');
+  // };
 
   return (
     <Container>
@@ -135,7 +128,7 @@ const SignUpPage = () => {
           onClick={() => navigate('/')}
         />
       </SignUpHeader>
-      <form onSubmit={handleSubmit}>
+      <form>
         <SsignUpTitle>Create an account</SsignUpTitle>
         <SignUpBody>
           <InputWrap>
@@ -157,7 +150,9 @@ const SignUpPage = () => {
             <SInput type="email" placeholder="이메일" />
           </InputWrap>
           <SinformText>추천인 아이디 입력</SinformText>
-          <SsignupButton type="submit">동의하고 가입하기</SsignupButton>
+          <SsubmitButton type="submit" primary>
+            동의하고 가입하기
+          </SsubmitButton>
           <StermsText>
             <Bold>만 14세 이상</Bold>이며,{' '}
             <LinkText href="#" onClick={handleTermsClick}>
