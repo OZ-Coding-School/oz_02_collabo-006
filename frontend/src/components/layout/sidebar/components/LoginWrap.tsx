@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import LoginAndTermsModal from 'components/modal/LoginModal';
+import LoginModal from 'components/modal/LoginModal';
 
 const LoginContainer = styled.div`
   display: flex;
@@ -50,6 +50,7 @@ const LoginWrap = () => {
   const closeModal = () => {
     setIsModalVisible(false);
   };
+  
   return (
     <LoginContainer>
       <ProfileImage src="/profile.png" alt="프로필" />
@@ -60,7 +61,7 @@ const LoginWrap = () => {
         </StyledLink>
       </LoginTextWrap>
       {/* isModalVisible 상태가 true일 때 LoginModal 컴포넌트를 렌더링. */}
-      {isModalVisible && <LoginAndTermsModal onClose={closeModal} />}
+      {isModalVisible && <LoginModal onClose={closeModal} />}
     </LoginContainer>
   );
 };
