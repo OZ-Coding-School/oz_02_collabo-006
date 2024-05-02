@@ -35,7 +35,7 @@ const SearchBar = () => {
         <SearchIcon />
       </IconWrapper>
 
-      <SearchInput type="text" placeholder="검색" />
+      <SearchInput type="search" placeholder="검색" />
     </SearchBarContainer>
   );
 };
