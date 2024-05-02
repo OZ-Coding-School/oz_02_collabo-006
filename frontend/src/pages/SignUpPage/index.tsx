@@ -133,21 +133,21 @@ const SignUpPage = () => {
         <SignUpBody>
           <InputWrap>
             <SbodyText>ID</SbodyText>
-            <SInput type="text" placeholder="아이디" />
+            <SInput type="text" name="username" placeholder="아이디" />
             <SinformText>4자리 이상 입력해주세요.</SinformText>
           </InputWrap>
           <InputWrap>
             <SbodyText>Password</SbodyText>
-            <SInput type="password" placeholder="비밀번호" />
+            <SInput type="password" name="password" placeholder="비밀번호" />
             <SinformText>8자리 이상입력해주세요.</SinformText>
           </InputWrap>
           <InputWrap>
             <SbodyText>휴대폰 번호</SbodyText>
-            <SInput type="tel" placeholder="+82" />
+            <SInput type="tel" name="phone" placeholder="+82" />
           </InputWrap>
           <InputWrap>
             <SbodyText>Email</SbodyText>
-            <SInput type="email" placeholder="이메일" />
+            <SInput type="email" name="email" placeholder="이메일" />
           </InputWrap>
           <SinformText>추천인 아이디 입력</SinformText>
           <SsubmitButton type="submit" primary>
