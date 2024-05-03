@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface SsubmitButtonProps {
-  primary?: boolean;
+  $primary?: boolean;
   validated?: boolean; // 유효성 검사가 완료되었는지 나타내는 prop
 }
 

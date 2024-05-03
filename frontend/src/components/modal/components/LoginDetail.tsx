@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import SsubmitButton from 'components/common/FormSubmitButton';
@@ -82,7 +81,7 @@ const LoginDetail = () => {
           <SInput type="password" placeholder="비밀번호" />
         </InputWrap>
         <SforgotPW>비밀번호를 잊어버리셨나요?</SforgotPW>
-        <SsubmitButton type="submit" primary >
+        <SsubmitButton type="submit" $primary>
           Login
         </SsubmitButton>
       </form>

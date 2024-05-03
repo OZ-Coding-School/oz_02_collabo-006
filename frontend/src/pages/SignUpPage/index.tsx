@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import loginLogo from '../../asset/modalLogo.png';
 import { useNavigate } from 'react-router-dom';
+import loginLogo from '../../asset/modalLogo.png';
 import SsubmitButton from 'components/common/FormSubmitButton';
-// import { useState } from 'react';
+import { useForm } from '../../context/FormContext';
 
 const Container = styled.div`
   display: flex;
@@ -101,23 +101,20 @@ const Bold = styled.strong`
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const {
+    inputValue,
+    inputValidity,
+    handleInputChange,
+    submitRequirements,
+    handleSubmit,
+  } = useForm();
 
   const handleTermsClick = () => {
     alert('네디플의 이용약관');
   };
-
   const handlePrivacyClick = () => {
     alert('개인정보 수집 안내');
   };
-
-  // const [validated, setValidated] = useState(false);
-
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   // 유효성 검사 로직 수행 후
-  //   setValidated(true); // 검사가 완료되면 validated 상태를 true
-  //   alert('회원가입 완료');
-  // };
 
   return (
     <Container>
@@ -128,29 +125,70 @@ const SignUpPage = () => {
           onClick={() => navigate('/')}
         />
       </SignUpHeader>
-      <form>
+      <form onSubmit={handleSubmit}>
         <SsignUpTitle>Create an account</SsignUpTitle>
         <SignUpBody>
           <InputWrap>
             <SbodyText>ID</SbodyText>
-            <SInput type="text" name="username" placeholder="아이디" />
-            <SinformText>4자리 이상 입력해주세요.</SinformText>
+            <SInput
+              type="text"
+              name="username"
+              placeholder="아이디"
+              value={inputValue.username}
+              onChange={handleInputChange}
+            />
+            <SinformText>
+              {inputValidity.usernameValid
+                ? '사용가능한 아이디입니다.'
+                : '4자리 이상 입력해주세요.'}
+            </SinformText>
           </InputWrap>
           <InputWrap>
             <SbodyText>Password</SbodyText>
-            <SInput type="password" name="password" placeholder="비밀번호" />
-            <SinformText>8자리 이상입력해주세요.</SinformText>
+            <SInput
+              type="password"
+              name="password"
+              placeholder="비밀번호"
+              value={inputValue.password}
+              onChange={handleInputChange}
+            />
+            <SinformText>
+              {inputValidity.passwordValid
+                ? '사용가능한 비밀번호입니다.'
+                : '8자리 이상 입력해주세요.'}
+            </SinformText>
           </InputWrap>
           <InputWrap>
             <SbodyText>휴대폰 번호</SbodyText>
-            <SInput type="tel" name="phone" placeholder="+82" />
+            <SInput
+              type="tel"
+              name="phone"
+              placeholder="+82"
+              value={inputValue.phone}
+              onChange={handleInputChange}
+            />
+            <SinformText>
+              {inputValidity.phoneValid
+                ? '유효한 전화번호입니다'
+                : '유효하지 않은 전화번호'}
+            </SinformText>
           </InputWrap>
           <InputWrap>
             <SbodyText>Email</SbodyText>
-            <SInput type="email" name="email" placeholder="이메일" />
+            <SInput
+              type="email"
+              name="email"
+              placeholder="이메일"
+              value={inputValue.email}
+              onChange={handleInputChange}
+            />
+            <SinformText>
+              {inputValidity.emailValid
+                ? '사용가능한 이메일입니다.'
+                : '유효하지 않은 이메일'}
+            </SinformText>
           </InputWrap>
-          <SinformText>추천인 아이디 입력</SinformText>
-          <SsubmitButton type="submit" primary>
+          <SsubmitButton type="submit" $primary disabled={!submitRequirements}>
             동의하고 가입하기
           </SsubmitButton>
           <StermsText>
