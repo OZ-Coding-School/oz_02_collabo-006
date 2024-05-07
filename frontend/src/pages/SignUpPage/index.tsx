@@ -3,6 +3,7 @@ import loginLogo from '../../asset/modalLogo.png';
 import { useNavigate } from 'react-router-dom';
 import SsubmitButton from 'components/common/FormSubmitButton';
 import { useState, ChangeEvent, FormEvent } from 'react';
+import axios from 'axios';
 
 const Container = styled.div`
   display: flex;
@@ -114,13 +115,16 @@ const SignUpPage = () => {
     password: '',
     email: '',
     profile_image: '',
+    // validPhone: true, // 전화번호 인증 여부 (미구현이라 true가 초기값, 추후 리팩토링 예정)
+  });
+
+  const [inputValid, setInputValid] = useState({
     usernameValid: false, // 아이디 정규식 충족 여부
     nonUsernameDuplication: false,
     phoneValid: false,
     passwordValid: false,
     emailValid: false,
-    // validPhone: true, // 전화번호 인증 여부 (미구현이라 true가 초기값, 추후 리팩토링 예정)
-  });
+  })
 
   // 조건에 부합할 경우 경고 문구
   const [passMessage, setPassMessage] = useState({
@@ -145,10 +149,10 @@ const SignUpPage = () => {
     // inputValue.validPhone && // 전화번호가 인증되었는가? (추후 리팩토링 예정)
     inputValue.phone && // 전화번호가 입력하였는가?
     inputValue.email && // 이메일을 입력하였는가?
-    inputValue.usernameValid && // 아이디가 정규식에 부합하는가?
-    inputValue.passwordValid && // 비밀번호가 정규식에 부합하는가?
-    inputValue.phoneValid && // 전화번호가 정규식에 부합하는가?
-    inputValue.emailValid; // 이메일이 정규식에 부합하는가?
+    inputValid.usernameValid && // 아이디가 정규식에 부합하는가?
+    inputValid.passwordValid && // 비밀번호가 정규식에 부합하는가?
+    inputValid.phoneValid && // 전화번호가 정규식에 부합하는가?
+    inputValid.emailValid; // 이메일이 정규식에 부합하는가?
 
   console.log(`유효성조건 모두 ${submitRequirements ? '충족' : '불충족'}`);
 
@@ -178,6 +182,9 @@ const SignUpPage = () => {
     setInputValue((prev) => ({
       ...prev, // 이전 상태의 모든 값 복사
       [name]: value, // 현재 필드의 값을 업데이트, ex) {username: "admin"} => 'username' 프로퍼티를 새로운 값으로 업데이트
+    }));
+    setInputValid((prev) => ({
+      ...prev, // 이전 상태의 모든 값 복사
       [`${name}Valid`]: isValid, // 입력 필드의 유효성 결과를 저장, ex) {usernameValid: true} => 'usernameValid' 프로퍼티를 유효성 검사 결과로 업데이트
     }));
   };
@@ -185,7 +192,20 @@ const SignUpPage = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (submitRequirements) {
-      alert('회원가입 성공');
+      console.log(inputValue, '여기입니다.')
+      axios.post('http://127.0.0.1:8000/api/v1/user/create/', {
+          username: inputValue.username,
+          phone: inputValue.phone,
+          password: inputValue.password,
+          email: inputValue.email,
+          profile_image: 's3url'
+      })
+      .then(response => {
+          console.log(response.data);
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
     } else {
       alert('회원가입 실패');
     }
@@ -221,14 +241,14 @@ const SignUpPage = () => {
             <SinformText
               style={{
                 color: inputValue.username
-                  ? inputValue.usernameValid
+                  ? inputValid.usernameValid
                     ? '#B98CE0'
                     : '#FF007A'
                   : '#756982',
               }}
             >
               {inputValue.username
-                ? inputValue.usernameValid
+                ? inputValid.usernameValid
                   ? passMessage.username
                   : alertMessage.username
                 : '아이디를 입력해주세요.'}
@@ -246,14 +266,14 @@ const SignUpPage = () => {
             <SinformText
               style={{
                 color: inputValue.password
-                  ? inputValue.passwordValid
+                  ? inputValid.passwordValid
                     ? '#B98CE0'
                     : '#FF007A'
                   : '#756982',
               }}
             >
               {inputValue.password
-                ? inputValue.passwordValid
+                ? inputValid.passwordValid
                   ? passMessage.password
                   : alertMessage.password
                 : '비밀번호를 입력해주세요.'}
@@ -271,14 +291,14 @@ const SignUpPage = () => {
             <SinformText
               style={{
                 color: inputValue.phone
-                  ? inputValue.phoneValid
+                  ? inputValid.phoneValid
                     ? '#B98CE0'
                     : '#FF007A'
                   : '#756982',
               }}
             >
               {inputValue.phone
-                ? inputValue.phoneValid
+                ? inputValid.phoneValid
                   ? passMessage.phone
                   : alertMessage.phone
                 : ''}
@@ -296,14 +316,14 @@ const SignUpPage = () => {
             <SinformText
               style={{
                 color: inputValue.email
-                  ? inputValue.emailValid
+                  ? inputValid.emailValid
                     ? '#B98CE0'
                     : '#FF007A'
                   : '#756982',
               }}
             >
               {inputValue.email
-                ? inputValue.emailValid
+                ? inputValid.emailValid
                   ? passMessage.email
                   : alertMessage.email
                 : ''}
