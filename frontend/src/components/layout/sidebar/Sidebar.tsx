@@ -150,7 +150,7 @@ const Sidebar = () => {
           {menuItems.map((item, index) => (
             <MenuItem key={index}>
               <StyledLink
-                to={item.route} // Use the route defined for each menu item
+                to={item.route}
                 className="menu"
                 $archive={index === 0} // 첫 번째 아이템인 경우에만 $archive prop을 true로 설정
                 $largerFont={false} // 항상 false로 설정
@@ -170,7 +170,7 @@ const Sidebar = () => {
           {additionalMenuItems.map((item, index) => (
             <MenuItem key={index}>
               <StyledLink
-                to={item.route} // Use the route defined for each additional menu item
+                to={item.route}
                 className="menu"
                 $largerFont={item.$largerFont}
               >
