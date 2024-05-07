@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import SsubmitButton from 'components/common/FormSubmitButton';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
+import { CREATE_USER_ENDPOINT } from 'constant/endPoint';
 
 const Container = styled.div`
   display: flex;
@@ -192,8 +193,7 @@ const SignUpPage = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (submitRequirements) {
-      console.log(inputValue, '여기입니다.')
-      axios.post('http://127.0.0.1:8000/api/v1/user/create/', {
+      axios.post(CREATE_USER_ENDPOINT, {
           username: inputValue.username,
           phone: inputValue.phone,
           password: inputValue.password,
@@ -201,7 +201,9 @@ const SignUpPage = () => {
           profile_image: 's3url'
       })
       .then(response => {
-          console.log(response.data);
+        if (response.data.success) {
+          alert(response.data.message)
+        }
       })
       .catch(error => {
           console.error('Error:', error);
