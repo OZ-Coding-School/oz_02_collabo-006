@@ -5,6 +5,7 @@ import SignUpPage from 'pages/SignUpPage';
 import MyArchive from 'pages/MyArchive';
 import MyPage from 'pages/MyPage';
 import CommonLayout from 'components/layout/CommonLayout';
+import ViewItemPage from 'pages/ViewItemPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/my-archive" element={<MyArchive />} />
           <Route path="/my-page" element={<MyPage />} />
+          <Route path="/item/:category/:id" element={<ViewItemPage/>}/>
         </Route>
         <Route path="/signup" element={<SignUpPage />} />
       </Routes>
