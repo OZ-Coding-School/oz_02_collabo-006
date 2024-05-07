@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import SsubmitButton from 'components/common/FormSubmitButton';
+import { useState } from 'react';
 
 const ModalBody = styled.div`
   display: flex;
@@ -67,6 +68,18 @@ const ModalTitle = styled.span`
 
 const LoginDetail = () => {
   const navigate = useNavigate();
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setId(event.target.value);
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const isFormValid = id.length > 0 && password.length > 0;
 
   return (
     <ModalBody>
@@ -74,14 +87,24 @@ const LoginDetail = () => {
       <form>
         <InputWrap>
           <SbodyText>ID</SbodyText>
-          <SInput type="text" placeholder="아이디" />
+          <SInput
+            type="text"
+            placeholder="아이디"
+            value={id}
+            onChange={handleIdChange}
+          />
         </InputWrap>
         <InputWrap>
           <SbodyText>Password</SbodyText>
-          <SInput type="password" placeholder="비밀번호" />
+          <SInput
+            type="password"
+            placeholder="비밀번호"
+            value={password}
+            onChange={handlePasswordChange}
+          />
         </InputWrap>
         <SforgotPW>비밀번호를 잊어버리셨나요?</SforgotPW>
-        <SsubmitButton type="submit" $primary>
+        <SsubmitButton type="submit" $validated={isFormValid}>
           Login
         </SsubmitButton>
       </form>
