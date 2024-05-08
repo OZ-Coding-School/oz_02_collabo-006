@@ -88,8 +88,8 @@ const CreatePost = styled.div`
 `;
 const CreatePostImg = styled.img`
   cursor: pointer;
-  transform: scale(1); /* 기본 상태 */
-  transition: transform 0.3s ease-out; /* 변형에 대한 부드러운 전환 효과 */
+  transform: scale(1);
+  transition: transform 0.3s ease-out;
 
   &:hover {
     transform: scale(1.05);
