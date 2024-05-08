@@ -331,7 +331,6 @@ const SignUpPage = () => {
                 : ''}
             </SinformText>
           </InputWrap>
-          {/* disabled 속성이 false가 되어 제출이 가능 */}
           <SsubmitButton type="submit" $validated={!!submitRequirements}>
             동의하고 가입하기
           </SsubmitButton>
