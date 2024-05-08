@@ -6,6 +6,7 @@ import MyArchive from 'pages/MyArchive';
 import MyPage from 'pages/MyPage';
 import CommonLayout from 'components/layout/CommonLayout';
 import ViewItemPage from 'pages/ViewItemPage';
+import PostCreationPage from 'pages/CreatePostPage';
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/my-archive" element={<MyArchive />} />
           <Route path="/my-page" element={<MyPage />} />
-          <Route path="/item/:category/:id" element={<ViewItemPage/>}/>
+          <Route path="/item/:category/:id" element={<ViewItemPage />} />
+          <Route path="/create-post" element={<PostCreationPage />} />
         </Route>
         <Route path="/signup" element={<SignUpPage />} />
       </Routes>

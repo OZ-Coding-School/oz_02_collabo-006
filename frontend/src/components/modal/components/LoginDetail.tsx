@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import SsubmitButton from 'components/common/FormSubmitButton';
 import { useState } from 'react';
+import axios from 'axios';
+import { useAuth } from 'context/AuthContext';
+import { LOGIN_USER_ENDPOINT, TOKEN_USER_ENDPOINT } from 'constant/endPoint';
 
 const ModalBody = styled.div`
   display: flex;
@@ -68,29 +71,49 @@ const ModalTitle = styled.span`
 
 const LoginDetail = () => {
   const navigate = useNavigate();
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
+  const { login } = useAuth();
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
+  // 로그인 처리 함수
+  const handleLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      // 로그인 API 호출
+      const response = await axios.post(LOGIN_USER_ENDPOINT, {
+        username,
+        password,
+      });
+      console.log(response.data);
+      const { accessToken, refreshToken } = response.data; // 응답에서 토큰 추출
+      login(username, accessToken, refreshToken); // 로그인 상태 업데이트
+      navigate('/');
+    } catch (error) {
+      console.error('로그인 실패:', error); // 에러 로깅
+      alert('로그인 실패.');
+    }
+  };
+
+  // 입력 필드 변경 핸들러
   const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setId(event.target.value);
+    setUsername(event.target.value); // 사용자명 상태 업데이트
   };
-
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
+    setPassword(event.target.value); // 비밀번호 상태 업데이트
   };
 
-  const isFormValid = id.length > 0 && password.length > 0;
-
+  // 폼 유효성 검사
+  const isFormValid = username.length > 0 && password.length > 0;
   return (
     <ModalBody>
       <ModalTitle>Login</ModalTitle>
-      <form>
+      <form onSubmit={handleLogin}>
         <InputWrap>
           <SbodyText>ID</SbodyText>
           <SInput
             type="text"
             placeholder="아이디"
-            value={id}
+            value={username}
             onChange={handleIdChange}
           />
         </InputWrap>
