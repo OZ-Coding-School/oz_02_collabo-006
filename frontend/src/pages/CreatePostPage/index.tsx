@@ -51,23 +51,13 @@ const UploadImage = styled.input`
 `;
 
 const ContentsAndHashTagContainer = styled.div``;
+
 const ContentsAndHashTagTitle = styled.h2`
   font-size: 16px;
+  margin-top: 24px;
 `;
-const UploadContents = styled.input`
+const BaseInput = styled.input`
   width: 100%;
-  height: 144px;
-  border: 1px solid ${INPUT_LIGHTGRAY};
-  border-radius: 12px;
-  margin-top: 8px;
-  &::placeholder {
-    color: ${DARK_PURPLE};
-    font-size: 16px;
-  }
-`;
-const UploadHashTag = styled.input`
-  width: 100%;
-  height: 56px;
   border: 1px solid ${INPUT_LIGHTGRAY};
   border-radius: 12px;
   margin-top: 8px;
@@ -76,6 +66,12 @@ const UploadHashTag = styled.input`
     color: ${DARK_PURPLE};
     font-size: 16px;
   }
+`;
+const UploadContents = styled(BaseInput)`
+  height: 144px;
+`;
+const UploadHashTag = styled(BaseInput)`
+  height: 56px;
 `;
 
 const CreatePostPage = () => {
