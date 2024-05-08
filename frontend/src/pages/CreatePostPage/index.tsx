@@ -6,7 +6,7 @@ import {
   DARK_PURPLE,
   TeXT_BLACK,
   INPUT_LIGHTGRAY,
-} from '../../constant/buttonColor';
+} from '../../constant/colors';
 
 const CreatePostHeader = styled.div`
   display: flex;

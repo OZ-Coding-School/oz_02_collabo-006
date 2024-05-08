@@ -4,6 +4,7 @@ import loginLogo from '../../asset/modalLogo.png';
 import modalBigLogo from '../../asset/modalBigLogo.svg';
 import styled from 'styled-components';
 import LoginDetail from './components/LoginDetail';
+import { LIGHT_PURPLE } from 'constant/colors';
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -14,7 +15,7 @@ const ModalContainer = styled.div`
   width: 31.25vw;
   height: 62vh;
   min-width: 300px;
-  border: 1px solid #b98ce0;
+  border: 1px solid ${LIGHT_PURPLE};
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 2px 3px 2px rgba(20, 18, 23, 0.3);

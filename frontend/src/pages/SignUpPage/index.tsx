@@ -5,6 +5,7 @@ import SsubmitButton from 'components/common/FormSubmitButton';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { CREATE_USER_ENDPOINT } from 'constant/endPoint';
+import { TeXT_BLACK } from 'constant/colors';
 
 const Container = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ const SsignUpTitle = styled.h2`
   align-items: center;
   width: 100%;
   font-size: 32px;
-  color: #141217;
+  color: ${TeXT_BLACK};
 `;
 
 const SignUpBody = styled.div`
@@ -125,7 +126,7 @@ const SignUpPage = () => {
     phoneValid: false,
     passwordValid: false,
     emailValid: false,
-  })
+  });
 
   // 조건에 부합할 경우 경고 문구
   const [passMessage, setPassMessage] = useState({
@@ -193,21 +194,22 @@ const SignUpPage = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (submitRequirements) {
-      axios.post(CREATE_USER_ENDPOINT, {
+      axios
+        .post(CREATE_USER_ENDPOINT, {
           username: inputValue.username,
           phone: inputValue.phone,
           password: inputValue.password,
           email: inputValue.email,
-          profile_image: 's3url'
-      })
-      .then(response => {
-        if (response.data.success) {
-          alert(response.data.message)
-        }
-      })
-      .catch(error => {
+          profile_image: 's3url',
+        })
+        .then((response) => {
+          if (response.data.success) {
+            alert(response.data.message);
+          }
+        })
+        .catch((error) => {
           console.error('Error:', error);
-      });
+        });
     } else {
       alert('회원가입 실패');
     }
@@ -331,7 +333,11 @@ const SignUpPage = () => {
                 : ''}
             </SinformText>
           </InputWrap>
-          <SsubmitButton type="submit" $validated={!!submitRequirements}>
+          <SsubmitButton
+            type="submit"
+            $validated={!!submitRequirements}
+            onClick={() => navigate('/')}
+          >
             동의하고 가입하기
           </SsubmitButton>
           <StermsText>

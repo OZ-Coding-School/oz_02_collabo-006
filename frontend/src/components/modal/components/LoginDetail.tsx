@@ -5,6 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from 'context/AuthContext';
 import { LOGIN_USER_ENDPOINT, TOKEN_USER_ENDPOINT } from 'constant/endPoint';
+import { LIGHT_GRAY, LIGHT_PURPLE } from 'constant/colors';
 
 const ModalBody = styled.div`
   display: flex;
@@ -26,7 +27,7 @@ const SInput = styled.input`
   width: 25vw;
   height: 5.5vh;
   min-width: 230px;
-  background-color: #f2f2f5;
+  background-color: ${LIGHT_GRAY};
   border-width: 0;
   border-radius: 12px;
   margin-top: 12px;
@@ -52,7 +53,7 @@ const SignUpTitle = styled.button`
   border: 0;
   background-color: transparent;
   &:hover {
-    color: #b98ce0;
+    color: ${LIGHT_PURPLE};
     font-weight: bold;
   }
   &:active {

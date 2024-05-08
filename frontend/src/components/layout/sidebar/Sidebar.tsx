@@ -8,6 +8,7 @@ import { ReactComponent as NailShopIcon } from '../../../asset/nailshop.svg';
 import { ReactComponent as ProductIcon } from '../../../asset/product.svg';
 import { ReactComponent as MyPageIcon } from '../../../asset/mypage.svg';
 import { ReactComponent as SettingsIcon } from '../../../asset/settings.svg';
+import { LIGHT_GRAY, LIGHT_PURPLE } from 'constant/colors';
 
 const MenuContainer = styled.div`
   width: 267px;
@@ -40,7 +41,7 @@ const StyledLink = styled(Link)<{ $archive?: boolean; $largerFont?: boolean }>`
     props.$archive &&
     `
     font-weight: bold;
-    background-color: #f2f2f5;
+    background-color: ${LIGHT_GRAY};
   `}
 
   ${(props) =>
@@ -48,15 +49,15 @@ const StyledLink = styled(Link)<{ $archive?: boolean; $largerFont?: boolean }>`
     `
     font-size: 16px;
     &:hover {
-      color: #b98ce0;
+      color: ${LIGHT_PURPLE};
       svg {
-        fill: #b98ce0;
+        fill: ${LIGHT_PURPLE};
       }
     }
     &:active {
       font-weight: bold;
       color: #000000;
-      background-color: #F2F2F5;
+      background-color: ${LIGHT_GRAY};
       svg {
         fill:#000000
       }
@@ -68,7 +69,7 @@ const StyledLink = styled(Link)<{ $archive?: boolean; $largerFont?: boolean }>`
     `
     &:hover {
       color: white;
-      background-color: #b98ce0;
+      background-color: ${LIGHT_PURPLE};
       font-weight: bold;
       svg {
         fill: white;

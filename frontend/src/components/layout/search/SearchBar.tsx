@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ReactComponent as SearchIcon } from '../../../asset/search.svg';
+import { LIGHT_GRAY, LIGHT_PURPLE } from 'constant/colors';
 
 const SearchBarContainer = styled.div`
   position: relative;
@@ -13,10 +14,10 @@ const SearchInput = styled.input`
   padding: 8px 8px 8px 52px;
   border-radius: 24px;
   border: none;
-  background-color: #f2f2f5;
+  background-color: ${LIGHT_GRAY};
   font-size: 16px;
   &:focus {
-    outline: 3px solid #b98ce0;
+    outline: 3px solid ${LIGHT_PURPLE};
   }
 `;
 

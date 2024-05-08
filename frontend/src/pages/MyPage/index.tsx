@@ -2,27 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import PostPlusBtn from '../../asset/post-plusBtn.png';
-
-const menuName = [
-  {
-    name: '내 게시물',
-    text: 'My post',
-  },
-  {
-    name: '예약',
-    text: 'Reservation page',
-  },
-  {
-    name: '구매',
-    text: 'Purchase page',
-  },
-];
-
-const img = [
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-];
+import { LIGHT_PURPLE } from 'constant/colors';
 
 const ArchiveContainer = styled.div`
   width: 100%;
@@ -49,7 +29,7 @@ const ArchiveBarBtn = styled.button`
   font-weight: bold;
   cursor: pointer;
   margin-right: 32px;
-  border-bottom: 0px solid #b98ce0;
+  border-bottom: 0px solid ${LIGHT_PURPLE};
 `;
 
 const ArchiveImgContainer = styled.div`
@@ -63,17 +43,19 @@ const ArchiveImgContainer = styled.div`
   overflow-y: auto;
   white-space: nowrap;
   gap: 10px;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
 
-  /* Chrome, Safari, Opera용 */
+  /* Chrome, Safari, Opera용
   &::-webkit-scrollbar {
     display: none;
-  }
+  } */
 
   /* Firefox용 */
-  scrollbar-width: none;
+  /* scrollbar-width: none; */
 
   /* IE and Edge용 */
-  -ms-overflow-style: none;
+  /* -ms-overflow-style: none; */
 `;
 
 const ArchiveImg = styled.button`
@@ -91,16 +73,18 @@ const ArchiveImg = styled.button`
   cursor: pointer;
   border-radius: 15px;
   overflow: hidden;
+  scroll-snap-align: start;
 `;
 const CreatePost = styled.div`
   width: 240px;
   height: 240px;
   border-radius: 12px;
-  border: 2px dashed #b98ce0;
+  border: 2px dashed ${LIGHT_PURPLE};
   color: black;
   display: flex;
   justify-content: center;
   align-items: center;
+  scroll-snap-align: start;
 `;
 const CreatePostImg = styled.img`
   cursor: pointer;
@@ -114,7 +98,26 @@ const CreatePostImg = styled.img`
     transform: scale(0.95);
   }
 `;
+const menuName = [
+  {
+    name: '내 게시물',
+    text: 'My post',
+  },
+  {
+    name: '예약',
+    text: 'Reservation page',
+  },
+  {
+    name: '구매',
+    text: 'Purchase page',
+  },
+];
 
+const img = [
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+];
 const MyPage = () => {
   const [isMypageName, setIsMypageName] = useState(0);
 
@@ -146,12 +149,14 @@ const MyPage = () => {
         ))}
       </ArchiveBarContainer>
       <ArchiveImgContainer>
-        <CreatePost>
-          <CreatePostImg
-            src={PostPlusBtn}
-            onClick={() => navigate('/create-post')}
-          />
-        </CreatePost>
+        {isMypageName === 0 && (
+          <CreatePost>
+            <CreatePostImg
+              src={PostPlusBtn}
+              onClick={() => navigate('/create-post')}
+            />
+          </CreatePost>
+        )}
         {img[isMypageName].map((item, index) => (
           <ArchiveImg
             key={index}
