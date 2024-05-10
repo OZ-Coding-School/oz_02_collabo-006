@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -171,6 +171,21 @@ const CreatePostPage = () => {
   // input요소에 대한 참조 생성
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [content, setContent] = useState('');
+  const [hashTags, setHashTags] = useState('');
+
+  const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(event.target.value);
+  };
+  const handleHashTagChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setHashTags(event.target.value);
+  };
+
+  // 폼 제출 이벤트 처리
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+  };
+
   // 이미지 업로드 처리
   const handleUploadClick = () => {
     if (imageSrc.length >= 10) {
@@ -237,7 +252,7 @@ const CreatePostPage = () => {
     setImageSrc((prevImages) => prevImages.filter((_, i) => i !== index));
   };
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <CreatePostHeader>
         <Sbutton>임시 저장</Sbutton>
         <Sbutton>업로드</Sbutton>
@@ -283,11 +298,16 @@ const CreatePostPage = () => {
         </UploadImageArea>
         <ContentsAndHashTagContainer>
           <ContentsTitle htmlFor="contents">내용</ContentsTitle>
-          <UploadContents id="contents" placeholder="내용을 입력해 주세요." />
+          <UploadContents
+            id="contents"
+            placeholder="내용을 입력해 주세요."
+            onChange={handleContentChange}
+          />
           <HashTagTitle htmlFor="hashtag">해시태그</HashTagTitle>
           <UploadHashTag
             id="hashtag"
             placeholder="게시물에 해당하는 해시태그 아래에서 선택 후 추가로 입력해 주세요."
+            onChange={handleHashTagChange}
           />
           <HashTagItems />
         </ContentsAndHashTagContainer>
