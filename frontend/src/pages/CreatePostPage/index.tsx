@@ -127,7 +127,6 @@ const BaseLabel = styled.label`
 `;
 const ContentsTitle = styled(BaseLabel)``;
 const HashTagTitle = styled(BaseLabel)``;
-const HashTagItems = styled.button``;
 
 const ImageDisplay = styled.div`
   position: relative;
@@ -309,7 +308,6 @@ const CreatePostPage = () => {
             placeholder="게시물에 해당하는 해시태그 아래에서 선택 후 추가로 입력해 주세요."
             onChange={handleHashTagChange}
           />
-          <HashTagItems />
         </ContentsAndHashTagContainer>
       </CreatePostBody>
     </form>

@@ -205,6 +205,7 @@ const SignUpPage = () => {
         .then((response) => {
           if (response.data.success) {
             alert(response.data.message);
+            navigate('/');
           }
         })
         .catch((error) => {
@@ -337,7 +338,6 @@ const SignUpPage = () => {
             type="submit"
             $validated={!!submitRequirements}
             disabled={!submitRequirements}
-            onClick={() => navigate('/')}
           >
             동의하고 가입하기
           </SsubmitButton>
