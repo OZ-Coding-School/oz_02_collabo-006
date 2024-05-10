@@ -336,6 +336,7 @@ const SignUpPage = () => {
           <SsubmitButton
             type="submit"
             $validated={!!submitRequirements}
+            disabled={!submitRequirements}
             onClick={() => navigate('/')}
           >
             동의하고 가입하기

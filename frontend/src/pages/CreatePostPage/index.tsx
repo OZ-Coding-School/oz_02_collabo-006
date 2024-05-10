@@ -254,8 +254,8 @@ const CreatePostPage = () => {
   return (
     <form onSubmit={handleSubmit}>
       <CreatePostHeader>
-        <Sbutton>임시 저장</Sbutton>
-        <Sbutton>업로드</Sbutton>
+        <Sbutton onClick={handleSubmit}>임시 저장</Sbutton>
+        <Sbutton onClick={handleSubmit}>업로드</Sbutton>
       </CreatePostHeader>
       <CreatePostBody>
         <FormTitle>새 게시물 작성</FormTitle>
