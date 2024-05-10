@@ -9,6 +9,7 @@ import { ReactComponent as ProductIcon } from '../../../asset/product.svg';
 import { ReactComponent as MyPageIcon } from '../../../asset/mypage.svg';
 import { ReactComponent as SettingsIcon } from '../../../asset/settings.svg';
 import { LIGHT_GRAY, LIGHT_PURPLE } from 'constant/colors';
+import { useState } from 'react';
 
 const MenuContainer = styled.div`
   width: 267px;
@@ -29,13 +30,20 @@ const MenuList = styled.ul`
   padding: 0;
 `;
 
-const StyledLink = styled(Link)<{ $archive?: boolean; $largerFont?: boolean }>`
+const StyledLink = styled(Link)<{
+  $archive?: boolean;
+  $largerFont?: boolean;
+  $isSelected?: boolean;
+}>`
   text-decoration: none;
   color: inherit;
   display: flex;
   align-items: center;
   padding: 8px 12px;
   border-radius: 20px;
+  font-weight: ${({ $isSelected }) => ($isSelected ? 'bold' : 'normal')};
+  background-color: ${({ $isSelected }) =>
+    $isSelected ? LIGHT_GRAY : 'transparent'};
 
   ${(props) =>
     props.$archive &&
@@ -73,6 +81,8 @@ const StyledLink = styled(Link)<{ $archive?: boolean; $largerFont?: boolean }>`
       font-weight: bold;
       svg {
         fill: white;
+        stroke: white;
+        stroke-width: 0; 
       }
     }
   `}
@@ -142,6 +152,11 @@ const additionalMenuItems = [
 ];
 
 const Sidebar = () => {
+  const [selectedMenuIndex, setSelectedMenuIndex] = useState<number | null>(0);
+
+  const handleMenuClick = (index: number) => {
+    setSelectedMenuIndex(index);
+  };
   return (
     <MenuContainer>
       <LoginWrap />
@@ -153,8 +168,9 @@ const Sidebar = () => {
               <StyledLink
                 to={item.route}
                 className="menu"
-                $archive={index === 0} // 첫 번째 아이템인 경우에만 $archive prop을 true로 설정
                 $largerFont={false} // 항상 false로 설정
+                $isSelected={selectedMenuIndex === index} // 선택된 메뉴의 경우 $isSelected prop을 true로 설정
+                onClick={() => handleMenuClick(index)}
               >
                 <item.icon /> {/* 해당 아이콘 표시 */}
                 {item.text} {/* 메뉴 텍스트 표시 */}
@@ -174,6 +190,8 @@ const Sidebar = () => {
                 to={item.route}
                 className="menu"
                 $largerFont={item.$largerFont}
+                $isSelected={selectedMenuIndex === index + menuItems.length}
+                onClick={() => handleMenuClick(index + menuItems.length)}
               >
                 <item.icon /> {/* 해당 아이콘 표시 */}
                 {item.text} {/* 메뉴 텍스트 표시 */}

@@ -81,10 +81,14 @@ const LoginDetail = () => {
     event.preventDefault();
     try {
       // 로그인 API 호출
-      const response = await axios.post(LOGIN_USER_ENDPOINT, {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        LOGIN_USER_ENDPOINT,
+        {
+          username,
+          password,
+        },
+        { withCredentials: true },
+      );
       console.log(response.data);
       const { accessToken, refreshToken } = response.data; // 응답에서 토큰 추출
       login(username, accessToken, refreshToken); // 로그인 상태 업데이트
@@ -94,7 +98,6 @@ const LoginDetail = () => {
       alert('로그인 실패.');
     }
   };
-
   // 입력 필드 변경 핸들러
   const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value); // 사용자명 상태 업데이트

@@ -35,16 +35,16 @@ const ArchiveBarBtn = styled.button`
 const ArchiveImgContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: start;
   width: 79vw;
   height: 90%;
-  margin-top: 12px;
+  margin-top: 28px;
   box-sizing: border-box;
   overflow-y: auto;
   white-space: nowrap;
-  gap: 10px;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
+  gap: 10px;
 
   /* Chrome, Safari, Opera용
   &::-webkit-scrollbar {
@@ -61,7 +61,6 @@ const ArchiveImgContainer = styled.div`
 const ArchiveImg = styled.button`
   width: 240px;
   height: 240px;
-  max-width: 100%;
   background-color: gray;
   display: inline-flex;
   align-items: center;

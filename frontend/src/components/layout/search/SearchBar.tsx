@@ -4,7 +4,7 @@ import { LIGHT_GRAY, LIGHT_PURPLE } from 'constant/colors';
 
 const SearchBarContainer = styled.div`
   position: relative;
-  width: 79vw;
+  width: 95%;
   margin: 32px 0 12px 20px;
 `;
 
