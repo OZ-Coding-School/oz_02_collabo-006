@@ -18,11 +18,11 @@ const CreatePostHeader = styled.div`
   height: 72px;
   border: 1px solid black;
 `;
-const Sbutton = styled.button`
+const SubmitButton = styled.button`
   background-color: ${LIGHT_GRAY};
   color: ${TeXT_BLACK};
-  width: 124px;
-  height: 40px;
+  line-height: 40px;
+  padding: 0 33px;
   font-size: 14px;
   font-weight: bold;
   margin-left: 10px;
@@ -70,7 +70,7 @@ const UploadImageLargeText = styled.span`
 `;
 const UploadImageButton = styled.button`
   background-color: ${LIGHT_PURPLE};
-  height: 35px;
+  line-height: 35px;
   color: white;
   padding: 0 20px;
   border: none;
@@ -254,8 +254,8 @@ const CreatePostPage = () => {
   return (
     <form onSubmit={handleSubmit}>
       <CreatePostHeader>
-        <Sbutton onClick={handleSubmit}>임시 저장</Sbutton>
-        <Sbutton onClick={handleSubmit}>업로드</Sbutton>
+        <SubmitButton onClick={handleSubmit}>임시 저장</SubmitButton>
+        <SubmitButton onClick={handleSubmit}>업로드</SubmitButton>
       </CreatePostHeader>
       <CreatePostBody>
         <FormTitle>새 게시물 작성</FormTitle>

@@ -86,7 +86,7 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
       <ModalHeader>
         <SmodalBigLogo src={modalBigLogo} alt="Big Modal Logo" />
       </ModalHeader>
-      <LoginDetail />
+      <LoginDetail onClose={onClose} />
     </ModalContainer>
   );
 };
