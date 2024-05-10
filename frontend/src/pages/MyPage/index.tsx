@@ -2,27 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import PostPlusBtn from '../../asset/post-plusBtn.png';
-
-const menuName = [
-  {
-    name: '내 게시물',
-    text: 'My post',
-  },
-  {
-    name: '예약',
-    text: 'Reservation page',
-  },
-  {
-    name: '구매',
-    text: 'Purchase page',
-  },
-];
-
-const img = [
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-];
+import { LIGHT_PURPLE } from 'constant/colors';
 
 const ArchiveContainer = styled.div`
   width: 100%;
@@ -49,37 +29,38 @@ const ArchiveBarBtn = styled.button`
   font-weight: bold;
   cursor: pointer;
   margin-right: 32px;
-  border-bottom: 0px solid #b98ce0;
+  border-bottom: 0px solid ${LIGHT_PURPLE};
 `;
 
 const ArchiveImgContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: start;
   width: 79vw;
   height: 90%;
-  margin-top: 12px;
+  margin-top: 28px;
   box-sizing: border-box;
   overflow-y: auto;
   white-space: nowrap;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
   gap: 10px;
 
-  /* Chrome, Safari, Opera용 */
+  /* Chrome, Safari, Opera용
   &::-webkit-scrollbar {
     display: none;
-  }
+  } */
 
   /* Firefox용 */
-  scrollbar-width: none;
+  /* scrollbar-width: none; */
 
   /* IE and Edge용 */
-  -ms-overflow-style: none;
+  /* -ms-overflow-style: none; */
 `;
 
 const ArchiveImg = styled.button`
   width: 240px;
   height: 240px;
-  max-width: 100%;
   background-color: gray;
   display: inline-flex;
   align-items: center;
@@ -91,21 +72,23 @@ const ArchiveImg = styled.button`
   cursor: pointer;
   border-radius: 15px;
   overflow: hidden;
+  scroll-snap-align: start;
 `;
 const CreatePost = styled.div`
   width: 240px;
   height: 240px;
   border-radius: 12px;
-  border: 2px dashed #b98ce0;
+  border: 2px dashed ${LIGHT_PURPLE};
   color: black;
   display: flex;
   justify-content: center;
   align-items: center;
+  scroll-snap-align: start;
 `;
 const CreatePostImg = styled.img`
   cursor: pointer;
-  transform: scale(1); /* 기본 상태 */
-  transition: transform 0.3s ease-out; /* 변형에 대한 부드러운 전환 효과 */
+  transform: scale(1);
+  transition: transform 0.3s ease-out;
 
   &:hover {
     transform: scale(1.05);
@@ -114,7 +97,26 @@ const CreatePostImg = styled.img`
     transform: scale(0.95);
   }
 `;
+const menuName = [
+  {
+    name: '내 게시물',
+    text: 'My post',
+  },
+  {
+    name: '예약',
+    text: 'Reservation page',
+  },
+  {
+    name: '구매',
+    text: 'Purchase page',
+  },
+];
 
+const img = [
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+];
 const MyPage = () => {
   const [isMypageName, setIsMypageName] = useState(0);
 
@@ -146,12 +148,14 @@ const MyPage = () => {
         ))}
       </ArchiveBarContainer>
       <ArchiveImgContainer>
-        <CreatePost>
-          <CreatePostImg
-            src={PostPlusBtn}
-            onClick={() => navigate('/create-post')}
-          />
-        </CreatePost>
+        {isMypageName === 0 && (
+          <CreatePost>
+            <CreatePostImg
+              src={PostPlusBtn}
+              onClick={() => navigate('/create-post')}
+            />
+          </CreatePost>
+        )}
         {img[isMypageName].map((item, index) => (
           <ArchiveImg
             key={index}

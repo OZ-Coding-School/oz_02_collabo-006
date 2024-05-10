@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import LoginModal from 'components/modal/LoginModal';
+import { LIGHT_PURPLE, TeXT_BLACK } from 'constant/colors';
 
 const LoginContainer = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const LoginTextWrap = styled.div`
 
 const LoginText = styled.div`
   font-size: 16px;
-  color: #141217;
+  color: ${TeXT_BLACK};
 `;
 
 const AdditionalText = styled.div`
@@ -32,7 +33,7 @@ const StyledLink = styled(Link)`
   white-space: nowrap;
   &:hover {
     ${LoginText}, ${AdditionalText} {
-      color: #b98ce0;
+      color: ${LIGHT_PURPLE};
     }
   }
 `;
@@ -50,7 +51,7 @@ const LoginWrap = () => {
   const closeModal = () => {
     setIsModalVisible(false);
   };
-  
+
   return (
     <LoginContainer>
       <ProfileImage src="/profile.png" alt="프로필" />

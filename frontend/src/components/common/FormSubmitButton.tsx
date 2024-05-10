@@ -1,3 +1,4 @@
+import { activeStyles, hoverStyles } from 'constant/buttonPseudoClass';
 import styled from 'styled-components';
 
 interface SsubmitButtonProps {
@@ -19,17 +20,8 @@ const SsubmitButton = styled.button<SsubmitButtonProps>`
   border: none;
   cursor: pointer;
 
-  &:hover {
-    background-color: #ffffff;
-    color: #b88cde;
-    border: 2px solid #b88cde;
-  }
-
-  &:active {
-    background-color: #756982;
-    color: #ffffff;
-    border: none;
-  }
+  ${hoverStyles}
+  ${activeStyles}
 `;
 
 export default SsubmitButton;
