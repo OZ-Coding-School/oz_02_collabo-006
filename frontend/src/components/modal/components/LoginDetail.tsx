@@ -26,7 +26,7 @@ const SbodyText = styled.label`
 const SInput = styled.input`
   width: 25vw;
   height: 5.5vh;
-  min-width: 230px;
+  min-width: 260px;
   background-color: ${LIGHT_GRAY};
   border-width: 0;
   border-radius: 12px;
@@ -40,7 +40,6 @@ const SforgotPW = styled.span`
   margin-top: 12px;
   font-size: 14px;
   color: #756982;
-  white-space: nowrap;
   align-self: flex-start;
 `;
 

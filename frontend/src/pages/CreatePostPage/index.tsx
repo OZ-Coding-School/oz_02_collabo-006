@@ -94,7 +94,7 @@ const HiddenInput = styled.input`
 
 const ContentsAndHashTagContainer = styled.div``;
 
-const BaseInput = styled.textarea`
+const UploadContents = styled.textarea`
   width: 100%;
   border: 1px solid ${INPUT_LIGHTGRAY};
   border-radius: 12px;
@@ -103,7 +103,8 @@ const BaseInput = styled.textarea`
   padding: 15px 17px 17px 15px;
   resize: none;
   overflow: auto;
-
+  height: 144px;
+  display: inline-block;
   &::placeholder {
     color: ${DARK_PURPLE};
   }
@@ -111,12 +112,22 @@ const BaseInput = styled.textarea`
     outline: 1px solid ${LIGHT_PURPLE};
   }
 `;
-const UploadContents = styled(BaseInput)`
-  height: 144px;
-  display: inline-block;
-`;
-const UploadHashTag = styled(BaseInput)`
+const UploadHashTag = styled.input`
+  width: 100%;
+  border: 1px solid ${INPUT_LIGHTGRAY};
+  border-radius: 12px;
+  font-size: 16px;
+  margin-top: 8px;
+  padding: 15px 17px 17px 15px;
+  resize: none;
+  overflow: auto;
   height: 56px;
+  &::placeholder {
+    color: ${DARK_PURPLE};
+  }
+  &:focus {
+    outline: 1px solid ${LIGHT_PURPLE};
+  }
 `;
 
 const BaseLabel = styled.label`
@@ -163,7 +174,10 @@ const DeleteIcon = styled.span`
     transform: scale(0.96);
   }
 `;
-
+interface HashTag {
+  id: number;
+  text: string;
+}
 const CreatePostPage = () => {
   //현재 이미지 URL들을 저장
   const [imageSrc, setImageSrc] = useState<string[]>([]);
@@ -171,18 +185,18 @@ const CreatePostPage = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [content, setContent] = useState('');
-  const [hashTags, setHashTags] = useState('');
+  const [hashTag, setHashTag] = useState('');
 
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
   };
-  const handleHashTagChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setHashTags(event.target.value);
+  const handleHashTagChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setHashTag(event.target.value);
   };
 
   // 폼 제출 이벤트 처리
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault(); // 폼 제출 시 새로고침 방지
   };
 
   // 이미지 업로드 처리
@@ -253,8 +267,8 @@ const CreatePostPage = () => {
   return (
     <form onSubmit={handleSubmit}>
       <CreatePostHeader>
-        <SubmitButton onClick={handleSubmit}>임시 저장</SubmitButton>
-        <SubmitButton onClick={handleSubmit}>업로드</SubmitButton>
+        <SubmitButton type="submit">임시 저장</SubmitButton>
+        <SubmitButton type="submit">업로드</SubmitButton>
       </CreatePostHeader>
       <CreatePostBody>
         <FormTitle>새 게시물 작성</FormTitle>
@@ -300,12 +314,14 @@ const CreatePostPage = () => {
           <UploadContents
             id="contents"
             placeholder="내용을 입력해 주세요."
+            value={content}
             onChange={handleContentChange}
           />
           <HashTagTitle htmlFor="hashtag">해시태그</HashTagTitle>
           <UploadHashTag
             id="hashtag"
             placeholder="게시물에 해당하는 해시태그 아래에서 선택 후 추가로 입력해 주세요."
+            value={hashTag}
             onChange={handleHashTagChange}
           />
         </ContentsAndHashTagContainer>
