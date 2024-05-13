@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import LoginModal from 'components/modal/LoginModal';
-import { LIGHT_PURPLE, TeXT_BLACK } from 'constant/colors';
+import { LIGHT_PURPLE, TEXT_BLACK } from 'constant/colors';
 
 const LoginContainer = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const LoginTextWrap = styled.div`
 
 const LoginText = styled.div`
   font-size: 16px;
-  color: ${TeXT_BLACK};
+  color: ${TEXT_BLACK};
 `;
 
 const AdditionalText = styled.div`

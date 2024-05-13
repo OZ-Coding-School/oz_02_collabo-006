@@ -5,10 +5,12 @@ import {
   LIGHT_GRAY,
   LIGHT_PURPLE,
   DARK_PURPLE,
-  TeXT_BLACK,
+  TEXT_BLACK,
   INPUT_LIGHTGRAY,
+  WARNING_TEXT,
 } from '../../constant/colors';
 import { activeStyles, hoverStyles } from 'constant/buttonPseudoClass';
+import HashTagButton from './HashTagButton';
 
 const CreatePostHeader = styled.div`
   display: flex;
@@ -16,11 +18,10 @@ const CreatePostHeader = styled.div`
   align-items: center;
   width: 98.4%;
   height: 72px;
-  border: 1px solid black;
 `;
 const SubmitButton = styled.button`
   background-color: ${LIGHT_GRAY};
-  color: ${TeXT_BLACK};
+  color: ${TEXT_BLACK};
   line-height: 40px;
   padding: 0 33px;
   font-size: 14px;
@@ -35,9 +36,8 @@ const SubmitButton = styled.button`
 `;
 const CreatePostBody = styled.div`
   margin: 0 auto;
-  border: 1px solid black;
   width: 512px;
-  height: 760px;
+  min-height: 760px;
 `;
 const FormTitle = styled.h1`
   font-size: 24px;
@@ -66,7 +66,7 @@ const Test = styled.div`
 `;
 const UploadImageLargeText = styled.span`
   font-size: 18px;
-  color: ${TeXT_BLACK};
+  color: ${TEXT_BLACK};
 `;
 const UploadImageButton = styled.button`
   background-color: ${LIGHT_PURPLE};
@@ -117,7 +117,7 @@ const UploadHashTag = styled.input`
   border: 1px solid ${INPUT_LIGHTGRAY};
   border-radius: 12px;
   font-size: 16px;
-  margin-top: 8px;
+  margin: 8px 0;
   padding: 15px 17px 17px 15px;
   resize: none;
   overflow: auto;
@@ -174,10 +174,37 @@ const DeleteIcon = styled.span`
     transform: scale(0.96);
   }
 `;
-interface HashTag {
-  id: number;
-  text: string;
-}
+
+const HashtagCreate = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 6px;
+`;
+const Button = styled.button`
+  background-color: ${LIGHT_PURPLE};
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bolder;
+  line-height: 32px;
+  padding: 0 16px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  margin: 6px 5px;
+  transition:
+    background-color 0.2s ease,
+    0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+const ShowWarningText = styled.span`
+  color: ${WARNING_TEXT};
+  font-size: 14px;
+  padding: 12px;
+`;
+
 const CreatePostPage = () => {
   //현재 이미지 URL들을 저장
   const [imageSrc, setImageSrc] = useState<string[]>([]);
@@ -186,6 +213,10 @@ const CreatePostPage = () => {
 
   const [content, setContent] = useState('');
   const [hashTag, setHashTag] = useState('');
+  // const [hashtags, setHashtags] = useState<string[]>([]);
+  const [activeTags, setActiveTags] = useState<string[]>([]);
+  const [showWarning, setShowWarning] = useState(false);
+  const [warningMessage, setWarningMessage] = useState('');
 
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
@@ -194,9 +225,53 @@ const CreatePostPage = () => {
     setHashTag(event.target.value);
   };
 
+  // 키보드 입력을 처리하는 함수
+  const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // 'Enter' 또는 'Space' 키가 눌렸을 때
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+
+      const newTag = hashTag.trim(); // 입력값에서 공백을 제거
+      if (!newTag) {
+        setHashTag(''); // 입력값이 비어있다면 입력 필드를 클리어하고 함수를 종료
+        return;
+      }
+
+      const isDuplicate = activeTags.includes(newTag); // 중복된 태그인지 확인
+      setShowWarning(isDuplicate); // 중복된 태그가 있다면 경고
+      setWarningMessage(isDuplicate ? '중복된 해시태그입니다.' : ''); // 경고 메시지
+
+      if (!isDuplicate) {
+        setActiveTags((prev) => [...prev, newTag]); // 중복이 아닐 경우 새 태그를 추가
+      }
+
+      setHashTag(''); // 처리 후 입력 필드를 클리어
+    }
+  };
+
+  // // 등록된 해시태그를 제거하는 함수
+  // const handleRemoveTag = (tagToRemove: string) => {
+  //   setHashtags((prevHashtags) =>
+  //     prevHashtags.filter((tag) => tag !== tagToRemove),
+  //   );
+  // };
+
+  // const addTag = (tag: string) => {
+  //   if (!hashtags.includes(tag)) {
+  //     setHashtags([...hashtags, tag]);
+  //   }
+  // };
+  const toggleTag = (tag: string) => {
+    setActiveTags((prev) => {
+      const index = prev.indexOf(tag);
+      if (index > -1) return prev.filter((t) => t !== tag);
+      return [...prev, tag];
+    });
+  };
+
   // 폼 제출 이벤트 처리
   const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault(); // 폼 제출 시 새로고침 방지
+    event.preventDefault();
   };
 
   // 이미지 업로드 처리
@@ -323,7 +398,19 @@ const CreatePostPage = () => {
             placeholder="게시물에 해당하는 해시태그 아래에서 선택 후 추가로 입력해 주세요."
             value={hashTag}
             onChange={handleHashTagChange}
+            onKeyUp={handleKeyUp}
           />
+          {showWarning && <ShowWarningText>{warningMessage}</ShowWarningText>}
+
+          <HashtagCreate>
+            {activeTags.map((tag) => (
+              <Button key={tag} onClick={() => toggleTag(tag)}>
+                #{tag}
+              </Button>
+            ))}
+          </HashtagCreate>
+
+          <HashTagButton activeTags={activeTags} toggleTag={toggleTag} />
         </ContentsAndHashTagContainer>
       </CreatePostBody>
     </form>

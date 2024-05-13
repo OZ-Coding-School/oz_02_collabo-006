@@ -5,7 +5,7 @@ import SsubmitButton from 'components/common/FormSubmitButton';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { CREATE_USER_ENDPOINT } from 'constant/endPoint';
-import { TeXT_BLACK } from 'constant/colors';
+import { TEXT_BLACK } from 'constant/colors';
 
 const Container = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ const SsignUpTitle = styled.h2`
   align-items: center;
   width: 100%;
   font-size: 32px;
-  color: ${TeXT_BLACK};
+  color: ${TEXT_BLACK};
 `;
 
 const SignUpBody = styled.div`
