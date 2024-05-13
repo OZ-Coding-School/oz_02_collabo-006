@@ -193,6 +193,7 @@ const SignUpPage = () => {
   // 폼 제출 처리 함수
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+    console.log('sadfasijeifjlasijeflijaes')
     if (submitRequirements) {
       axios
         .post(CREATE_USER_ENDPOINT, {
@@ -205,6 +206,7 @@ const SignUpPage = () => {
         .then((response) => {
           if (response.data.success) {
             alert(response.data.message);
+            navigate('/')
           }
         })
         .catch((error) => {
@@ -336,7 +338,6 @@ const SignUpPage = () => {
           <SsubmitButton
             type="submit"
             $validated={!!submitRequirements}
-            onClick={() => navigate('/')}
           >
             동의하고 가입하기
           </SsubmitButton>
