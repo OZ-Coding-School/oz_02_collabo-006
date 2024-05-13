@@ -10,6 +10,9 @@ import {
   WARNING_TEXT,
 } from '../../constant/colors';
 import { activeStyles, hoverStyles } from 'constant/buttonPseudoClass';
+import HashTagButton from './hashTagButton';
+import axios from 'axios';
+import { CREATE_POSTS } from 'constant/endPoint';
 
 const CreatePostHeader = styled.div`
   display: flex;
@@ -211,7 +214,7 @@ const CreatePostPage = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [content, setContent] = useState('');
-  const [hashTag, setHashTag] = useState('');
+  const [hashTags, setHashTags] = useState('');
   // const [hashtags, setHashtags] = useState<string[]>([]);
   const [activeTags, setActiveTags] = useState<string[]>([]);
   const [showWarning, setShowWarning] = useState(false);
@@ -221,7 +224,7 @@ const CreatePostPage = () => {
     setContent(event.target.value);
   };
   const handleHashTagChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setHashTag(event.target.value);
+    setHashTags(event.target.value);
   };
 
   // 키보드 입력을 처리하는 함수
@@ -230,9 +233,9 @@ const CreatePostPage = () => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
 
-      const newTag = hashTag.trim(); // 입력값에서 공백을 제거
+      const newTag = hashTags.trim(); // 입력값에서 공백을 제거
       if (!newTag) {
-        setHashTag(''); // 입력값이 비어있다면 입력 필드를 클리어하고 함수를 종료
+        setHashTags(''); // 입력값이 비어있다면 입력 필드를 클리어하고 함수를 종료
         return;
       }
 
@@ -244,7 +247,7 @@ const CreatePostPage = () => {
         setActiveTags((prev) => [...prev, newTag]); // 중복이 아닐 경우 새 태그를 추가
       }
 
-      setHashTag(''); // 처리 후 입력 필드를 클리어
+      setHashTags(''); // 처리 후 입력 필드를 클리어
     }
   };
 
@@ -272,24 +275,40 @@ const CreatePostPage = () => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    console.log(fileInputRef)
+    console.log(fileInputRef);
 
-    axios.post(CREATE_POSTS,  
-    {
-      media: imageSrc,
-      comment_ck: 'True',
-      visible: 'True',
-      hashtag: hashTags,
-      content: content
-    },
-    {
-      withCredentials: true
-    }
-    )
+    axios
+      .post(
+        CREATE_POSTS,
+        {
+          media: imageSrc,
+          comment_ck: 'True',
+          visible: 'True',
+          hashtag: hashTags,
+          content: content,
+        },
+        {
+          withCredentials: true,
+        },
+      ) // 임시로 넣음
+      .then((response) => {
+        console.log('Success:', response);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.error(
+            '서버 응답 오류:',
+            error.response.status,
+            error.response.data,
+          );
+        } else if (error.request) {
+          console.error('응답 수신 x:', error.request);
+        }
+      });
   };
 
   // 이미지 업로드 처리
-const handleUploadClick = () => {
+  const handleUploadClick = () => {
     if (imageSrc.length >= 10) {
       alert('최대 10장까지만 업로드 가능합니다.');
       return;
@@ -410,7 +429,7 @@ const handleUploadClick = () => {
           <UploadHashTag
             id="hashtag"
             placeholder="게시물에 해당하는 해시태그 아래에서 선택 후 추가로 입력해 주세요."
-            value={hashTag}
+            value={hashTags}
             onChange={handleHashTagChange}
             onKeyUp={handleKeyUp}
           />
