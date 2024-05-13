@@ -8,7 +8,7 @@ interface SsubmitButtonProps {
 
 const SsubmitButton = styled.button<SsubmitButtonProps>`
   width: 100%;
-  min-width: 230px;
+  min-width: 260px;
   height: 40px;
   margin-top: 36px;
   font-size: 14px;
@@ -19,6 +19,7 @@ const SsubmitButton = styled.button<SsubmitButtonProps>`
   border-radius: 20px;
   border: none;
   cursor: pointer;
+  flex: 0 0 auto; 
 
   ${hoverStyles}
   ${activeStyles}
