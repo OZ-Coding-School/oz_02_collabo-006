@@ -10,7 +10,6 @@ import {
   WARNING_TEXT,
 } from '../../constant/colors';
 import { activeStyles, hoverStyles } from 'constant/buttonPseudoClass';
-import HashTagButton from './HashTagButton';
 
 const CreatePostHeader = styled.div`
   display: flex;
@@ -272,10 +271,25 @@ const CreatePostPage = () => {
   // 폼 제출 이벤트 처리
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+
+    console.log(fileInputRef)
+
+    axios.post(CREATE_POSTS,  
+    {
+      media: imageSrc,
+      comment_ck: 'True',
+      visible: 'True',
+      hashtag: hashTags,
+      content: content
+    },
+    {
+      withCredentials: true
+    }
+    )
   };
 
   // 이미지 업로드 처리
-  const handleUploadClick = () => {
+const handleUploadClick = () => {
     if (imageSrc.length >= 10) {
       alert('최대 10장까지만 업로드 가능합니다.');
       return;
