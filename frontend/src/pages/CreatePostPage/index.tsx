@@ -270,17 +270,19 @@ const CreatePostPage = () => {
   const [isFirstChange, setIsFirstChange] = useState(true); // 해시태그가 처음 반응할때만
 
   useEffect(() => {
-    // 마지막에 추가된 태그를 확인
-    const lastAddedTag = activeTags[activeTags.length - 1];
+    // 모든 태그가 제거되었을 때 로직 실행
+    if (activeTags.length === 0) {
+      setIsOpen(false); // 해시태그 선택지를 닫음
+      setIsFirstChange(true);
+    } else {
+      // 마지막에 추가된 태그를 확인
+      const lastAddedTag = activeTags[activeTags.length - 1];
 
-    // 마지막에 추가된 태그가 buttonLists에 속하지 않고, isFirstChange가 true일 경우에만 실행
-    if (
-      activeTags.length > 0 &&
-      isFirstChange &&
-      !buttonLists.includes(lastAddedTag)
-    ) {
-      setIsOpen(!isOpen); // isOpen 상태를 토글
-      setIsFirstChange(false); // 한 번 실행 후 더 이상 실행되지 않도록
+      // 마지막에 추가된 태그가 buttonLists에 속하지 않고, isFirstChange가 true일 경우에만 실행
+      if (isFirstChange && !buttonLists.includes(lastAddedTag)) {
+        setIsOpen(!isOpen); // isOpen 상태를 토글
+        setIsFirstChange(false); // 한 번 실행 후 더 이상 실행되지 않도록
+      }
     }
   }, [activeTags, isFirstChange, isOpen]);
 
@@ -507,9 +509,14 @@ const CreatePostPage = () => {
               onKeyDown={handleKeyDown}
             />
             <HashTagToggleIconWrap>
-              <HashTagToggleIcon onClick={handleToggle} $isRotated={isRotated}>
-                <ToggleArrowIcon />
-              </HashTagToggleIcon>
+              {activeTags.length > 0 && (
+                <HashTagToggleIcon
+                  onClick={handleToggle}
+                  $isRotated={isRotated}
+                >
+                  <ToggleArrowIcon />
+                </HashTagToggleIcon>
+              )}
             </HashTagToggleIconWrap>
           </HashTagContainer>
 
@@ -522,7 +529,6 @@ const CreatePostPage = () => {
               </TagButton>
             ))}
           </HashtagCreate>
-
           {!isOpen && (
             <HashTagButton activeTags={activeTags} toggleTag={toggleTag} />
           )}
