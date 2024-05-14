@@ -79,7 +79,7 @@ const UploadImageLargeText = styled.span`
 `;
 const UploadImageButton = styled.button`
   background-color: ${LIGHT_PURPLE};
-  line-height: 35px;
+  height: 35px;
   color: white;
   padding: 0 20px;
   border: none;
