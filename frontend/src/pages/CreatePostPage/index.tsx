@@ -76,6 +76,7 @@ const HiddenImageContainer = styled.div`
 `;
 const UploadImageLargeText = styled.span`
   font-size: 18px;
+  position: relative;
   color: ${TEXT_BLACK};
 `;
 const UploadImageButton = styled.button`
@@ -163,7 +164,17 @@ const BaseLabel = styled.label`
   font-weight: bold;
 `;
 const ContentsTitle = styled(BaseLabel)``;
-const HashTagTitle = styled(BaseLabel)``;
+const HashTagTitle = styled(BaseLabel)`
+  position: relative;
+`;
+const EssentialIcon = styled.span`
+  font-size: 22px;
+  font-weight: normal;
+  position: absolute;
+  bottom: 1%;
+  padding-left: 1px;
+  color: ${LIGHT_PURPLE};
+`;
 
 const DeleteIconWrap = styled.i`
   position: absolute;
@@ -507,6 +518,7 @@ const CreatePostPage = () => {
           {imageSrc.length === 0 && (
             <UploadImageLargeText>
               네일아트 디자인을 업로드해 보세요.
+              <EssentialIcon>*</EssentialIcon>
             </UploadImageLargeText>
           )}
           {imageSrc.length < 10 && (
@@ -526,7 +538,10 @@ const CreatePostPage = () => {
             value={content}
             onChange={handleContentChange}
           />
-          <HashTagTitle htmlFor="hashtag">해시태그</HashTagTitle>
+          <HashTagTitle htmlFor="hashtag">
+            해시태그
+            <EssentialIcon>*</EssentialIcon>
+          </HashTagTitle>
           <HashTagContainer>
             <UploadHashTag
               id="hashtag"
