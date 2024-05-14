@@ -315,7 +315,8 @@ const CreatePostPage = () => {
       img.onload = () => {
         const canvas = document.createElement('canvas');
         const maxDimension = 90; // 최대 너비와 높이
-        let newWidth, newHeight;
+        let newWidth = 0;
+        let newHeight = 0;
 
         if (img.width > img.height) {
           // 너비가 높이보다 클 경우, 너비를 기준으로 비율 조정
@@ -327,12 +328,16 @@ const CreatePostPage = () => {
           newWidth = (img.width / img.height) * maxDimension;
         }
 
-        canvas.width = newWidth;
-        canvas.height = newHeight;
+        const offsetX = (maxDimension - newWidth) / 2; // 이미지 수평 중앙 정렬
+        const offsetY = (maxDimension - newHeight) / 2; // 이미지 수직 중앙 정렬을
+
+        canvas.width = maxDimension;
+        canvas.height = maxDimension;
         const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
         // 캔버스에 새로 계산된 크기로 이미지를 그립니다
-        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight); // 이미지 수평 및 수직 가운데 정렬
         resolve(canvas.toDataURL());
       };
       img.onerror = reject;
