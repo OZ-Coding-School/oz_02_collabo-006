@@ -280,7 +280,7 @@ const CreatePostPage = () => {
       .post(
         CREATE_POSTS,
         {
-          media: fileNames.join(', '),
+          media: imageSrc,
           comment_ck: 'True',
           visible: 'True',
           hashtag: activeTags.join(' '),
