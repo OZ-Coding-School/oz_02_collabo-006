@@ -14,6 +14,7 @@ import HashTagButton, { buttonLists } from './hashTagButton';
 import { ReactComponent as ToggleArrowIcon } from '../../asset/toggle-arrow.svg';
 import { ReactComponent as DeleteIcon } from '../../asset/delete.svg';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CreatePostHeader = styled.div`
   display: flex;
@@ -421,6 +422,7 @@ const CreatePostPage = () => {
     });
   };
 
+  const navigate = useNavigate();
   // ## axios ##
   // 폼 제출 이벤트 처리
   const handleSubmit = async (event: FormEvent) => {
@@ -442,17 +444,43 @@ const CreatePostPage = () => {
       ) // 임시로 넣음
       .then((response) => {
         console.log('Success:', response);
+        navigate('/my-page');
       })
       .catch((error) => {
         console.error('Error:', error);
       });
   };
+  // 이미지, 해시태그 필수 제출 조건
+  const submitRequirements = (): boolean => {
+    return imageSrc.length > 0 && activeTags.length > 0;
+  };
+
+  const handleConfirm = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!submitRequirements()) {
+      e.preventDefault(); // 폼 제출 방지
+      alert('사진과 해시태그를 모두 작성해주세요.');
+      return;
+    }
+
+    if (!window.confirm('게시물을 업로드하시겠습니까?')) {
+      e.preventDefault(); // 사용자가 취소를 선택했다면 폼 제출 방지
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
       <CreatePostHeader>
-        <SubmitButton type="submit">임시 저장</SubmitButton>
-        <SubmitButton type="submit">업로드</SubmitButton>
+        {/* 일단 임시 저장 동작 안하게 */}
+        <SubmitButton type="submit" disabled>
+          임시 저장
+        </SubmitButton>
+        <SubmitButton
+          type="submit"
+          onClick={handleConfirm}
+          disabled={!submitRequirements}
+        >
+          업로드
+        </SubmitButton>
       </CreatePostHeader>
       <CreatePostBody>
         <FormTitle>새 게시물 작성</FormTitle>
