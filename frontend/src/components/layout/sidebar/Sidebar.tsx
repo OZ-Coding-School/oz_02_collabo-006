@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import LoginWrap from './components/LoginWrap';
-import { ReactComponent as ArchiveIcon } from '../../../asset/archive.svg';
-import { ReactComponent as MyArchiveIcon } from '../../../asset/myarchive.svg';
-import { ReactComponent as DesignIcon } from '../../../asset/design.svg';
-import { ReactComponent as NailShopIcon } from '../../../asset/nailshop.svg';
-import { ReactComponent as ProductIcon } from '../../../asset/product.svg';
-import { ReactComponent as MyPageIcon } from '../../../asset/mypage.svg';
-import { ReactComponent as SettingsIcon } from '../../../asset/settings.svg';
+import { ReactComponent as ArchiveIcon } from '../../../asset/sidebarIcons/archive.svg';
+import { ReactComponent as MyArchiveIcon } from '../../../asset/sidebarIcons/myarchive.svg';
+import { ReactComponent as DesignIcon } from '../../../asset/sidebarIcons/design.svg';
+import { ReactComponent as NailShopIcon } from '../../../asset/sidebarIcons/nailshop.svg';
+import { ReactComponent as ProductIcon } from '../../../asset/sidebarIcons/product.svg';
+import { ReactComponent as MyPageIcon } from '../../../asset/sidebarIcons/mypage.svg';
+import { ReactComponent as SettingsIcon } from '../../../asset/sidebarIcons/settings.svg';
 import { LIGHT_GRAY, LIGHT_PURPLE } from 'constant/colors';
 import { useState } from 'react';
 

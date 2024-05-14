@@ -259,7 +259,11 @@ const CreatePostPage = () => {
   const [showWarning, setShowWarning] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
   const [isRotated, setIsRotated] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);  // 해시태그 버튼 컨테이너의 표시 상태
 
+  const toggleHashTagVisibility = () => {
+    setIsOpen(!isOpen);  // 표시 상태 토글
+  };
   const toggleRotation = () => {
     setIsRotated(!isRotated);
   };
@@ -445,7 +449,6 @@ const CreatePostPage = () => {
               </ImageDisplay>
             ))}
           </HiddenI>
-
           {imageSrc.length === 0 && (
             <UploadImageLargeText>
               네일아트 디자인을 업로드해 보세요.
@@ -479,7 +482,7 @@ const CreatePostPage = () => {
               onKeyDown={handleKeyDown}
             />
             <HashTagToggleIconWrap>
-              <HashTagToggleIcon onClick={toggleRotation} isRotated={isRotated}>
+              <HashTagToggleIcon  onClick={toggleHashTagVisibility} isRotated={isRotated}>
                 <ToggleArrowIcon />
               </HashTagToggleIcon>
             </HashTagToggleIconWrap>
@@ -495,7 +498,9 @@ const CreatePostPage = () => {
             ))}
           </HashtagCreate>
 
-          <HashTagButton activeTags={activeTags} toggleTag={toggleTag} />
+          {isOpen && (
+            <HashTagButton activeTags={activeTags} toggleTag={toggleTag} />
+          )}
         </ContentsAndHashTagContainer>
       </CreatePostBody>
     </form>
