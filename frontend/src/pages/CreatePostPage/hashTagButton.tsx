@@ -1,4 +1,4 @@
-import { LIGHT_PURPLE } from 'constant/colors';
+import { LIGHT_PURPLE, TEXT_BLACK } from 'constant/colors';
 import styled from 'styled-components';
 
 const HashTagButtonContainer = styled.div``;
@@ -9,6 +9,7 @@ interface ButtonProps {
 }
 const Button = styled.button<ButtonProps>`
   background-color: ${(props) => (props.$active ? LIGHT_PURPLE : '#f2f0f5')};
+  color: ${TEXT_BLACK};
   font-size: 14px;
   font-weight: bolder;
   line-height: 32px;
@@ -27,7 +28,7 @@ const Button = styled.button<ButtonProps>`
   }
 `;
 
-const buttonLists = [
+export const buttonLists = [
   '#유광',
   '#무광',
   '#짧은손톱',
@@ -48,38 +49,22 @@ const buttonLists = [
 ];
 interface HashTagButtonProps {
   activeTags: string[];
-  toggleTag: (tag: string) => void; // Correct method to toggle tags
+  toggleTag: (tag: string) => void;
 }
 
 const HashTagButton: React.FC<HashTagButtonProps> = ({
   activeTags,
   toggleTag,
 }) => {
-  // const [activeButtons, setActiveButtons] = useState<number[]>([]);
-
-  // const handleClick = (index: number) => {
-  //   const tag = buttonLists[index].startsWith('#')
-  //     ? buttonLists[index].slice(1)
-  //     : buttonLists[index];
-  //   onAddTag(tag);
-  //   setActiveButtons((current) => {
-  //     const idx = current.indexOf(index);
-  //     return idx > -1
-  //       ? current.filter((i) => i !== index)
-  //       : [...current, index];
-  //   });
-  // };
-
   return (
     <HashTagButtonContainer>
       <ButtonListWrap>
         {buttonLists.map((item, index) => {
-          const tag = item.replace(/^#+/, '');
-          const isActive = activeTags.includes(tag);
+          const isActive = activeTags.includes(item);
           return !isActive ? (
             <Button
               key={index}
-              onClick={() => toggleTag(tag)}
+              onClick={() => toggleTag(item)}
               $active={isActive}
             >
               {item}

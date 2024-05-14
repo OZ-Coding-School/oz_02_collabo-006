@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -10,7 +10,7 @@ import {
   WARNING_TEXT,
 } from '../../constant/colors';
 import { activeStyles, hoverStyles } from 'constant/buttonPseudoClass';
-import HashTagButton from './hashTagButton';
+import HashTagButton, { buttonLists } from './hashTagButton';
 import axios from 'axios';
 import { CREATE_POSTS } from 'constant/endPoint';
 
@@ -61,7 +61,7 @@ const UploadImageArea = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
 `;
-const Test = styled.div`
+const HiddenI = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -90,7 +90,7 @@ const UploadImageSmallText = styled.span`
   color: ${DARK_PURPLE};
   margin-top: 20px;
 `;
-const HiddenInput = styled.input`
+const HiddenImageInput = styled.input`
   display: none;
 `;
 
@@ -182,9 +182,12 @@ const HashtagCreate = styled.div`
   flex-wrap: wrap;
   margin-top: 6px;
 `;
-const Button = styled.button`
+const TagButton = styled.button`
   background-color: ${LIGHT_PURPLE};
-  color: #ffffff;
+  color: ${(props) => {
+    const tag = typeof props.children === 'string' ? props.children : '';
+    return buttonLists.includes(tag) ? TEXT_BLACK : '#ffffff';
+  }};
   font-size: 14px;
   font-weight: bolder;
   line-height: 32px;
@@ -195,7 +198,7 @@ const Button = styled.button`
   margin: 6px 5px;
   transition:
     background-color 0.2s ease,
-    0.2s ease-in-out;
+    transform 0.2s ease-in-out;
 
   &:hover {
     transform: scale(1.05);
@@ -212,11 +215,11 @@ const CreatePostPage = () => {
   const [imageSrc, setImageSrc] = useState<string[]>([]);
   // input요소에 대한 참조 생성
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  
+  const [fileNames, setFileNames] = useState<string[]>([]);
   const [content, setContent] = useState('');
-  const [hashTags, setHashTags] = useState('');
-  // const [hashtags, setHashtags] = useState<string[]>([]);
-  const [activeTags, setActiveTags] = useState<string[]>([]);
+  const [hashTags, setHashTags] = useState(''); // 해시태그를 입력하는 필드
+  const [activeTags, setActiveTags] = useState<string[]>([]); // 추가한 해시태그와 해시태그가 보관되는 곳
   const [showWarning, setShowWarning] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
 
@@ -227,16 +230,27 @@ const CreatePostPage = () => {
     setHashTags(event.target.value);
   };
 
+  // onKeyUp으로 인한 폼 제출 방지
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
   // 키보드 입력을 처리하는 함수
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // if (event.nativeEvent.isComposing) return;
+    event.preventDefault();
     // 'Enter' 또는 'Space' 키가 눌렸을 때
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
 
-      const newTag = hashTags.trim(); // 입력값에서 공백을 제거
+      let newTag = hashTags.trim(); // 입력값에서 공백을 제거
       if (!newTag) {
         setHashTags(''); // 입력값이 비어있다면 입력 필드를 클리어하고 함수를 종료
         return;
+      }
+      if (!newTag.startsWith('#')) {
+        newTag = '#' + newTag;
       }
 
       const isDuplicate = activeTags.includes(newTag); // 중복된 태그인지 확인
@@ -246,23 +260,10 @@ const CreatePostPage = () => {
       if (!isDuplicate) {
         setActiveTags((prev) => [...prev, newTag]); // 중복이 아닐 경우 새 태그를 추가
       }
-
       setHashTags(''); // 처리 후 입력 필드를 클리어
     }
   };
 
-  // // 등록된 해시태그를 제거하는 함수
-  // const handleRemoveTag = (tagToRemove: string) => {
-  //   setHashtags((prevHashtags) =>
-  //     prevHashtags.filter((tag) => tag !== tagToRemove),
-  //   );
-  // };
-
-  // const addTag = (tag: string) => {
-  //   if (!hashtags.includes(tag)) {
-  //     setHashtags([...hashtags, tag]);
-  //   }
-  // };
   const toggleTag = (tag: string) => {
     setActiveTags((prev) => {
       const index = prev.indexOf(tag);
@@ -275,16 +276,14 @@ const CreatePostPage = () => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    console.log(fileInputRef);
-
     axios
       .post(
         CREATE_POSTS,
         {
-          media: imageSrc,
+          media: fileNames.join(', '),
           comment_ck: 'True',
           visible: 'True',
-          hashtag: hashTags,
+          hashtag: activeTags.join(' '),
           content: content,
         },
         {
@@ -295,20 +294,13 @@ const CreatePostPage = () => {
         console.log('Success:', response);
       })
       .catch((error) => {
-        if (error.response) {
-          console.error(
-            '서버 응답 오류:',
-            error.response.status,
-            error.response.data,
-          );
-        } else if (error.request) {
-          console.error('응답 수신 x:', error.request);
-        }
+        console.error('Error:', error);
       });
   };
 
   // 이미지 업로드 처리
-  const handleUploadClick = () => {
+  const handleUploadClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
     if (imageSrc.length >= 10) {
       alert('최대 10장까지만 업로드 가능합니다.');
       return;
@@ -351,6 +343,9 @@ const CreatePostPage = () => {
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
+      const fileArray = Array.from(files);
+      const newFileNames = fileArray.map((file) => file.name); // 파일 이름 추출
+      setFileNames(newFileNames);
       // 남은 이미지 계산
       const remainImage = 10 - imageSrc.length;
       if (files.length > remainImage) {
@@ -367,11 +362,18 @@ const CreatePostPage = () => {
       }
     }
   };
+  console.log(activeTags);
 
   // 이미지 삭제 처리
   const handleDeleteImage = (index: number) => {
+    // 이미지 삭제 사 UI에서도 삭제
     setImageSrc((prevImages) => prevImages.filter((_, i) => i !== index));
+    // 이미지 삭제 시 데이터에서도 삭제
+    setFileNames((prevFileNames) =>
+      prevFileNames.filter((_, i) => i !== index),
+    );
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <CreatePostHeader>
@@ -381,8 +383,8 @@ const CreatePostPage = () => {
       <CreatePostBody>
         <FormTitle>새 게시물 작성</FormTitle>
         <UploadImageArea>
-          <Test>
-            <HiddenInput
+          <HiddenI>
+            <HiddenImageInput
               ref={fileInputRef}
               type="file"
               accept="image/*"
@@ -390,7 +392,7 @@ const CreatePostPage = () => {
               onChange={handleFileChange}
             />
             {imageSrc.map((src, index) => (
-              <ImageDisplay key={index}>
+              <ImageDisplay key={src}>
                 <img
                   src={src}
                   alt={`Uploaded ${index}`}
@@ -401,7 +403,7 @@ const CreatePostPage = () => {
                 </DeleteIcon>
               </ImageDisplay>
             ))}
-          </Test>
+          </HiddenI>
 
           {imageSrc.length === 0 && (
             <UploadImageLargeText>
@@ -432,14 +434,15 @@ const CreatePostPage = () => {
             value={hashTags}
             onChange={handleHashTagChange}
             onKeyUp={handleKeyUp}
+            onKeyDown={handleKeyDown}
           />
           {showWarning && <ShowWarningText>{warningMessage}</ShowWarningText>}
 
           <HashtagCreate>
-            {activeTags.map((tag) => (
-              <Button key={tag} onClick={() => toggleTag(tag)}>
-                #{tag}
-              </Button>
+            {activeTags.map((tag, index) => (
+              <TagButton key={tag} onClick={() => toggleTag(tag)}>
+                {tag}
+              </TagButton>
             ))}
           </HashtagCreate>
 
