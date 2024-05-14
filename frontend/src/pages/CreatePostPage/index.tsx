@@ -237,8 +237,8 @@ const HashTagToggleIconWrap = styled.button`
   height: 12px;
   position: absolute;
   right: 22px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 46%;
+  transform: translateY(-46%);
   border: none;
   background: none;
   cursor: pointer;
