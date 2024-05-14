@@ -1,6 +1,5 @@
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import styled from 'styled-components';
-
 import {
   LIGHT_GRAY,
   LIGHT_PURPLE,
@@ -10,9 +9,10 @@ import {
   WARNING_TEXT,
 } from '../../constant/colors';
 import { activeStyles, hoverStyles } from 'constant/buttonPseudoClass';
-import HashTagButton, { buttonLists } from './hashTagButton';
-import axios from 'axios';
 import { CREATE_POSTS } from 'constant/endPoint';
+import HashTagButton, { buttonLists } from './hashTagButton';
+import { ReactComponent as ToggleArrowIcon } from '../../asset/toggle-arrow.svg';
+import axios from 'axios';
 
 const CreatePostHeader = styled.div`
   display: flex;
@@ -120,7 +120,7 @@ const UploadHashTag = styled.input`
   border-radius: 12px;
   font-size: 16px;
   margin: 8px 0;
-  padding: 15px 17px 17px 15px;
+  padding: 21px 17px 17px 15px;
   resize: none;
   overflow: auto;
   height: 56px;
@@ -209,19 +209,60 @@ const ShowWarningText = styled.span`
   font-size: 14px;
   padding: 12px;
 `;
+const HashTagContainer = styled.div`
+  position: relative;
+  display: inline-block;
+  width: 512px;
+`;
+const HashTagToggleIconWrap = styled.button`
+  height: 12px;
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+`;
+
+interface toggleType {
+  isRotated: boolean;
+}
+const HashTagToggleIcon = styled.i<toggleType>`
+  height: 12px;
+  display: inline-block;
+  transform: ${(props) => `rotate(${props.isRotated ? '180deg' : '0deg'})`};
+  transition: transform 0.3s ease;
+  transform-origin: center center;
+  vertical-align: middle;
+
+  svg {
+    fill: #e0dee3;
+  }
+  &:hover {
+    svg {
+      fill: ${LIGHT_PURPLE};
+    }
+  }
+`;
 
 const CreatePostPage = () => {
   //현재 이미지 URL들을 저장
   const [imageSrc, setImageSrc] = useState<string[]>([]);
   // input요소에 대한 참조 생성
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [content, setContent] = useState('');
   const [hashTags, setHashTags] = useState(''); // 해시태그를 입력하는 필드
   const [activeTags, setActiveTags] = useState<string[]>([]); // 추가한 해시태그와 해시태그가 보관되는 곳
   const [showWarning, setShowWarning] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
+  const [isRotated, setIsRotated] = useState(false);
+
+  const toggleRotation = () => {
+    setIsRotated(!isRotated);
+  };
 
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
@@ -428,14 +469,22 @@ const CreatePostPage = () => {
             onChange={handleContentChange}
           />
           <HashTagTitle htmlFor="hashtag">해시태그</HashTagTitle>
-          <UploadHashTag
-            id="hashtag"
-            placeholder="게시물에 해당하는 해시태그 아래에서 선택 후 추가로 입력해 주세요."
-            value={hashTags}
-            onChange={handleHashTagChange}
-            onKeyUp={handleKeyUp}
-            onKeyDown={handleKeyDown}
-          />
+          <HashTagContainer>
+            <UploadHashTag
+              id="hashtag"
+              placeholder="게시물에 해당하는 해시태그 아래에서 선택 후 추가로 입력해 주세요."
+              value={hashTags}
+              onChange={handleHashTagChange}
+              onKeyUp={handleKeyUp}
+              onKeyDown={handleKeyDown}
+            />
+            <HashTagToggleIconWrap>
+              <HashTagToggleIcon onClick={toggleRotation} isRotated={isRotated}>
+                <ToggleArrowIcon />
+              </HashTagToggleIcon>
+            </HashTagToggleIconWrap>
+          </HashTagContainer>
+
           {showWarning && <ShowWarningText>{warningMessage}</ShowWarningText>}
 
           <HashtagCreate>
