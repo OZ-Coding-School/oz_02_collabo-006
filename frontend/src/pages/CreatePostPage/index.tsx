@@ -384,7 +384,8 @@ const CreatePostPage = () => {
   const toggleHashTagVisibility = () => {
     setIsOpen(!isOpen); // 표시 상태 토글
   };
-  const handleToggle = () => {
+  const handleToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault(); // 기본 동작 방지
     toggleHashTagVisibility(); // 해시태그 보이기/숨기기 토글
     setIsRotated(!isRotated); // 회전 상태 토글
   };
@@ -429,18 +430,35 @@ const CreatePostPage = () => {
       setHashTags(''); // 처리 후 입력 필드를 클리어
     }
   };
-
+  // tag 클릭 시 토글하는 역할
   const toggleTag = (tag: string) => {
     setActiveTags((prev) => {
-      const index = prev.indexOf(tag);
-      if (index > -1) return prev.filter((t) => t !== tag);
-      return [...prev, tag];
+      const index = prev.indexOf(tag); // 태그 존재 여부
+      if (index > -1) return prev.filter((t) => t !== tag); // 태그 제거
+      return [...prev, tag]; // 태그 추가:
     });
   };
 
-  const navigate = useNavigate();
+  // 이미지, 해시태그 필수 제출 조건
+  const submitRequirements = (): boolean => {
+    return imageSrc.length > 0 && activeTags.length > 0;
+  };
+
+  const handleConfirm = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!submitRequirements()) {
+      e.preventDefault(); // 폼 제출 방지
+      alert('사진과 해시태그를 모두 작성해주세요.');
+      return;
+    }
+
+    if (!window.confirm('게시물을 업로드하시겠습니까?')) {
+      e.preventDefault(); // 사용자가 취소를 선택했다면 폼 제출 방지
+    }
+  };
+
   // ## axios ##
   // 폼 제출 이벤트 처리
+  const navigate = useNavigate();
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -465,22 +483,6 @@ const CreatePostPage = () => {
       .catch((error) => {
         console.error('Error:', error);
       });
-  };
-  // 이미지, 해시태그 필수 제출 조건
-  const submitRequirements = (): boolean => {
-    return imageSrc.length > 0 && activeTags.length > 0;
-  };
-
-  const handleConfirm = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!submitRequirements()) {
-      e.preventDefault(); // 폼 제출 방지
-      alert('사진과 해시태그를 모두 작성해주세요.');
-      return;
-    }
-
-    if (!window.confirm('게시물을 업로드하시겠습니까?')) {
-      e.preventDefault(); // 사용자가 취소를 선택했다면 폼 제출 방지
-    }
   };
 
   return (
