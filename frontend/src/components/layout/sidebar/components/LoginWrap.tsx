@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import LoginModal from 'components/modal/LoginModal';
-import { LIGHT_PURPLE, TEXT_BLACK } from 'constant/colors';
+import { DARK_PURPLE, LIGHT_PURPLE, TEXT_BLACK } from 'constant/colors';
 import { useAuth } from 'context/AuthContext';
 
 const LoginContainer = styled.div`
@@ -45,8 +45,16 @@ const AdditionalText = styled.div`
 `;
 
 const ProfileWrap = styled.div`
+  display: flex;
+  flex-direction: column;
   color: inherit;
   white-space: nowrap;
+`;
+
+const ProfileRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const StyledLink = styled(Link)`
@@ -63,8 +71,28 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const LogoutButton = styled.button`
+  background-color: transparent;
+  border: 1px solid ${LIGHT_PURPLE};
+  color: ${LIGHT_PURPLE};
+  border-radius: 5px;
+  padding: 0 6px;
+  line-height: 18px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    color: ${DARK_PURPLE};
+    border: 1px solid ${DARK_PURPLE};
+    transform: scale(1.02);
+  }
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+
 const LoginWrap = () => {
-  const { isLoggedIn, authData } = useAuth();
+  const { isLoggedIn, authData, logout } = useAuth();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   // 모달을 열기
@@ -78,13 +106,21 @@ const LoginWrap = () => {
     setIsModalVisible(false);
   };
 
+  // 로그아웃 처리
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <LoginContainer>
       <ProfileImage src="/profile.png" alt="프로필" />
       <LoginTextWrap>
         {isLoggedIn && authData ? (
           <ProfileWrap>
-            <LoginText>{authData.username}</LoginText>
+            <ProfileRow>
+              <LoginText>{authData.username}</LoginText>
+              <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
+            </ProfileRow>
             <AdditionalText>게시물 0 저장됨 0 팔로워 0</AdditionalText>
           </ProfileWrap>
         ) : (
