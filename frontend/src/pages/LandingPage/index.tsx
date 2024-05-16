@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { LIGHT_PURPLE } from 'constant/colors';
+import axios from 'axios';
+import { GET_ALL_POSTS } from 'constant/endPoint';
+import ArchiveFolder from 'components/modal/ArchiveFolder';
 
 const menuName = [
   {
@@ -83,12 +86,35 @@ const ArchiveImg = styled.button`
 
 const LandingPage = () => {
   const [isArchiveBarName, setIsisArchiveBarName] = useState(0);
+  const [isFolderModal, setIsFolderModal] = useState(false);
+  const [isArchive, setIsArchive] = useState([]);
 
   const archiveBarClick = (index: number) => {
     setIsisArchiveBarName(index);
   };
 
+  const modalOn = () => {
+    setIsFolderModal(true)
+  }
+  const modalOff = () => {
+    setIsFolderModal(false)
+  }
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get(GET_ALL_POSTS,{
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true
+    }).then((response) => {
+      setIsArchive(response.data.data)
+      console.log(isArchive);
+    }).catch((error) => {
+      console.error(error);
+    });
+  }, []);
 
   return (
     <ArchiveContainer>
@@ -108,14 +134,16 @@ const LandingPage = () => {
         ))}
       </ArchiveBarContainer>
       <ArchiveImgContainer>
-        {img[isArchiveBarName].map((item, index) => (
+        {isArchive.map((item, index) => (
           <ArchiveImg
             key={index}
             onClick={() =>
               navigate(`/item/${menuName[isArchiveBarName].name}/${item}`)
             }
+            // onClick={modalOn}
           ></ArchiveImg>
         ))}
+        {isFolderModal && <ArchiveFolder onClose={modalOff} />}
       </ArchiveImgContainer>
     </ArchiveContainer>
   );
