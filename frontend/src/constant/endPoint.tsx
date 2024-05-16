@@ -8,3 +8,4 @@ export const TOKEN_USER_ENDPOINT =
   'http://127.0.0.1:8000/api/v1/user/login/sjwt/';
 export const CREATE_POSTS = 'http://127.0.0.1:8000/api/v1/post/create/';
 export const GET_ALL_POSTS = 'http://127.0.0.1:8000/api/v1/post/';
+// export const CREATE_HASHTAGS = 'http://127.0.0.1:8000/api/v1/hashtag/create/';

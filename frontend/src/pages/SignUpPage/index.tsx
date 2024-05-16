@@ -5,7 +5,7 @@ import SsubmitButton from 'components/common/FormSubmitButton';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { CREATE_USER_ENDPOINT } from 'constant/endPoint';
-import { TEXT_BLACK } from 'constant/colors';
+import { LIGHT_PURPLE, TEXT_BLACK, WARNING_TEXT } from 'constant/colors';
 
 const Container = styled.div`
   display: flex;
@@ -248,8 +248,8 @@ const SignUpPage = () => {
               style={{
                 color: inputValue.username
                   ? inputValid.usernameValid
-                    ? '#B98CE0'
-                    : '#FF007A'
+                    ? LIGHT_PURPLE
+                    : WARNING_TEXT
                   : '#756982',
               }}
             >
@@ -273,8 +273,8 @@ const SignUpPage = () => {
               style={{
                 color: inputValue.password
                   ? inputValid.passwordValid
-                    ? '#B98CE0'
-                    : '#FF007A'
+                    ? LIGHT_PURPLE
+                    : WARNING_TEXT
                   : '#756982',
               }}
             >
@@ -298,8 +298,8 @@ const SignUpPage = () => {
               style={{
                 color: inputValue.phone
                   ? inputValid.phoneValid
-                    ? '#B98CE0'
-                    : '#FF007A'
+                    ? LIGHT_PURPLE
+                    : WARNING_TEXT
                   : '#756982',
               }}
             >
@@ -323,8 +323,8 @@ const SignUpPage = () => {
               style={{
                 color: inputValue.email
                   ? inputValid.emailValid
-                    ? '#B98CE0'
-                    : '#FF007A'
+                    ? LIGHT_PURPLE
+                    : WARNING_TEXT
                   : '#756982',
               }}
             >

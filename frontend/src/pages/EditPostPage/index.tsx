@@ -10,7 +10,7 @@ import {
 } from '../../constant/colors';
 import { activeStyles, hoverStyles } from 'constant/buttonPseudoClass';
 import { CREATE_POSTS } from 'constant/endPoint';
-import HashTagButton, { buttonLists } from './hashTagButton';
+import HashTagButton, { buttonLists } from '../CreatePostPage/hashTagButton';
 import { ReactComponent as ToggleArrowIcon } from '../../asset/toggle-arrow.svg';
 import { ReactComponent as DeleteIcon } from '../../asset/delete.svg';
 import axios from 'axios';
@@ -27,7 +27,7 @@ const SubmitButton = styled.button`
   background-color: ${LIGHT_GRAY};
   color: ${TEXT_BLACK};
   line-height: 40px;
-  padding: 0 33px;
+  padding: 0 48px;
   font-size: 14px;
   font-weight: bold;
   margin-left: 10px;
@@ -265,7 +265,7 @@ const HashTagToggleIcon = styled.i<toggleType>`
   }
 `;
 
-const CreatePostPage = () => {
+const EditPostPage = () => {
   //현재 이미지 URL들을 저장
   const [imageSrc, setImageSrc] = useState<string[]>([]);
   // input요소에 대한 참조 생성
@@ -451,7 +451,7 @@ const CreatePostPage = () => {
       return;
     }
 
-    if (!window.confirm('게시물을 업로드하시겠습니까?')) {
+    if (!window.confirm('게시물을 수정하시겠습니까?')) {
       e.preventDefault(); // 사용자가 취소를 선택했다면 폼 제출 방지
     }
   };
@@ -488,20 +488,16 @@ const CreatePostPage = () => {
   return (
     <form onSubmit={handleSubmit}>
       <CreatePostHeader>
-        {/* 일단 임시 저장 동작 안하게 */}
-        <SubmitButton type="submit" disabled>
-          임시 저장
-        </SubmitButton>
         <SubmitButton
           type="submit"
           onClick={handleConfirm}
           disabled={!submitRequirements}
         >
-          업로드
+          완료
         </SubmitButton>
       </CreatePostHeader>
       <CreatePostBody>
-        <FormTitle>새 게시물 작성</FormTitle>
+        <FormTitle>게시물 수정</FormTitle>
         {imageSrc.length > 0 && <ImageCount>{imageSrc.length}/10</ImageCount>}
 
         <UploadImageArea>
@@ -588,4 +584,4 @@ const CreatePostPage = () => {
   );
 };
 
-export default CreatePostPage;
+export default EditPostPage;

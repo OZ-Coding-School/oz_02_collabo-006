@@ -1,21 +1,26 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import LoginWrap from './components/LoginWrap';
-import { ReactComponent as ArchiveIcon } from '../../../asset/archive.svg';
-import { ReactComponent as MyArchiveIcon } from '../../../asset/myarchive.svg';
-import { ReactComponent as DesignIcon } from '../../../asset/design.svg';
-import { ReactComponent as NailShopIcon } from '../../../asset/nailshop.svg';
-import { ReactComponent as ProductIcon } from '../../../asset/product.svg';
-import { ReactComponent as MyPageIcon } from '../../../asset/mypage.svg';
-import { ReactComponent as SettingsIcon } from '../../../asset/settings.svg';
+import { ReactComponent as ArchiveIcon } from '../../../asset/sidebarIcons/archive.svg';
+import { ReactComponent as MyArchiveIcon } from '../../../asset/sidebarIcons/myarchive.svg';
+import { ReactComponent as DesignIcon } from '../../../asset/sidebarIcons/design.svg';
+import { ReactComponent as NailShopIcon } from '../../../asset/sidebarIcons/nailshop.svg';
+import { ReactComponent as ProductIcon } from '../../../asset/sidebarIcons/product.svg';
+import { ReactComponent as MyPageIcon } from '../../../asset/sidebarIcons/mypage.svg';
+import { ReactComponent as SettingsIcon } from '../../../asset/sidebarIcons/settings.svg';
 import { LIGHT_GRAY, LIGHT_PURPLE } from 'constant/colors';
 import { useState } from 'react';
 
 const MenuContainer = styled.div`
-  width: 267px;
+  width: 275px;
   height: 100vh;
   margin: 36px 16px 0 40px;
   font-size: 14px;
+
+  @media (max-width: 768px) {
+    width: 50px;
+    margin: 36px 8px 0 20px;
+  }
 `;
 
 const MenuListWrap = styled.div`
@@ -34,13 +39,14 @@ const StyledLink = styled(Link)<{
   $archive?: boolean;
   $largerFont?: boolean;
   $isSelected?: boolean;
+  $isAdditional?: boolean;
 }>`
   text-decoration: none;
   color: inherit;
   display: flex;
   align-items: center;
   padding: 8px 12px;
-  border-radius: 20px;
+  border-radius: ${({ $isAdditional }) => ($isAdditional ? '0' : '20px')};
   font-weight: ${({ $isSelected }) => ($isSelected ? 'bold' : 'normal')};
   background-color: ${({ $isSelected }) =>
     $isSelected ? LIGHT_GRAY : 'transparent'};
@@ -67,7 +73,7 @@ const StyledLink = styled(Link)<{
       color: #000000;
       background-color: ${LIGHT_GRAY};
       svg {
-        fill:#000000
+        fill: #000000;
       }
     }
   `}
@@ -89,22 +95,43 @@ const StyledLink = styled(Link)<{
 `;
 
 const MenuItemText = styled.span`
+  font-size: 14px;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const DescriptionText = styled.span`
+  font-size: 12px;
+  color: #ffffff;
+  margin-left: 10px;
   display: none;
+  padding-left: 15px;
+  font-weight: bold;
 `;
 
 const MenuItem = styled.li`
   margin-bottom: 9px;
   position: relative;
 
+  &:hover ${DescriptionText} {
+    display: inline-block;
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
   svg {
     margin-right: 12px;
     fill: inherit;
   }
 
-  &:hover ${MenuItemText} {
-    display: inline-block;
-    margin-left: 14px;
-    font-size: 12px;
+  @media (max-width: 768px) {
+    svg {
+      margin-right: 0;
+      fill: inherit;
+      margin-left: 1px;
+    }
   }
 `;
 
@@ -115,7 +142,12 @@ const menuItems = [
     description: '네일아트 디자인 탐색',
     route: '/',
   },
-  { icon: MyArchiveIcon, text: '내 아카이브', route: '/my-archive' },
+  {
+    icon: MyArchiveIcon,
+    text: '내 아카이브',
+    description: '나만의 네일 감성 아카이브',
+    route: '/my-archive',
+  },
   {
     icon: DesignIcon,
     text: '디자인 제작',
@@ -157,6 +189,7 @@ const Sidebar = () => {
   const handleMenuClick = (index: number) => {
     setSelectedMenuIndex(index);
   };
+
   return (
     <MenuContainer>
       <LoginWrap />
@@ -173,10 +206,10 @@ const Sidebar = () => {
                 onClick={() => handleMenuClick(index)}
               >
                 <item.icon /> {/* 해당 아이콘 표시 */}
-                {item.text} {/* 메뉴 텍스트 표시 */}
-                {item.description /* 아이템 설명이 있는 경우에만 표시 */ && (
-                  <MenuItemText>{item.description}</MenuItemText>
-                )}
+                <MenuItemText>{item.text}</MenuItemText>{' '}
+                {/* 메뉴 텍스트 표시 */}
+                <DescriptionText>{item.description}</DescriptionText>{' '}
+                {/* 설명 텍스트 표시 */}
               </StyledLink>
             </MenuItem>
           ))}
@@ -185,16 +218,18 @@ const Sidebar = () => {
         {/* 추가 메뉴 목록 */}
         <MenuList>
           {additionalMenuItems.map((item, index) => (
-            <MenuItem key={index}>
+            <MenuItem key={index + menuItems.length}>
               <StyledLink
                 to={item.route}
                 className="menu"
                 $largerFont={item.$largerFont}
                 $isSelected={selectedMenuIndex === index + menuItems.length}
+                $isAdditional={true}
                 onClick={() => handleMenuClick(index + menuItems.length)}
               >
                 <item.icon /> {/* 해당 아이콘 표시 */}
-                {item.text} {/* 메뉴 텍스트 표시 */}
+                <MenuItemText>{item.text}</MenuItemText>{' '}
+                {/* 메뉴 텍스트 표시 */}
               </StyledLink>
             </MenuItem>
           ))}
