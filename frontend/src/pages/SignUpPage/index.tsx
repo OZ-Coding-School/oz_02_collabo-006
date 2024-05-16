@@ -193,7 +193,6 @@ const SignUpPage = () => {
   // 폼 제출 처리 함수
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    console.log('sadfasijeifjlasijeflijaes');
     if (submitRequirements) {
       axios
         .post(CREATE_USER_ENDPOINT, {

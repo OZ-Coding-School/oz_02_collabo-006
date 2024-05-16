@@ -1,4 +1,5 @@
 export const LIGHT_GRAY = '#F2F2F5';
+export const LIGHT_PURPLE_HOVER = '#cdb3e5'
 export const LIGHT_PURPLE = '#B98CE0';
 export const DARK_PURPLE = '#786387';
 export const TEXT_BLACK = '#141217';
