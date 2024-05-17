@@ -1,4 +1,10 @@
-import React, { createContext, useState, ReactNode, useContext } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useContext,
+} from 'react';
 
 // 사용자 인증 정보를 담을 자료형을 정의합니다.
 type AuthData = {
@@ -7,26 +13,52 @@ type AuthData = {
   refreshToken: string;
 };
 
+// AuthContext의 자료형을 정의
 type AuthContextType = {
-  isLoggedIn: boolean; // 로그인 상태
-  authData: AuthData | null; // 사용자 인증 데이터
+  isLoggedIn: boolean; // 로그인 상태를 나타냅니다.
+  authData: AuthData | null; // 사용자 인증 데이터를 나타냅니다.
   login: (username: string, accessToken: string, refreshToken: string) => void; // 로그인 함수
   logout: () => void; // 로그아웃 함수
 };
-// React Context API를 사용하여 AuthContext를 생성. 초기값은 undefined
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 type AuthProviderProps = {
   children: ReactNode;
 };
 
+// 쿠키를 설정하는 함수
+const setCookie = (name: string, value: string, days: number) => {
+  const expires = new Date(Date.now() + days * 864e5).toUTCString(); // 쿠키의 만료일을 설정
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`; // 쿠키를 설정
+};
+
+// 쿠키를 읽는 함수
+const getCookie = (name: string) => {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? decodeURIComponent(match[2]) : null; // 쿠키가 존재하면 값을 반환하고, 없으면 null을 반환
+};
+
+// 쿠키를 삭제하는 함수
+const deleteCookie = (name: string) => {
+  setCookie(name, '', -1); // 쿠키의 만료일을 과거로 설정하여 쿠키를 삭제
+};
+
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  // 로그인 상태를 확인하고 세션 스토리지의 토큰 유무로 초기 값을 설정
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
-    !!sessionStorage.getItem('accessToken'),
-  );
-  // 사용자 데이터 상태를 관리
-  const [authData, setAuthData] = useState<AuthData | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // 로그인 상태 관리
+  const [authData, setAuthData] = useState<AuthData | null>(null); // 사용자 인증 데이터 관리
+
+  useEffect(() => {
+    const username = getCookie('username');
+    const accessToken = getCookie('accessToken');
+    const refreshToken = getCookie('refreshToken');
+
+    if (username && accessToken && refreshToken) {
+      // 모든 쿠키 값이 존재하면
+      setAuthData({ username, accessToken, refreshToken }); // 인증 데이터를 설정
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   // 로그인 함수
   const login = (
@@ -34,29 +66,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     accessToken: string,
     refreshToken: string,
   ) => {
-    // 세션 스토리지에 사용자 정보를 저장
-    sessionStorage.setItem('accessToken', accessToken);
-    sessionStorage.setItem('refreshToken', refreshToken);
-    sessionStorage.setItem('username', username);
+    console.log('Setting cookies:', { username, accessToken, refreshToken });
+    setCookie('username', username, 7);
+    setCookie('accessToken', accessToken, 7);
+    setCookie('refreshToken', refreshToken, 7);
 
-    // 사용자 정보를 상태에 저장합니다.
-    const data = { username, accessToken, refreshToken };
-    setAuthData(data);
+    setAuthData({ username, accessToken, refreshToken }); // 인증 데이터를 설정
     setIsLoggedIn(true);
-    console.log('로그인 성공');
   };
 
   // 로그아웃 함수
   const logout = () => {
-    // 세션 스토리지에서 사용자 정보를 제거
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('refreshToken');
-    sessionStorage.removeItem('username');
+    deleteCookie('username');
+    deleteCookie('accessToken');
+    deleteCookie('refreshToken');
 
-    // 상태를 초기화
     setAuthData(null);
     setIsLoggedIn(false);
-    console.log('로그인 실패');
   };
 
   return (
@@ -68,7 +94,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 export default AuthContext;
 
-// AuthContext를 사용하기 쉽게 하는 커스텀 훅을 정의
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

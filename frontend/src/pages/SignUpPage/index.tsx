@@ -2,7 +2,10 @@ import styled from 'styled-components';
 import loginLogo from '../../asset/modalLogo.png';
 import { useNavigate } from 'react-router-dom';
 import SsubmitButton from 'components/common/FormSubmitButton';
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { ReactComponent as SuccessCheckIcon } from '../../asset/success-check.svg';
+import { ReactComponent as NotShowPasswordIcon } from '../../asset/not-show-password.svg';
+import { ReactComponent as ShowPasswordIcon } from '../../asset/show-password.svg';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { CREATE_USER_ENDPOINT } from 'constant/endPoint';
 import { LIGHT_PURPLE, TEXT_BLACK, WARNING_TEXT } from 'constant/colors';
@@ -46,7 +49,7 @@ const SignUpBody = styled.div`
 `;
 
 const InputWrap = styled.div`
-  height: 100px;
+  height: 100%;
   margin-top: 24px;
 `;
 
@@ -78,7 +81,7 @@ const SInput = styled.input`
 
 const SinformText = styled.span`
   font-size: 16px;
-  display: block;
+  display: flex;
   text-align: left;
   font-size: 14px;
   color: #756982;
@@ -100,6 +103,68 @@ const LinkText = styled.a`
 `;
 const Bold = styled.strong`
   font-weight: bold;
+`;
+const InputAdditionalElements = styled.div`
+  position: relative;
+`;
+
+const SuccessCheck = styled.i`
+  position: absolute;
+  top: 48%;
+  right: 20px;
+`;
+
+interface toggleType {
+  $test: boolean;
+}
+const TogglePassword = styled.button<toggleType>`
+  position: absolute;
+  top: 46%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  right: ${(props) => (props.$test ? '55px' : ' 20px')};
+`;
+
+const CommonButton = styled.button`
+  position: absolute;
+  font-size: 14px;
+  font-weight: bold;
+  max-height: 40px;
+  padding: 9px 13px;
+  white-space: wrap;
+  top: 30%;
+  right: 8px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #ffffff;
+`;
+const VerifyNumberButton = styled(CommonButton)<toggleType>`
+  background: #e0dee3;
+`;
+const AuthenticateButton = styled(CommonButton)`
+  background: ${LIGHT_PURPLE};
+`;
+const VerifyNumberInput = styled.input`
+  margin-left: 107px;
+  width: 220px;
+  height: 5.5vh;
+  background-color: #ffffff;
+  border: 1px solid #e0dee3;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 16px;
+  margin-top: 12px;
+  letter-spacing: 5px;
+  &:focus {
+    border-color: #b98ce0;
+    outline: none;
+  }
+`;
+const PhoneInformWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 type InputName = 'username' | 'password' | 'phone' | 'email';
@@ -143,6 +208,11 @@ const SignUpPage = () => {
     email: '이메일을 다시 확인해주세요.',
   });
 
+  // 비밀번호 보임/안보임
+  const [showPswd, setShowPswd] = useState<boolean>(false);
+  // 인증번호
+  const [phoneNumberValue, setPhoneNumberValue] = useState('');
+
   // 폼 제출 요구 사항 충족 여부
   const submitRequirements = // 아래 조건을 모두 충족할 시 제출 버튼 활성화.
     inputValue.username && // 아이디가 입력되었는가?
@@ -151,7 +221,7 @@ const SignUpPage = () => {
     // inputValue.validPhone && // 전화번호가 인증되었는가? (추후 리팩토링 예정)
     inputValue.phone && // 전화번호가 입력하였는가?
     inputValue.email && // 이메일을 입력하였는가?
-    inputValid.usernameValid && // 아이디가 정규식에 부합하는가?
+    inputValid.usernameValid && //d 아이디가 정규식에 부합하는가?
     inputValid.passwordValid && // 비밀번호가 정규식에 부합하는가?
     inputValid.phoneValid && // 전화번호가 정규식에 부합하는가?
     inputValid.emailValid; // 이메일이 정규식에 부합하는가?
@@ -221,6 +291,20 @@ const SignUpPage = () => {
   const handlePrivacyClick = () => {
     alert('개인정보 수집 안내');
   };
+  // 비밀번호 보이기/숨기기
+  const togglePasswordVisibility = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+    setShowPswd((prev) => !prev);
+  };
+  // 인증번호 글자수 제한
+  const handleInputNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value.replace(/[^0-9]/g, '');
+    if (newValue.length <= 6) {
+      setPhoneNumberValue(newValue);
+    }
+  };
 
   return (
     <Container>
@@ -236,13 +320,24 @@ const SignUpPage = () => {
         <SignUpBody>
           <InputWrap>
             <SbodyText>ID</SbodyText>
-            <SInput
-              type="text"
-              name="username"
-              placeholder="아이디"
-              value={inputValue.username}
-              onChange={handleInputChange}
-            />
+            <InputAdditionalElements>
+              <SInput
+                type="text"
+                name="username"
+                placeholder="아이디"
+                value={inputValue.username}
+                onChange={handleInputChange}
+              />
+
+              <SuccessCheck
+                style={{
+                  display: inputValid.usernameValid ? 'block' : 'none',
+                }}
+              >
+                <SuccessCheckIcon />
+              </SuccessCheck>
+            </InputAdditionalElements>
+
             <SinformText
               style={{
                 color: inputValue.username
@@ -261,13 +356,35 @@ const SignUpPage = () => {
           </InputWrap>
           <InputWrap>
             <SbodyText>Password</SbodyText>
-            <SInput
-              type="password"
-              name="password"
-              placeholder="비밀번호"
-              value={inputValue.password}
-              onChange={handleInputChange}
-            />
+            <InputAdditionalElements>
+              <SInput
+                type={showPswd ? 'text' : 'password'}
+                name="password"
+                placeholder="비밀번호"
+                value={inputValue.password}
+                onChange={handleInputChange}
+              />
+              <TogglePassword
+                onClick={togglePasswordVisibility}
+                $test={inputValid.passwordValid === true}
+                style={{
+                  display: inputValue.password ? 'block' : 'none',
+                }}
+              >
+                {showPswd ? (
+                  <ShowPasswordIcon style={{ marginTop: '1px' }} />
+                ) : (
+                  <NotShowPasswordIcon />
+                )}
+              </TogglePassword>
+              <SuccessCheck
+                style={{
+                  display: inputValid.passwordValid ? 'block' : 'none',
+                }}
+              >
+                <SuccessCheckIcon />
+              </SuccessCheck>
+            </InputAdditionalElements>
             <SinformText
               style={{
                 color: inputValue.password
@@ -286,28 +403,59 @@ const SignUpPage = () => {
           </InputWrap>
           <InputWrap>
             <SbodyText>휴대폰 번호</SbodyText>
-            <SInput
-              type="tel"
-              name="phone"
-              placeholder="+82"
-              value={inputValue.phone}
-              onChange={handleInputChange}
-            />
-            <SinformText
-              style={{
-                color: inputValue.phone
-                  ? inputValid.phoneValid
+            <InputAdditionalElements>
+              <SInput
+                type="tel"
+                name="phone"
+                placeholder="+82"
+                value={inputValue.phone}
+                onChange={handleInputChange}
+              />
+              <VerifyNumberButton
+                $test={inputValid.phoneValid === true}
+                style={{
+                  backgroundColor: inputValid.phoneValid
                     ? LIGHT_PURPLE
-                    : WARNING_TEXT
-                  : '#756982',
-              }}
-            >
-              {inputValue.phone
-                ? inputValid.phoneValid
-                  ? passMessage.phone
-                  : alertMessage.phone
-                : ''}
-            </SinformText>
+                    : '#E0DEE3',
+                }}
+              >
+                인증번호
+              </VerifyNumberButton>
+            </InputAdditionalElements>
+
+            <PhoneInformWrap>
+              <SinformText
+                style={{
+                  color: inputValue.phone
+                    ? inputValid.phoneValid
+                      ? LIGHT_PURPLE
+                      : WARNING_TEXT
+                    : '#756982',
+                }}
+              >
+                {inputValue.phone
+                  ? inputValid.phoneValid
+                    ? passMessage.phone
+                    : alertMessage.phone
+                  : ''}
+              </SinformText>
+              <InputAdditionalElements>
+                <VerifyNumberInput
+                  type="text"
+                  value={phoneNumberValue}
+                  onChange={handleInputNumberChange}
+                  maxLength={6}
+                />
+                <AuthenticateButton
+                  style={{
+                    backgroundColor:
+                      phoneNumberValue.length === 6 ? LIGHT_PURPLE : '#E0DEE3',
+                  }}
+                >
+                  인증하기
+                </AuthenticateButton>
+              </InputAdditionalElements>
+            </PhoneInformWrap>
           </InputWrap>
           <InputWrap>
             <SbodyText>Email</SbodyText>
