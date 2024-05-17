@@ -9,12 +9,11 @@ import {
   WARNING_TEXT,
 } from '../../constant/colors';
 import { activeStyles, hoverStyles } from 'constant/buttonPseudoClass';
-import { CREATE_POSTS } from 'constant/endPoint';
 import HashTagButton, { buttonLists } from '../CreatePostPage/hashTagButton';
 import { ReactComponent as ToggleArrowIcon } from '../../asset/toggle-arrow.svg';
 import { ReactComponent as DeleteIcon } from '../../asset/delete.svg';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const CreatePostHeader = styled.div`
   display: flex;
@@ -281,6 +280,7 @@ const EditPostPage = () => {
   const [isOpen, setIsOpen] = useState(false); // 해시태그 보이기/숨기기
   const [isFirstChange, setIsFirstChange] = useState(true); // 해시태그가 처음 반응할때만
 
+  const params = useParams();
   useEffect(() => {
     // 모든 태그가 제거되었을 때 로직 실행
     if (activeTags.length === 0) {
@@ -297,6 +297,25 @@ const EditPostPage = () => {
       }
     }
   }, [activeTags, isFirstChange, isOpen]);
+
+  useEffect(() => {
+    // 특정 게시물 읽기 API 호출
+    const fetchPost = async () => {
+      try {
+        const response = await axios.get(`/api/v1/post/${params.id}/`, {
+          withCredentials: true,
+        });
+        const post = response.data;
+        setImageSrc(post.media);
+        setActiveTags(post.hashtag.split(' '));
+        setContent(post.content);
+      } catch (error) {
+        console.error('Error fetching post:', error);
+      }
+    };
+
+    fetchPost();
+  }, [params.id]);
 
   // ## 이미지 업로드 관련 부분 ##
   // 이미지 업로드 처리
@@ -455,16 +474,15 @@ const EditPostPage = () => {
       e.preventDefault(); // 사용자가 취소를 선택했다면 폼 제출 방지
     }
   };
-
   // ## axios ##
   // 폼 제출 이벤트 처리
   const navigate = useNavigate();
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    axios
-      .post(
-        CREATE_POSTS,
+    try {
+      const response = await axios.post(
+        `/api/v1/post/${params.id}/update/`,
         {
           media: imageSrc,
           comment_ck: 'True',
@@ -475,14 +493,17 @@ const EditPostPage = () => {
         {
           withCredentials: true,
         },
-      ) // 임시로 넣음
-      .then((response) => {
-        console.log('Success:', response);
-        navigate('/my-page');
-      })
-      .catch((error) => {
+      );
+
+      console.log('Success:', response.data);
+      navigate('/my-page');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Error:', error.response?.data);
+      } else {
         console.error('Error:', error);
-      });
+      }
+    }
   };
 
   return (
