@@ -10,7 +10,7 @@ services:
       bash -c "python manage.py collectstatic --no-input &&
       python manage.py makemigrations &&
       python manage.py migrate &&
-      gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+      gunicorn config.wsgi:application --bind 0.0.0.0:8080"
     volumes:
       - ./backend:/app
       - static_volume:/app/static
@@ -18,7 +18,7 @@ services:
     depends_on:
       - db
     ports:
-      - "8000:8000"
+      - "8080:8080"
 
   react:
     build:
