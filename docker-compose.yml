@@ -3,7 +3,7 @@ version: "3"
 services:
   web:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     container_name: dg01
     command: >
@@ -22,7 +22,7 @@ services:
 
   react:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile.react
     container_name: react01
     ports:
