@@ -3,8 +3,8 @@ FROM node:14 AS builder
 WORKDIR /app
 COPY package.json package-lock.json ./
 
-# npm을 최신 버전으로 업데이트
-RUN npm install -g npm@latest
+# Node.js v14에 호환되는 npm 버전 설치
+RUN npm install -g npm@6
 
 # 패키지 설치
 RUN npm install
