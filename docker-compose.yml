@@ -25,10 +25,10 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.react
     container_name: react01
-    ports:
-      - "3000:80"
     volumes:
       - ./frontend/build:/usr/share/nginx/html/react
+    ports:
+      - "3000:80"
 
   nginx:
     image: nginx:1.17.10
