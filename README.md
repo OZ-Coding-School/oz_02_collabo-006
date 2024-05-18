@@ -174,3 +174,25 @@
 >
 > [📜 화면 정의서](https://docs.google.com/spreadsheets/d/1vud5xV8rB9Y6akOIma49hSzdZsoj8DVG0-fYE4NdP_g/edit?usp=sharing)
 
+
+---  
+
+# 배포하기
+
+```bash
+# 설치 업데이트
+sudo apt update
+
+# npm 설치
+sudo apt install -y npm
+
+# frontend 디렉토리로 이동
+cd frontend
+
+# 패키지 설치
+npm install
+
+# 빌드 실행
+npm run build
+
+```
