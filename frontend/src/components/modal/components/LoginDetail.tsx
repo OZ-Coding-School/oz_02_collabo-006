@@ -91,6 +91,7 @@ const LoginDetail: React.FC<LoginDetailProps> = ({ onClose }) => {
         },
         { withCredentials: true },
       );
+
       console.log(response.data);
       const { accessToken, refreshToken } = response.data; // 응답에서 토큰 추출
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
@@ -100,7 +101,9 @@ const LoginDetail: React.FC<LoginDetailProps> = ({ onClose }) => {
       navigate('/');
 
       // 로그인 성공 후 사용자 정보 요청
-      const userInfoResponse = await axios.get('http://127.0.0.1:8000/api/v1/user/info/');
+      const userInfoResponse = await axios.get(
+        'http://127.0.0.1:8000/api/v1/user/info/',
+      );
       console.log(userInfoResponse.data);
     } catch (error) {
       console.error('로그인 실패:', error); // 에러 로깅

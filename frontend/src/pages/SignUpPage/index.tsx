@@ -372,7 +372,7 @@ const SignUpPage = () => {
                 }}
               >
                 {showPswd ? (
-                  <ShowPasswordIcon style={{ marginTop: '1px' }} />
+                  <ShowPasswordIcon style={{ marginTop: '1.5px' }} />
                 ) : (
                   <NotShowPasswordIcon />
                 )}
