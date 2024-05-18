@@ -26,13 +26,14 @@ const tangle = keyframes`
     transform: scale(1);
   }
   40% {
-    transform: scaleX(0.8);
+    transform: scaleX(0.6);
   }
+  
   60% {
     transform: scaleY(1.2);
   }
   80% {
-    transform: scaleY(0.9);
+    transform: scaleY(0.8);
   }
   100% {
     transform: scale(1);
@@ -134,8 +135,8 @@ const Sparkle3 = styled(Sparkle)`
 `;
 
 const Sparkle4 = styled(Sparkle)`
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   top: -1%;
   left: 2%;
   animation-delay: 0s;
