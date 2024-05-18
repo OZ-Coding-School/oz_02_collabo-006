@@ -5,6 +5,7 @@ import LoginModal from 'components/modal/LoginModal';
 import { DARK_PURPLE, LIGHT_PURPLE, TEXT_BLACK } from 'constant/colors';
 import { useAuth } from 'context/AuthContext';
 
+
 const LoginContainer = styled.div`
   display: flex;
   margin-bottom: 16px;
@@ -94,7 +95,6 @@ const LogoutButton = styled.button`
 const LoginWrap = () => {
   const { isLoggedIn, authData, logout } = useAuth();
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   // 모달을 열기
   const openModal = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();

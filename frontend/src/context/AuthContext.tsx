@@ -1,3 +1,5 @@
+import axios from 'axios';
+import { LOGOUT_USER_ENDPOINT } from 'constant/endPoint';
 import React, {
   createContext,
   useState,
@@ -65,12 +67,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     username: string,
     accessToken: string,
     refreshToken: string,
+    
   ) => {
-    console.log('Setting cookies:', { username, accessToken, refreshToken });
-    setCookie('username', username, 7);
-    setCookie('accessToken', accessToken, 7);
-    setCookie('refreshToken', refreshToken, 7);
-
+    
     setAuthData({ username, accessToken, refreshToken }); // 인증 데이터를 설정
     setIsLoggedIn(true);
   };
@@ -78,11 +77,24 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // 로그아웃 함수
   const logout = () => {
     deleteCookie('username');
-    deleteCookie('accessToken');
-    deleteCookie('refreshToken');
 
-    setAuthData(null);
-    setIsLoggedIn(false);
+    axios
+      .post(
+        LOGOUT_USER_ENDPOINT,
+        {},
+        {
+          withCredentials: true,
+        },
+      )
+      .then((response) => {
+        if (response.data.success) {
+          setAuthData(null);
+          setIsLoggedIn(false);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   };
 
   return (
