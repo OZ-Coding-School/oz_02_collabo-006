@@ -27,6 +27,8 @@ services:
     container_name: react01
     ports:
       - "3000:80"
+    environment:
+      - REACT_APP_API_BASE_URL=http://nginx
 
   nginx:
     image: nginx:1.17.10
