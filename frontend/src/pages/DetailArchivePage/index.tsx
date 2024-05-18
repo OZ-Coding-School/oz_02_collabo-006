@@ -8,7 +8,7 @@ import { ReactComponent as HeartIcon } from '../../asset/detailArchivePageIcons/
 import { ReactComponent as ShareIcon } from '../../asset/detailArchivePageIcons/share.svg';
 import { ReactComponent as ImoticonIcon } from '../../asset/detailArchivePageIcons/imoticon.svg';
 import { LIGHT_PURPLE } from 'constant/colors';
-import MyArchiveAddButton from 'components/common/ArchiveAddButton';
+import ArchiveAddButton from 'components/common/ArchiveAddButton';
 import ArchiveLikeButton from 'components/common/ArchiveLikeButton';
 
 const DetailArchiveContainer = styled.div`
@@ -401,7 +401,7 @@ const BigIcons = [
     description: '해당 아카이브 좋아요',
   },
   {
-    icon: MyArchiveAddButton,
+    icon: ArchiveAddButton,
     handler: 'pressAddArchiveBtn',
     text: '내 아카이브에 추가',
     description: '해당 아카이브 내 아카이브에 추가',
