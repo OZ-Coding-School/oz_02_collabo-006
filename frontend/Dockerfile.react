@@ -1,26 +1,24 @@
-# Dockerfile.react
-FROM node:14 AS builder
+FROM node:14
+
+# Create app directory
 WORKDIR /app
-COPY package.json package-lock.json ./
 
-# Node.js v14에 호환되는 npm 버전 설치 (v6.14.15)
-RUN npm install -g npm@6.14.15
+# Install app dependencies
+COPY package*.json ./
 
-# 패키지 설치
 RUN npm install
 
-# Install curl
+# Install curl (for testing purposes)
 RUN apt-get update && apt-get install -y curl
+
+# Bundle app source
+COPY . .
+
+# Build the app
+RUN npm run build
 
 # Install serve globally
 RUN npm install -g serve
-
-
-COPY . .
-RUN npm run build
-
-FROM nginx:1.17.10
-COPY --from=builder /app/build /usr/share/nginx/html/react
 
 # Command to run the app
 CMD ["serve", "-s", "build"]
