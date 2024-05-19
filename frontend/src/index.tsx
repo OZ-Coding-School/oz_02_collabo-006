@@ -7,7 +7,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from 'context/AuthContext';
 import axios from 'axios';
 
-axios.defaults.baseURL = "http://localhost:3000/";
+import API_BASE_URL from './config';
+
+axios.defaults.baseURL = API_BASE_URL;
+
+// axios.defaults.baseURL = "http://localhost:3000/";
+
 axios.defaults.withCredentials = true;
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
