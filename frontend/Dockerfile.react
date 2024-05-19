@@ -14,11 +14,12 @@ RUN apt-get update && apt-get install -y curl
 # Bundle app source
 COPY . .
 
+# Install serve globally
+RUN npm install -g serve
+
 # Build the app
 RUN npm run build
 
-# Install serve globally
-RUN npm install -g serve
 
 # Command to run the app
 CMD ["serve", "-s", "build"]
