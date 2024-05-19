@@ -26,7 +26,7 @@ services:
       dockerfile: Dockerfile.react
     container_name: react01
     environment:
-      - REACT_APP_API_BASE_URL=http://web:8000
+      - REACT_APP_API_BASE_URL=http://223.130.135.136:8000
     ports:
       - "3000:3000"
 
