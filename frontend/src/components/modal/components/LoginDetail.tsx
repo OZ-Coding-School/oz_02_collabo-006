@@ -97,7 +97,7 @@ const LoginDetail: React.FC<LoginDetailProps> = ({ onClose }) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       login(username_data, accessToken, refreshToken); // 로그인 상태 업데이트
       const userInfoResponse = await axios.get(
-        'http://127.0.0.1:8000/api/v1/user/info/',
+        'http://223.130.135.136:8000/api/v1/user/info/',
       );
       localStorage.setItem('username', userInfoResponse.data.username)
       onClose();
