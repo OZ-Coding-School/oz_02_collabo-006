@@ -257,7 +257,9 @@ const MyArchive = () => {
         {categoryListNumber === 0 && lookListNumber === 0 && (
           <FolderAlbumComponent>
             {testMyArchivesArray.map((item, index) => (
-              <AlbumDiv>
+              <AlbumDiv
+                key={index}
+              >
                 <AlbumImg src="/folderAlbumImgTest.jfif"></AlbumImg>
                 <AlbumInfoDiv>
                   <InfoTitle>봄 네일</InfoTitle>

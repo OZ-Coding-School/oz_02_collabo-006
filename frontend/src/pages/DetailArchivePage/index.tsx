@@ -454,7 +454,7 @@ const DetailArchivePage = () => {
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const response = await axios.get(`/api/v1/post/${params.id}/`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/v1/post/32/`);
         if (response.data.success) {
           setPostData(response.data.post);
           console.log(postData);
