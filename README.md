@@ -195,6 +195,9 @@ npm install
 # 빌드 실행
 npm run build
 
+
+sudo docker-compose run --rm --entrypoint "certbot certonly --webroot --webroot-path=/usr/share/nginx/html --email your-email@example.com --agree-tos --no-eff-email -d naildp.com -d www.naildp.com" certbot
+
 ```
 
 # 리엑트 경로 수정
