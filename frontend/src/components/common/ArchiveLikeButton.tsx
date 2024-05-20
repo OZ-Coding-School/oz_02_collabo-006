@@ -69,11 +69,11 @@ const PostFillHeartStyled = styled(PostFillHeart)<IconContainerProps>`
     `}
 `;
 
-interface ArchiveLikeButtonProps {
+interface ButtonProps {
   onClick: () => void;
 }
 
-const ArchiveLikeButton: React.FC<ArchiveLikeButtonProps> = ({ onClick }) => {
+const ArchiveLikeButton = ({ onClick }: ButtonProps) => {
   const [isTransformed, setIsTransformed] = useState(false);
 
   const handleClick = () => {
