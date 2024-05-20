@@ -94,6 +94,10 @@ const LogoutButton = styled.button`
 
 const LoginWrap = () => {
   const { isLoggedIn, authData, logout } = useAuth();
+  const storageUserName = localStorage.getItem('username')
+
+
+  console.log(storageUserName,'로그인되었나?')
   const [isModalVisible, setIsModalVisible] = useState(false);
   // 모달을 열기
   const openModal = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -115,10 +119,10 @@ const LoginWrap = () => {
     <LoginContainer>
       <ProfileImage src="/profile.png" alt="프로필" />
       <LoginTextWrap>
-        {isLoggedIn && authData ? (
+        {isLoggedIn && storageUserName ? (
           <ProfileWrap>
             <ProfileRow>
-              <LoginText>{authData.username}</LoginText>
+              <LoginText>{storageUserName}</LoginText>
               <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
             </ProfileRow>
             <AdditionalText>게시물 0 저장됨 0 팔로워 0</AdditionalText>
