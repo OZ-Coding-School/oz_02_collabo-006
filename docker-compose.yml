@@ -26,7 +26,7 @@ services:
       dockerfile: Dockerfile.react
     container_name: react01
     environment:
-      - REACT_APP_API_BASE_URL=http://223.130.135.136:8000
+      - REACT_APP_API_BASE_URL=http://web:8000
     ports:
       - "3000:3000"
 
@@ -41,9 +41,19 @@ services:
       - static_volume:/usr/share/nginx/html/static/
       - media_volume:/usr/share/nginx/html/media/
       - ./frontend/build:/usr/share/nginx/html/react/
+      - certs:/etc/letsencrypt
+      - certs-data:/data/letsencrypt
     depends_on:
       - web
       - react
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certs:/etc/letsencrypt
+      - certs-data:/data/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 12h & wait $${!}; certbot renew; done;'"
 
   db:
     image: postgres:12.2
@@ -61,3 +71,5 @@ volumes:
   postgres_data:
   static_volume:
   media_volume:
+  certs:
+  certs-data:
