@@ -145,7 +145,7 @@ const menuItems = [
   {
     icon: MyArchiveIcon,
     text: '내 아카이브',
-    description: '나만의 네일 감성 아카이브',
+    description: '나만의 네일 아카이브',
     route: '/my-archive',
   },
   {

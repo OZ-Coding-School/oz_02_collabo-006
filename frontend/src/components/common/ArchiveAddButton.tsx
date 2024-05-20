@@ -141,8 +141,11 @@ const Sparkle4 = styled(Sparkle)`
   left: 2%;
   animation-delay: 0s;
 `;
+interface ButtonProps {
+  onClick: () => void;
+}
 
-const MyArchiveAddButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+const MyArchiveAddButton= ({ onClick }: ButtonProps) => {
   const [isTransformed, setIsTransformed] = useState(false);
 
   return (
