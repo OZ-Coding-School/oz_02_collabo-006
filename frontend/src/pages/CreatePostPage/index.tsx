@@ -314,36 +314,38 @@ const CreatePostPage = () => {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const maxDimension = 90; // 최대 너비와 높이
+        const maxDimension = 180; // 최대 너비와 높이 (2배로 증가)
         let newWidth = 0;
         let newHeight = 0;
-
+  
         if (img.width > img.height) {
-          // 너비가 높이보다 클 경우, 너비를 기준으로 비율 조정
           newWidth = maxDimension;
           newHeight = (img.height / img.width) * maxDimension;
         } else {
-          // 높이가 너비보다 크거나 같을 경우, 높이를 기준으로 비율 조정
           newHeight = maxDimension;
           newWidth = (img.width / img.height) * maxDimension;
         }
-
-        const offsetX = (maxDimension - newWidth) / 2; // 이미지 수평 중앙 정렬
-        const offsetY = (maxDimension - newHeight) / 2; // 이미지 수직 중앙 정렬을
-
+  
+        const offsetX = (maxDimension - newWidth) / 2;
+        const offsetY = (maxDimension - newHeight) / 2;
+  
         canvas.width = maxDimension;
         canvas.height = maxDimension;
         const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-
-        // 캔버스에 새로 계산된 크기로 이미지를 그립니다
+  
+        // 고품질의 이미지 드로잉 설정
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+  
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight); // 이미지 수평 및 수직 가운데 정렬
+        ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
         resolve(canvas.toDataURL());
       };
       img.onerror = reject;
       img.src = URL.createObjectURL(file);
     });
   };
+  
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
