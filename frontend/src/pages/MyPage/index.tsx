@@ -13,7 +13,7 @@ const ArchiveBarContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 79vw;
-  height: 54px;
+  /* height: 54px; */
   border: none;
   border-bottom: 1px solid #e5e8eb;
 `;

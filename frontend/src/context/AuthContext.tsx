@@ -1,3 +1,5 @@
+import axios from 'axios';
+import { LOGOUT_USER_ENDPOINT } from 'constant/endPoint';
 import React, {
   createContext,
   useState,
@@ -8,16 +10,14 @@ import React, {
 
 // 사용자 인증 정보를 담을 자료형을 정의합니다.
 type AuthData = {
-  username: string;
-  accessToken: string;
-  refreshToken: string;
+  username_data: string;
 };
 
 // AuthContext의 자료형을 정의
 type AuthContextType = {
   isLoggedIn: boolean; // 로그인 상태를 나타냅니다.
   authData: AuthData | null; // 사용자 인증 데이터를 나타냅니다.
-  login: (username: string, accessToken: string, refreshToken: string) => void; // 로그인 함수
+  login: (username_data: string, accessToken: string, refreshToken: string) => void; // 로그인 함수
   logout: () => void; // 로그아웃 함수
 };
 
@@ -47,42 +47,47 @@ const deleteCookie = (name: string) => {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // 로그인 상태 관리
   const [authData, setAuthData] = useState<AuthData | null>(null); // 사용자 인증 데이터 관리
-
-  useEffect(() => {
-    const username = getCookie('username');
-    const accessToken = getCookie('accessToken');
-    const refreshToken = getCookie('refreshToken');
-
-    if (username && accessToken && refreshToken) {
-      // 모든 쿠키 값이 존재하면
-      setAuthData({ username, accessToken, refreshToken }); // 인증 데이터를 설정
-      setIsLoggedIn(true);
-    }
-  }, []);
-
+  const storageUserName = localStorage.getItem('username')
   // 로그인 함수
   const login = (
-    username: string,
-    accessToken: string,
-    refreshToken: string,
+    username_data: string
   ) => {
-    console.log('Setting cookies:', { username, accessToken, refreshToken });
-    setCookie('username', username, 7);
-    setCookie('accessToken', accessToken, 7);
-    setCookie('refreshToken', refreshToken, 7);
-
-    setAuthData({ username, accessToken, refreshToken }); // 인증 데이터를 설정
+    setAuthData({ username_data}); // 인증 데이터를 설정
     setIsLoggedIn(true);
   };
+  
+  useEffect(() => {
+    
+    if (storageUserName) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+
+
+  }, [storageUserName]);
+  
 
   // 로그아웃 함수
   const logout = () => {
-    deleteCookie('username');
-    deleteCookie('accessToken');
-    deleteCookie('refreshToken');
-
-    setAuthData(null);
-    setIsLoggedIn(false);
+    axios
+      .post(
+        LOGOUT_USER_ENDPOINT,
+        {},
+        {
+          withCredentials: true,
+        },
+      )
+      .then((response) => {
+        if (response.data.success) {
+          setAuthData(null);
+          setIsLoggedIn(false);
+          localStorage.removeItem('username')
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   };
 
   return (

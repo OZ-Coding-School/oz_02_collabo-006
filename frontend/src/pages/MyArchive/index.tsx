@@ -1,9 +1,15 @@
-import { LIGHT_PURPLE, LIGHT_PURPLE_HOVER, LIGHT_GRAY, DARK_PURPLE } from 'constant/colors';
+import {
+  LIGHT_PURPLE,
+  LIGHT_PURPLE_HOVER,
+  LIGHT_GRAY,
+  DARK_PURPLE,
+} from 'constant/colors';
 import { useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as AlbumIcon } from '../../asset/myArchivePageIcons/album.svg';
 import { ReactComponent as ListIcon } from '../../asset/myArchivePageIcons/list.svg';
+import { device } from 'constant/media/breakPoints';
 
 const cartegoryMenu = [
   {
@@ -39,6 +45,19 @@ const MyArchiveContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 30px;
+  @media ${device.desktop} {
+    background-color: blue;
+  }
+
+  @media ${device.laptop} {
+    background-color: green;
+  }
+  @media ${device.tablet} {
+    background-color: yellow;
+  }
+  @media ${device.phone} {
+    background-color: red;
+  }; 
 `;
 
 const HeaderDiv = styled.div`
@@ -62,7 +81,7 @@ const HeaderNewFolderBtn = styled.button`
   cursor: pointer;
   background-color: ${LIGHT_PURPLE};
 
-  &:hover{
+  &:hover {
     background-color: ${LIGHT_PURPLE_HOVER};
   }
 
@@ -70,7 +89,7 @@ const HeaderNewFolderBtn = styled.button`
 `;
 
 const HeaderNewFolderBtnText = styled.span`
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 14px;
   font-weight: 600;
 `;
@@ -81,7 +100,7 @@ const BarDiv = styled.div`
   justify-content: space-between;
   width: 100%;
   height: 60px;
-  border-bottom: 1px solid #E0DEE3;
+  border-bottom: 1px solid #e0dee3;
 `;
 
 const CategoryBtnDiv = styled.div`
@@ -105,7 +124,8 @@ const CategoryBtn = styled.button<{
   font-weight: bold;
   cursor: pointer;
   margin-right: 13px;
-  border-bottom: 3px solid ${({ $isSelected }) => ($isSelected ? LIGHT_PURPLE : LIGHT_GRAY)};
+  border-bottom: 3px solid
+    ${({ $isSelected }) => ($isSelected ? LIGHT_PURPLE : LIGHT_GRAY)};
   transition: all 0.3s ease;
 `;
 
@@ -128,10 +148,10 @@ const LookBtn = styled.button<{
   font-weight: bold;
   cursor: pointer;
   margin-right: 13px;
-  svg{
-    fill: ${({ $isSelected }) => ($isSelected ? DARK_PURPLE : '#DADADA')}
+  svg {
+    fill: ${({ $isSelected }) => ($isSelected ? DARK_PURPLE : '#DADADA')};
   }
-`
+`;
 
 const ContentDiv = styled.div`
   width: 100%;
@@ -145,7 +165,7 @@ const FolderAlbumComponent = styled.div`
   display: flex;
   align-items: start;
   justify-content: start;
-  gap: 1%
+  gap: 1%;
 `;
 
 const AlbumDiv = styled.div`
@@ -182,13 +202,12 @@ const InfoTitle = styled.p`
 const InfoNumber = styled.span`
   font-size: 15px;
   font-weight: 400;
-  color: ${DARK_PURPLE}
+  color: ${DARK_PURPLE};
 `;
 
 const testMyArchivesArray = [1, 2, 3, 4];
 
 const MyArchive = () => {
-
   const [categoryListNumber, setCategoryListNumber] = useState(0);
   const [lookListNumber, setLookNumber] = useState(0);
 
@@ -229,36 +248,30 @@ const MyArchive = () => {
               $isSelected={lookListNumber === index}
               onClick={() => lookBtnClick(index)}
             >
-              <item.icon/>
+              <item.icon />
             </LookBtn>
           ))}
         </LookBtnDiv>
       </BarDiv>
       <ContentDiv>
-        {
-          categoryListNumber === 0 &&
-          lookListNumber === 0 &&
-          (
-            
-            <FolderAlbumComponent>
-              {testMyArchivesArray.map((item, index) => (
-                <AlbumDiv>
-                  <AlbumImg
-                    src='/folderAlbumImgTest.jfif'
-                  ></AlbumImg>
-                  <AlbumInfoDiv>
-                    <InfoTitle>봄 네일</InfoTitle>
-                    <InfoNumber>12 designs</InfoNumber>
-                  </AlbumInfoDiv>
-                </AlbumDiv>
-              ))}
-              </FolderAlbumComponent>
-            
-          )
-        }
+        {categoryListNumber === 0 && lookListNumber === 0 && (
+          <FolderAlbumComponent>
+            {testMyArchivesArray.map((item, index) => (
+              <AlbumDiv
+                key={index}
+              >
+                <AlbumImg src="/folderAlbumImgTest.jfif"></AlbumImg>
+                <AlbumInfoDiv>
+                  <InfoTitle>봄 네일</InfoTitle>
+                  <InfoNumber>12 designs</InfoNumber>
+                </AlbumInfoDiv>
+              </AlbumDiv>
+            ))}
+          </FolderAlbumComponent>
+        )}
       </ContentDiv>
     </MyArchiveContainer>
-  )
+  );
 };
 
 export default MyArchive;
