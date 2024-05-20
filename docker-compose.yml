@@ -53,6 +53,7 @@ services:
     volumes:
       - certs:/etc/letsencrypt
       - certs-data:/data/letsencrypt
+      - ./frontend/build:/usr/share/nginx/html
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 12h & wait $${!}; certbot renew; done;'"
 
   db:
