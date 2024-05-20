@@ -41,5 +41,5 @@ RUN chmod +x /app/entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
 
 
-# gunicorn을 사용하여 Django 앱을 호스트합니다. 이때 포트 8000을 사용합니다.
+# gunicorn을 사용하여 Django 앱을 호스트합니다. 이때 포트 8000을 사용합니다. ff
 # CMD ["gunicorn", "config.wsgi:application", "--bind", "unix:/tmp/gunicorn.sock"]
