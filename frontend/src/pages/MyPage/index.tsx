@@ -32,6 +32,8 @@ const ArchiveBarBtn = styled.button`
   cursor: pointer;
   margin-right: 32px;
   border-bottom: 0px solid ${LIGHT_PURPLE};
+  padding-bottom: 14px;
+  margin-top: 15px;
 `;
 
 const ArchiveImgContainer = styled.div`

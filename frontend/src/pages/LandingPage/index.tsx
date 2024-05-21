@@ -66,13 +66,13 @@ const ArchiveContainer = styled.div`
   height: 100%;
 `;
 
-const ArchiveBarDiv = styled.div`
+const ArchiveBarContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 79vw;
-  height: 54px;
   border: none;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #e5e8eb;
+  margin-bottom: 25px;
 `;
 
 const ArchiveBarBtn = styled.button`
@@ -82,10 +82,13 @@ const ArchiveBarBtn = styled.button`
   outline: none;
   border: none;
   background-color: white;
-  color: black;
+  padding-bottom: 14px;
+  margin-top: 15px;
+  color: #756982;
+
   font-weight: bold;
   cursor: pointer;
-  margin-right: 13px;
+  margin-right: 32px;
   border-bottom: 0px solid ${LIGHT_PURPLE};
 `;
 
@@ -114,6 +117,7 @@ const ArchiveImgDiv = styled.div`
   cursor: pointer;
   border-radius: 15px;
 `;
+
 const ArchiveImg = styled.img`
   width: 100%;
   height: 100%;
@@ -121,19 +125,24 @@ const ArchiveImg = styled.img`
 `;
 const Notification = styled.div`
   width: 50%;
+  min-height: 50px;
+  max-height: 100px;
   height: 120px;
   position: fixed;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #444;
+  background-color: ${LIGHT_PURPLE};
+  opacity: 90%;
   color: white;
   padding: 16px;
   border-radius: 10px 10px 0 0;
   font-size: 16px;
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 10px;
   z-index: 1000;
   transition: transform 0.3s ease-in-out;
 `;
@@ -176,21 +185,25 @@ const LandingPage = () => {
 
   return (
     <ArchiveContainer>
-      <ArchiveBarDiv>
+      <ArchiveBarContainer>
         {menuName.map((item, index) => (
           <ArchiveBarBtn
             key={index}
             style={
               isArchiveBarName === index
-                ? { borderBottomWidth: 3, borderBottomColor: '#B98CE0' }
-                : { borderBottomWidth: 3, borderBottomColor: 'gray' }
+                ? {
+                    borderBottomWidth: 3,
+                    borderBottomColor: '#B98CE0',
+                    color: '#141217',
+                  }
+                : { borderBottomWidth: 3, borderBottomColor: '#E5E8EB' }
             }
             onClick={() => archiveBarClick(index)}
           >
             {item.name}
           </ArchiveBarBtn>
         ))}
-      </ArchiveBarDiv>
+      </ArchiveBarContainer>
       <ArchiveBodyDiv>
         {isArchive.map((item, index) => (
           <ArchiveImgDiv
