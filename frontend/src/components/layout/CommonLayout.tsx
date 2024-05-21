@@ -19,7 +19,6 @@ const ContentArea = styled.div`
 const MainContent = styled.main`
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
 `;
 
 const CommonLayout = () => {

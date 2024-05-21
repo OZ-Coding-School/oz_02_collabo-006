@@ -53,9 +53,7 @@ const MakerInfo = styled.div`
   padding-left: 20px;
   align-items: start;
   justify-content: center;
-  width: 70px;
-  height: 70px;
-  border-radius: 100%;
+  height: 100%;
 `;
 
 const MakerNameText = styled.span`
@@ -63,6 +61,7 @@ const MakerNameText = styled.span`
   font-size: 20px;
   font-weight: bold;
   cursor: pointer;
+  white-space: nowrap;
 `;
 
 const MakerFollowerNumberText = styled.span`
@@ -71,7 +70,9 @@ const MakerFollowerNumberText = styled.span`
 `;
 
 const MakerFollow = styled.div`
-  padding: 40px 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
   width: 20%;
   min-width: 200px;
   height: 100%;
@@ -80,7 +81,7 @@ const MakerFollow = styled.div`
 const FollowBtn = styled.button`
   width: 100%;
   max-width: 120px;
-  height: 100%;
+  height: 40px;
   cursor: pointer;
   background-color: #b98ce0;
   border: 1px solid transparent;
@@ -95,7 +96,7 @@ const FollowBtnText = styled.span`
 const UnFollowBtn = styled.button`
   width: 100%;
   max-width: 120px;
-  height: 100%;
+  height: 40px;
   cursor: pointer;
   background-color: #ffffff;
   border: 1px solid #b88cde;
@@ -105,6 +106,22 @@ const UnFollowBtn = styled.button`
 const UnFollowBtnText = styled.span`
   font-size: 18px;
   color: #b88cde;
+`;
+
+const EditPostBtn = styled.button`
+  background-color: ${LIGHT_PURPLE};
+  color: white;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  max-height: 36px;
+  padding: 5px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: auto;
+  margin-top: 25px;
 `;
 
 const ItemWrap = styled.div<{ $isCommentActive: boolean }>`
@@ -222,6 +239,7 @@ const HashTagDiv = styled.div`
   gap: 10px;
   width: 200px;
   height: 100%;
+  white-space: nowrap;
 `;
 
 const HashTagBtn = styled.button`
@@ -409,7 +427,15 @@ const BigIcons = [
 ];
 
 const comments = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+interface Media {
+  file_url: string;
+}
 
+interface PostData {
+  hashtag: string;
+  media_set: Media[];
+  // 필요한 다른 속성들...
+}
 const DetailArchivePage = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -417,16 +443,15 @@ const DetailArchivePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
-  const [postData, setPostData] = useState(null);
+  const [postData, setPostData] = useState<PostData | null>(null);
+
   const [maker, setMaker] = useState({
     name: 'Tropical Dreams',
     followerNumber: 1200,
   });
   const [commentMenuActivate, setCommentMenuActivate] =
     useState<boolean>(false);
-  const [tagLists, setTagLists] = useState(
-    `#유광 #무광 #짧은손톱 #긴손톱 #케어`,
-  );
+  const [tagLists, setTagLists] = useState<string>('');
 
   const pressFollowBtn = () => {
     console.log('팔로우버튼 클릭');
@@ -454,10 +479,21 @@ const DetailArchivePage = () => {
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/v1/post/32/`);
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/v1/post/${params.id}/`,
+        );
+        console.log(response.data);
         if (response.data.success) {
-          setPostData(response.data.post);
-          console.log(postData);
+          const post = response.data.data;
+
+          // 해시태그 배열 앞에 '#' 추가
+          if (Array.isArray(post.hashtag)) {
+            post.hashtag = post.hashtag.map((tag: string) => `#${tag}`);
+          }
+
+          setPostData(post);
+          console.log(post.hashtag);
+          console.log(post.media_set);
         } else {
           console.error('게시글을 가져오는데 실패했습니다.');
         }
@@ -470,10 +506,6 @@ const DetailArchivePage = () => {
 
     fetchPostData();
   }, [params.id]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <DetailArchiveContainer>
@@ -508,14 +540,30 @@ const DetailArchivePage = () => {
                 pressUnFollowBtn();
               }}
             >
-              <UnFollowBtnText>팔로잉</UnFollowBtnText>
+              <UnFollowBtnText>팔로잉</UnFollowBtnText>{' '}
             </UnFollowBtn>
           )}
         </MakerFollow>
+        <EditPostBtn
+          onClick={() =>
+            navigate(`/edit-post/item/${params.category}/${params.id}`)
+          }
+        >
+          게시물 수정
+        </EditPostBtn>
       </MakerInfoWrap>
+
       <ItemWrap $isCommentActive={commentMenuActivate === true}>
         <ItemPhotoDiv $isCommentActive={commentMenuActivate === true}>
-          <ItemImage src="/detailImage.jfif" />
+          {postData &&
+            postData.media_set.length > 0 &&
+            postData.media_set.map((media, index) => (
+              <ItemImage
+                key={index}
+                src={media.file_url}
+                alt={`Post Image ${index + 1}`}
+              />
+            ))}
           <ItemImageIconWrapper>
             {BigIcons.map((item, index) => (
               <ItemImageIcon key={index}>
@@ -542,6 +590,7 @@ const DetailArchivePage = () => {
             <HeartIcon />
             <ControlNumberText> 1.5K </ControlNumberText>
           </IconDiv>
+
           <IconDiv
             $isSelected={commentMenuActivate}
             onClick={() => {
@@ -563,11 +612,12 @@ const DetailArchivePage = () => {
           </IconDiv>
         </ControlDiv>
         <HashTagDiv>
-          {tagLists.split(' ').map((item, index) => (
-            <HashTagBtn key={index}>
-              <HashTagText>{item}</HashTagText>
-            </HashTagBtn>
-          ))}
+          {Array.isArray(postData?.hashtag) &&
+            postData?.hashtag.map((item, index) => (
+              <HashTagBtn key={index}>
+                <HashTagText>{item}</HashTagText>
+              </HashTagBtn>
+            ))}
         </HashTagDiv>
       </ItemControlWrap>
       <ItemCommentWrap>
