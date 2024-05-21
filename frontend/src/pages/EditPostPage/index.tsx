@@ -22,6 +22,7 @@ const CreatePostHeader = styled.div`
   width: 98.4%;
   height: 72px;
 `;
+
 const SubmitButton = styled.button`
   background-color: ${LIGHT_GRAY};
   color: ${TEXT_BLACK};
@@ -37,16 +38,19 @@ const SubmitButton = styled.button`
   border: none;
   border-radius: 20px;
 `;
+
 const CreatePostBody = styled.div`
   margin: 0 auto;
   width: 512px;
   min-height: 760px;
 `;
+
 const FormTitle = styled.h1`
   font-size: 24px;
   text-align: center;
   margin-top: 20px;
 `;
+
 const ImageCount = styled.span`
   float: right;
   margin: 0 5px 8px 0;
@@ -54,6 +58,7 @@ const ImageCount = styled.span`
   font-weight: bold;
   color: #756982;
 `;
+
 const UploadImageArea = styled.div`
   width: 100%;
   min-height: 200px;
@@ -73,11 +78,13 @@ const HiddenImageContainer = styled.div`
   justify-content: flex-start;
   flex-wrap: wrap;
 `;
+
 const UploadImageLargeText = styled.span`
   font-size: 18px;
   position: relative;
   color: ${TEXT_BLACK};
 `;
+
 const UploadImageButton = styled.button`
   background-color: ${LIGHT_PURPLE};
   height: 35px;
@@ -92,15 +99,18 @@ const UploadImageButton = styled.button`
   ${hoverStyles}
   ${activeStyles}
 `;
+
 const UploadImageSmallText = styled.span`
   font-size: 16px;
   font-weight: bold;
   color: ${DARK_PURPLE};
   margin-top: 20px;
 `;
+
 const HiddenImageInput = styled.input`
   display: none;
 `;
+
 const ImageDisplay = styled.div`
   position: relative;
   width: 90px;
@@ -114,10 +124,12 @@ const ImageDisplay = styled.div`
     transform: scale(1.02);
   }
 `;
+
 const StyledImage = styled.img`
   width: 100%;
   height: auto;
 `;
+
 const ContentsAndHashTagContainer = styled.div``;
 
 const UploadContents = styled.textarea`
@@ -138,6 +150,7 @@ const UploadContents = styled.textarea`
     outline: 1px solid ${LIGHT_PURPLE};
   }
 `;
+
 const UploadHashTag = styled.input`
   width: 100%;
   border: 1px solid ${INPUT_LIGHTGRAY};
@@ -162,10 +175,13 @@ const BaseLabel = styled.label`
   margin-top: 24px;
   font-weight: bold;
 `;
+
 const ContentsTitle = styled(BaseLabel)``;
+
 const HashTagTitle = styled(BaseLabel)`
   position: relative;
 `;
+
 const EssentialIcon = styled.span`
   font-size: 22px;
   font-weight: normal;
@@ -200,6 +216,7 @@ const HashtagCreate = styled.div`
   flex-wrap: wrap;
   margin: 6px 0;
 `;
+
 const TagButton = styled.button`
   background-color: ${LIGHT_PURPLE};
   color: ${(props) => {
@@ -222,16 +239,19 @@ const TagButton = styled.button`
     transform: scale(1.05);
   }
 `;
+
 const ShowWarningText = styled.span`
   color: ${WARNING_TEXT};
   font-size: 14px;
   padding: 12px;
 `;
+
 const HashTagContainer = styled.div`
   position: relative;
   display: inline-block;
   width: 512px;
 `;
+
 const HashTagToggleIconWrap = styled.button`
   height: 12px;
   position: absolute;
@@ -243,10 +263,11 @@ const HashTagToggleIconWrap = styled.button`
   cursor: pointer;
 `;
 
-interface toggleType {
+interface ToggleType {
   $isRotated: boolean;
 }
-const HashTagToggleIcon = styled.i<toggleType>`
+
+const HashTagToggleIcon = styled.i<ToggleType>`
   height: 12px;
   display: inline-block;
   transform: ${(props) => `rotate(${props.$isRotated ? '180deg' : '0deg'})`};
@@ -265,22 +286,21 @@ const HashTagToggleIcon = styled.i<toggleType>`
 `;
 
 const EditPostPage = () => {
-  //현재 이미지 URL들을 저장
   const [imageSrc, setImageSrc] = useState<string[]>([]);
-  // input요소에 대한 참조 생성
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [content, setContent] = useState('');
-  const [hashTags, setHashTags] = useState(''); // 해시태그를 입력하는 필드
-  const [activeTags, setActiveTags] = useState<string[]>([]); // 추가한 해시태그와 해시태그가 보관되는 곳
+  const [hashTags, setHashTags] = useState('');
+  const [activeTags, setActiveTags] = useState<string[]>([]);
   const [showWarning, setShowWarning] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
-  const [isRotated, setIsRotated] = useState(false); // 아이콘 회전
-  const [isOpen, setIsOpen] = useState(false); // 해시태그 보이기/숨기기
-  const [isFirstChange, setIsFirstChange] = useState(true); // 해시태그가 처음 반응할때만
+  const [isRotated, setIsRotated] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isFirstChange, setIsFirstChange] = useState(true);
 
   const params = useParams();
+
   useEffect(() => {
     // 모든 태그가 제거되었을 때 로직 실행
     if (activeTags.length === 0) {
@@ -298,17 +318,30 @@ const EditPostPage = () => {
     }
   }, [activeTags, isFirstChange, isOpen]);
 
+  interface Media {
+    file_url: string;
+  }
+
   useEffect(() => {
     // 특정 게시물 읽기 API 호출
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`/api/v1/post/${params.id}/`, {
-          withCredentials: true,
-        });
-        const post = response.data;
-        setImageSrc(post.media);
-        setActiveTags(post.hashtag.split(' '));
-        setContent(post.content);
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/v1/post/${params.id}/`,
+          {
+            withCredentials: true,
+          },
+        );
+        const post = response.data.data;
+        // 해시태그 배열 앞에 '#' 추가
+        if (Array.isArray(post.hashtag)) {
+          post.hashtag = post.hashtag.map((tag: string) => `#${tag}`);
+        }
+        console.log(post);
+        const mediaUrls = post.media_set.map((media: Media) => media.file_url);
+        setImageSrc(mediaUrls);
+        setActiveTags(post.hashtag || []);
+        setContent(post.content || '');
       } catch (error) {
         console.error('Error fetching post:', error);
       }
@@ -327,40 +360,20 @@ const EditPostPage = () => {
     }
     fileInputRef.current?.click();
   };
-  // 이미지 리사이징
-  const resizeImage = (file: File): Promise<string> => {
+
+  // 이미지 파일을 Base64 문자열로 변환하는 함수
+  const fileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const maxDimension = 90; // 최대 너비와 높이
-        let newWidth = 0;
-        let newHeight = 0;
-
-        if (img.width > img.height) {
-          // 너비가 높이보다 클 경우, 너비를 기준으로 비율 조정
-          newWidth = maxDimension;
-          newHeight = (img.height / img.width) * maxDimension;
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result) {
+          resolve(reader.result as string);
         } else {
-          // 높이가 너비보다 크거나 같을 경우, 높이를 기준으로 비율 조정
-          newHeight = maxDimension;
-          newWidth = (img.width / img.height) * maxDimension;
+          reject('Failed to convert file to Base64');
         }
-
-        const offsetX = (maxDimension - newWidth) / 2; // 이미지 수평 중앙 정렬
-        const offsetY = (maxDimension - newHeight) / 2; // 이미지 수직 중앙 정렬을
-
-        canvas.width = maxDimension;
-        canvas.height = maxDimension;
-        const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-
-        // 캔버스에 새로 계산된 크기로 이미지를 그립니다
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight); // 이미지 수평 및 수직 가운데 정렬
-        resolve(canvas.toDataURL());
       };
-      img.onerror = reject;
-      img.src = URL.createObjectURL(file);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
     });
   };
 
@@ -368,7 +381,7 @@ const EditPostPage = () => {
     const files = event.target.files;
     if (files) {
       const fileArray = Array.from(files);
-      const newFileNames = fileArray.map((file) => file.name); // 파일 이름 추출
+      const newFileNames = fileArray.map((file) => file.name);
 
       setFileNames(newFileNames);
       // 남은 이미지 계산
@@ -381,16 +394,19 @@ const EditPostPage = () => {
         );
       } else {
         for (let i = 0; i < files.length; i++) {
-          const resizedImage = await resizeImage(files[i]);
-          setImageSrc((prevImages) => [...prevImages, resizedImage]);
+          const base64 = await fileToBase64(files[i]);
+          setImageSrc((prevImages) => [...prevImages, base64]);
         }
       }
     }
   };
+
   console.log(activeTags);
 
   // 이미지 삭제 처리
   const handleDeleteImage = (index: number) => {
+    // 이미지 삭제 시 URL 해제
+    URL.revokeObjectURL(imageSrc[index]);
     // 이미지 삭제 사 UI에서도 삭제
     setImageSrc((prevImages) => prevImages.filter((_, i) => i !== index));
     // 이미지 삭제 시 데이터에서도 삭제
@@ -403,6 +419,7 @@ const EditPostPage = () => {
   const toggleHashTagVisibility = () => {
     setIsOpen(!isOpen); // 표시 상태 토글
   };
+
   const handleToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault(); // 기본 동작 방지
     toggleHashTagVisibility(); // 해시태그 보이기/숨기기 토글
@@ -412,6 +429,7 @@ const EditPostPage = () => {
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
   };
+
   const handleHashTagChange = (event: ChangeEvent<HTMLInputElement>) => {
     setHashTags(event.target.value);
   };
@@ -422,6 +440,7 @@ const EditPostPage = () => {
       event.preventDefault();
     }
   };
+
   // 키보드 입력을 처리하는 함수
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
     // if (event.nativeEvent.isComposing) return;
@@ -439,22 +458,23 @@ const EditPostPage = () => {
         newTag = '#' + newTag;
       }
 
-      const isDuplicate = activeTags.includes(newTag); // 중복된 태그인지 확인
-      setShowWarning(isDuplicate); // 중복된 태그가 있다면 경고
-      setWarningMessage(isDuplicate ? '중복된 해시태그입니다.' : ''); // 경고 메시지
+      const isDuplicate = activeTags.includes(newTag);
+      setShowWarning(isDuplicate);
+      setWarningMessage(isDuplicate ? '중복된 해시태그입니다.' : '');
 
       if (!isDuplicate) {
-        setActiveTags((prev) => [...prev, newTag]); // 중복이 아닐 경우 새 태그를 추가
+        setActiveTags((prev) => [...prev, newTag]);
       }
       setHashTags(''); // 처리 후 입력 필드를 클리어
     }
   };
+
   // tag 클릭 시 토글하는 역할
   const toggleTag = (tag: string) => {
     setActiveTags((prev) => {
-      const index = prev.indexOf(tag); // 태그 존재 여부
-      if (index > -1) return prev.filter((t) => t !== tag); // 태그 제거
-      return [...prev, tag]; // 태그 추가:
+      const index = prev.indexOf(tag);
+      if (index > -1) return prev.filter((t) => t !== tag);
+      return [...prev, tag];
     });
   };
 
@@ -474,6 +494,7 @@ const EditPostPage = () => {
       e.preventDefault(); // 사용자가 취소를 선택했다면 폼 제출 방지
     }
   };
+
   // ## axios ##
   // 폼 제출 이벤트 처리
   const navigate = useNavigate();
@@ -482,7 +503,7 @@ const EditPostPage = () => {
 
     try {
       const response = await axios.post(
-        `/api/v1/post/${params.id}/update/`,
+        `http://127.0.0.1:8000/api/v1/post/${params.id}/update/`,
         {
           media: imageSrc,
           comment_ck: 'True',
@@ -492,9 +513,13 @@ const EditPostPage = () => {
         },
         {
           withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
       );
 
+      console.log('이미지', response.data.media);
       console.log('Success:', response.data);
       navigate('/my-page');
     } catch (error) {
@@ -512,7 +537,7 @@ const EditPostPage = () => {
         <SubmitButton
           type="submit"
           onClick={handleConfirm}
-          disabled={!submitRequirements}
+          disabled={!submitRequirements()}
         >
           완료
         </SubmitButton>
@@ -590,7 +615,7 @@ const EditPostPage = () => {
           {showWarning && <ShowWarningText>{warningMessage}</ShowWarningText>}
 
           <HashtagCreate>
-            {activeTags.map((tag, index) => (
+            {activeTags.map((tag) => (
               <TagButton key={tag} onClick={() => toggleTag(tag)}>
                 {tag}
               </TagButton>

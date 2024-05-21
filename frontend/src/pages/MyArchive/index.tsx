@@ -5,11 +5,9 @@ import {
   DARK_PURPLE,
 } from 'constant/colors';
 import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as AlbumIcon } from '../../asset/myArchivePageIcons/album.svg';
 import { ReactComponent as ListIcon } from '../../asset/myArchivePageIcons/list.svg';
-import { device } from 'constant/media/breakPoints';
 
 const cartegoryMenu = [
   {
@@ -45,19 +43,6 @@ const MyArchiveContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 30px;
-  @media ${device.desktop} {
-    background-color: blue;
-  }
-
-  @media ${device.laptop} {
-    background-color: green;
-  }
-  @media ${device.tablet} {
-    background-color: yellow;
-  }
-  @media ${device.phone} {
-    background-color: red;
-  }; 
 `;
 
 const HeaderDiv = styled.div`
@@ -166,41 +151,38 @@ const FolderAlbumComponent = styled.div`
   align-items: start;
   justify-content: start;
   gap: 1%;
+  flex-wrap: wrap;
 `;
 
 const AlbumDiv = styled.div`
-  width: 24%;
-  height: 600px;
+  height: auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: start;
+  gap: 10px;
 `;
 
 const AlbumImg = styled.img`
-  width: 500px;
-  height: 500px;
+  width: 200px;
+  height: 200px;
   border-radius: 20px;
   cursor: pointer;
 `;
 
 const AlbumInfoDiv = styled.div`
-  width: 500px;
-  height: 90px;
+  width: 200px;
   display: flex;
   flex-direction: column;
-  align-items: start;
   justify-content: center;
-  gap: 10px;
 `;
 
 const InfoTitle = styled.p`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
 `;
 
 const InfoNumber = styled.span`
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   color: ${DARK_PURPLE};
 `;
@@ -218,8 +200,6 @@ const MyArchive = () => {
   const lookBtnClick = (index: number) => {
     setLookNumber(index);
   };
-
-  // const navigate = useNavigate();
 
   return (
     <MyArchiveContainer>
@@ -257,9 +237,7 @@ const MyArchive = () => {
         {categoryListNumber === 0 && lookListNumber === 0 && (
           <FolderAlbumComponent>
             {testMyArchivesArray.map((item, index) => (
-              <AlbumDiv
-                key={index}
-              >
+              <AlbumDiv key={index}>
                 <AlbumImg src="/folderAlbumImgTest.jfif"></AlbumImg>
                 <AlbumInfoDiv>
                   <InfoTitle>봄 네일</InfoTitle>

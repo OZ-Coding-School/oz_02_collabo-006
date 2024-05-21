@@ -99,10 +99,10 @@ const LoginDetail: React.FC<LoginDetailProps> = ({ onClose }) => {
       const userInfoResponse = await axios.get(
         'http://223.130.135.136:8000/api/v1/user/info/',
       );
-      localStorage.setItem('username', userInfoResponse.data.username)
+
+      localStorage.setItem('username', userInfoResponse.data.username);
       onClose();
       navigate('/');
-
     } catch (error) {
       console.error('로그인 실패:', error); // 에러 로깅
       alert('로그인 실패.');
