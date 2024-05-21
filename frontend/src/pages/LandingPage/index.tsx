@@ -11,7 +11,7 @@ interface PostData {
   comment_ck: boolean;
   content: string;
   created_at: string;
-  hashtag: number[];
+  hashtag: string[];
   id: number;
   likes: number;
   media_set: Media[];
@@ -104,7 +104,6 @@ const ArchiveBodyDiv = styled.div`
 const ArchiveImgDiv = styled.div`
   width: 240px;
   height: 240px;
-  background-color: red;
   display: inline-flex;
   align-items: center;
   font-size: 15px;
@@ -116,10 +115,10 @@ const ArchiveImgDiv = styled.div`
   border-radius: 15px;
 `;
 const ArchiveImg = styled.img`
-width: 100%;
-height: 100%;
-border-radius: 15px;
-`
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+`;
 const Notification = styled.div`
   width: 50%;
   height: 120px;
@@ -150,26 +149,29 @@ const LandingPage = () => {
   };
 
   const modalOn = () => {
-    setIsFolderModal(true)
-  }
+    setIsFolderModal(true);
+  };
   const modalOff = () => {
-    setIsFolderModal(false)
-  }
+    setIsFolderModal(false);
+  };
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(GET_ALL_POSTS, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true
-    }).then((response) => {
-      console.log(response.data.data);
-      setIsArchive(response.data.data);
-    }).catch((error) => {
-      console.error(error);
-    });
+    axios
+      .get(GET_ALL_POSTS, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data.data);
+        setIsArchive(response.data.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   return (
@@ -194,10 +196,12 @@ const LandingPage = () => {
           <ArchiveImgDiv
             key={index}
             onClick={() =>
-              navigate(`/item/${menuName[isArchiveBarName].name}/${item}`)
+              navigate(`/item/${menuName[isArchiveBarName].name}/${item.id}`)
             }
           >
-            {item.media_set.length > 0 && <ArchiveImg src={item.media_set[0].file_url} alt="" />}
+            {item.media_set.length > 0 && (
+              <ArchiveImg src={item.media_set[0].file_url} alt="" />
+            )}
           </ArchiveImgDiv>
         ))}
         {isFolderModal && <ArchiveFolder onClose={modalOff} />}

@@ -314,7 +314,7 @@ const CreatePostPage = () => {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const maxDimension = 90; // 최대 너비와 높이
+        const maxDimension = 270; // 최대 너비와 높이
         let newWidth = 0;
         let newHeight = 0;
 

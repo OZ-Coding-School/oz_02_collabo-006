@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import PostPlusBtn from '../../asset/post-plusBtn.png';
 import { LIGHT_PURPLE } from 'constant/colors';
+import { useAuth } from 'context/AuthContext';
+import axios from 'axios';
+import { GET_ALL_POSTS } from 'constant/endPoint';
 
 const ArchiveContainer = styled.div`
   width: 100%;
@@ -13,7 +16,6 @@ const ArchiveBarContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 79vw;
-  /* height: 54px; */
   border: none;
   border-bottom: 1px solid #e5e8eb;
 `;
@@ -35,45 +37,27 @@ const ArchiveBarBtn = styled.button`
 const ArchiveImgContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: start;
+  justify-content: flex-start;
   width: 79vw;
-  height: 90%;
   margin-top: 28px;
   box-sizing: border-box;
-  overflow-y: auto;
-  white-space: nowrap;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
   gap: 10px;
-
-  /* Chrome, Safari, Opera용
-  &::-webkit-scrollbar {
-    display: none;
-  } */
-
-  /* Firefox용 */
-  /* scrollbar-width: none; */
-
-  /* IE and Edge용 */
-  /* -ms-overflow-style: none; */
 `;
 
-const ArchiveImg = styled.button`
+const ArchiveImg = styled.img`
   width: 240px;
   height: 240px;
-  background-color: gray;
   display: inline-flex;
   align-items: center;
   font-size: 15px;
   outline: none;
   border: none;
-  color: black;
   font-weight: bold;
   cursor: pointer;
   border-radius: 15px;
   overflow: hidden;
-  scroll-snap-align: start;
 `;
+
 const CreatePost = styled.div`
   width: 240px;
   height: 240px;
@@ -83,8 +67,8 @@ const CreatePost = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  scroll-snap-align: start;
 `;
+
 const CreatePostImg = styled.img`
   cursor: pointer;
   transform: scale(1);
@@ -97,6 +81,30 @@ const CreatePostImg = styled.img`
     transform: scale(0.95);
   }
 `;
+
+const ArchiveBodyDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: calc(100% - 260px);
+  box-sizing: border-box;
+  gap: 10px;
+`;
+
+const ArchiveImgDiv = styled.div`
+  width: 240px;
+  height: 240px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 15px;
+  outline: none;
+  border: none;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 15px;
+`;
+
 const menuName = [
   {
     name: '내 게시물',
@@ -112,19 +120,67 @@ const menuName = [
   },
 ];
 
-const img = [
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-];
+interface PostData {
+  comment_ck: boolean;
+  content: string;
+  created_at: string;
+  hashtag: string[];
+  id: number;
+  likes: number;
+  media_set: Media[];
+  updated_at: string;
+  user: User;
+  visible: boolean;
+}
+
+interface Media {
+  id: number;
+  file_url: string;
+  created_at: string;
+  updated_at: string;
+  post: number;
+}
+
+interface User {
+  id: number;
+  username: string;
+  phone: string | null;
+  email: string;
+  profile_image: string | null;
+  status: number;
+  subscription: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 const MyPage = () => {
+  const { isLoggedIn } = useAuth();
   const [isMypageName, setIsMypageName] = useState(0);
+  const [isArchiveBarName, setIsisArchiveBarName] = useState(0);
+  const [isFolderModal, setIsFolderModal] = useState(false);
+  const [isArchive, setIsArchive] = useState<PostData[]>([]);
 
   const archiveBarClick = (index: number) => {
     setIsMypageName(index);
   };
 
   const navigate = useNavigate();
+  useEffect(() => {
+    axios
+      .get(GET_ALL_POSTS, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data.data);
+        setIsArchive(response.data.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <ArchiveContainer>
@@ -156,14 +212,19 @@ const MyPage = () => {
             />
           </CreatePost>
         )}
-        {img[isMypageName].map((item, index) => (
-          <ArchiveImg
-            key={index}
-            onClick={() =>
-              navigate(`/item/${menuName[isMypageName].name}/${item}`)
-            }
-          ></ArchiveImg>
-        ))}
+        {isLoggedIn &&
+          isArchive.map((item, index) => (
+            <ArchiveImgDiv
+              key={index}
+              onClick={() =>
+                navigate(`/item/${menuName[isArchiveBarName].name}/${item.id}`)
+              }
+            >
+              {item.media_set.length > 0 && (
+                <ArchiveImg src={item.media_set[0].file_url} alt="" />
+              )}
+            </ArchiveImgDiv>
+          ))}
       </ArchiveImgContainer>
     </ArchiveContainer>
   );
