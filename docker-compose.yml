@@ -43,6 +43,7 @@ services:
       - static_volume:/usr/share/nginx/html/static/
       - media_volume:/usr/share/nginx/html/media/
       - ./frontend/build:/usr/share/nginx/html/static  # React 빌드 파일을 Nginx 루트로 연결
+      - ./backend/static:/usr/share/nginx/html/static  # React 빌드 파일을 Nginx 루트로 연결
       - certs:/etc/letsencrypt
       - certs-data:/data/letsencrypt
     depends_on:
