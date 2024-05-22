@@ -27,6 +27,8 @@ const MakerInfoWrap = styled.div`
   width: 100%;
   height: 10%;
   padding: 0 70px;
+  position: relative;
+  z-index: 10;
 `;
 
 const MakerProfile = styled.div`
@@ -39,8 +41,8 @@ const MakerProfile = styled.div`
 `;
 
 const MakerImage = styled.img`
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   border-radius: 100%;
   cursor: pointer;
   background-color: gray;
@@ -50,7 +52,7 @@ const MakerInfo = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  padding-left: 20px;
+  padding-left: 15px;
   align-items: start;
   justify-content: center;
   height: 100%;
@@ -58,7 +60,7 @@ const MakerInfo = styled.div`
 
 const MakerNameText = styled.span`
   color: black;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   white-space: nowrap;
@@ -66,37 +68,37 @@ const MakerNameText = styled.span`
 
 const MakerFollowerNumberText = styled.span`
   color: #756982;
-  font-size: 15px;
+  font-size: 12px;
 `;
 
 const MakerFollow = styled.div`
   display: flex;
   align-items: center;
-  padding: 0 30px;
-  width: 20%;
-  min-width: 200px;
-  height: 100%;
+  padding: 0 10px;
+  width: 100px;
 `;
 
 const FollowBtn = styled.button`
   width: 100%;
   max-width: 120px;
-  height: 40px;
+  height: 30px;
   cursor: pointer;
+  font-weight: bold;
   background-color: #b98ce0;
   border: 1px solid transparent;
   border-radius: 60px;
 `;
 
 const FollowBtnText = styled.span`
-  font-size: 18px;
+  font-size: 14px;
   color: #ffffff;
 `;
 
 const UnFollowBtn = styled.button`
   width: 100%;
   max-width: 120px;
-  height: 40px;
+  height: 30px;
+  font-weight: bold;
   cursor: pointer;
   background-color: #ffffff;
   border: 1px solid #b88cde;
@@ -104,7 +106,7 @@ const UnFollowBtn = styled.button`
 `;
 
 const UnFollowBtnText = styled.span`
-  font-size: 18px;
+  font-size: 14px;
   color: #b88cde;
 `;
 
@@ -138,8 +140,8 @@ const ItemWrap = styled.div<{ $isCommentActive: boolean }>`
 
 const ItemPhotoDiv = styled.div<{ $isCommentActive: boolean }>`
   position: relative;
-  width: ${(props) => (props.$isCommentActive ? '200px' : '600px')};
-  height: ${(props) => (props.$isCommentActive ? '200px' : '600px')};
+  width: ${(props) => (props.$isCommentActive ? '200px' : '400px')};
+  height: ${(props) => (props.$isCommentActive ? '200px' : '400px')};
   transition:
     width 0.3s ease,
     height 0.3s ease;
@@ -149,12 +151,13 @@ const ItemImage = styled.img`
   border-radius: 3%;
   width: 100%;
   height: 100%;
+  object-fit: cover;
   position: absolute;
 `;
 
-const ItemImageIconWrapper = styled.div`
+const ItemImageIconWrapper = styled.div<{ $isCommentActive: boolean }>`
   position: absolute;
-  padding: 40px;
+  padding: ${(props) => (props.$isCommentActive ? '20px' : '30px')};
   width: 100%;
   height: 100%;
   left: 0;
@@ -164,10 +167,21 @@ const ItemImageIconWrapper = styled.div`
   flex-direction: column;
   align-items: flex-end;
   justify-content: space-between;
+  transition: padding 0.3s ease;
 `;
 
-const ItemImageIcon = styled.div`
+const ItemImageIcon = styled.div<{ $isCommentActive: boolean }>`
   cursor: pointer;
+  width: ${(props) => (props.$isCommentActive ? '20px' : '40px')};
+  height: ${(props) => (props.$isCommentActive ? '20px' : '40px')};
+  transition:
+    width 0.3s ease,
+    height 0.3s ease;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const ItemControlWrap = styled.div`
@@ -232,14 +246,12 @@ const IconDiv = styled.div<{
 `;
 
 const HashTagDiv = styled.div`
-  flex-grow: 1;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: start;
+  flex-wrap: wrap;
   gap: 10px;
-  width: 200px;
-  height: 100%;
-  white-space: nowrap;
+  max-width: 100%;
 `;
 
 const HashTagBtn = styled.button`
@@ -292,16 +304,12 @@ const CommentsInnerBox = styled.div`
   gap: 20px;
 `;
 
-const CommentsTitle = styled.span`
-  font-size: 18px;
-  font-weight: bold;
-`;
-
 const CommentsTextDiv = styled.div`
   width: 100%;
   height: 90%;
   border-radius: 20px;
   padding: 30px;
+  margin-top: 80px;
   background-color: #f1e8f9;
 `;
 
@@ -360,6 +368,7 @@ const CommentDiv = styled.div`
   gap: 20px;
   width: 100%;
   height: 10%;
+  margin-bottom: 10px;
 `;
 
 const MyImageDiv = styled.div`
@@ -427,6 +436,7 @@ const BigIcons = [
 ];
 
 const comments = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 interface Media {
   file_url: string;
 }
@@ -436,6 +446,7 @@ interface PostData {
   media_set: Media[];
   // 필요한 다른 속성들...
 }
+
 const DetailArchivePage = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -455,12 +466,12 @@ const DetailArchivePage = () => {
 
   const pressFollowBtn = () => {
     console.log('팔로우버튼 클릭');
-    setIsFollowing(false);
+    setIsFollowing(true);
   };
 
   const pressUnFollowBtn = () => {
     console.log('언팔로우버튼 클릭');
-    setIsFollowing(true);
+    setIsFollowing(false);
   };
 
   const pressLikeBtn = () => {
@@ -511,8 +522,8 @@ const DetailArchivePage = () => {
       <MakerInfoWrap>
         <MakerProfile>
           <MakerImage
-            src="/testImage.png"
-            alt="MakerImage"
+            src="/profile.png"
+            alt="profile"
             onClick={() => navigate(`/user/${maker.name}`)}
           />
           <MakerInfo>
@@ -526,21 +537,13 @@ const DetailArchivePage = () => {
         </MakerProfile>
         <MakerFollow>
           {isFollowing ? (
-            <FollowBtn
-              onClick={() => {
-                pressFollowBtn();
-              }}
-            >
+            <UnFollowBtn onClick={pressUnFollowBtn}>
+              <UnFollowBtnText>팔로잉</UnFollowBtnText>
+            </UnFollowBtn>
+          ) : (
+            <FollowBtn onClick={pressFollowBtn}>
               <FollowBtnText>팔로우</FollowBtnText>
             </FollowBtn>
-          ) : (
-            <UnFollowBtn
-              onClick={() => {
-                pressUnFollowBtn();
-              }}
-            >
-              <UnFollowBtnText>팔로잉</UnFollowBtnText>{' '}
-            </UnFollowBtn>
           )}
         </MakerFollow>
         <EditPostBtn
@@ -563,9 +566,12 @@ const DetailArchivePage = () => {
                 alt={`Post Image ${index + 1}`}
               />
             ))}
-          <ItemImageIconWrapper>
+          <ItemImageIconWrapper $isCommentActive={commentMenuActivate === true}>
             {BigIcons.map((item, index) => (
-              <ItemImageIcon key={index}>
+              <ItemImageIcon
+                key={index}
+                $isCommentActive={commentMenuActivate === true}
+              >
                 <item.icon
                   onClick={
                     item.handler === 'pressLikeBtn'
@@ -580,12 +586,7 @@ const DetailArchivePage = () => {
       </ItemWrap>
       <ItemControlWrap>
         <ControlDiv>
-          <IconDiv
-            $isLiked={isLiked}
-            onClick={() => {
-              pressLikeBtn();
-            }}
-          >
+          <IconDiv $isLiked={isLiked} onClick={pressLikeBtn}>
             <HeartIcon />
             <ControlNumberText> 1.5K </ControlNumberText>
           </IconDiv>
@@ -601,11 +602,7 @@ const DetailArchivePage = () => {
             <CommentIcon />
             <ControlNumberText> 200 </ControlNumberText>
           </IconDiv>
-          <IconDiv
-            onClick={() => {
-              copyShareUrl();
-            }}
-          >
+          <IconDiv onClick={copyShareUrl}>
             <ShareIcon />
             <ControlNumberText> 40 </ControlNumberText>
           </IconDiv>
@@ -622,14 +619,13 @@ const DetailArchivePage = () => {
       <ItemCommentWrap>
         <CommentsDiv>
           <CommentsInnerBox>
-            <CommentsTitle>댓글</CommentsTitle>
             <CommentsTextDiv>
               <CommentsTexts>
                 {comments.map((item, index) => (
                   <Comments key={index}>
                     <CommentsUserImage
-                      src="/testImage.png"
-                      alt="MakerImage"
+                      src="/profile.png"
+                      alt="profile"
                     ></CommentsUserImage>
                     <CommentsUserInfo>
                       <CommentsUserNameText>Samantha</CommentsUserNameText>
@@ -646,7 +642,7 @@ const DetailArchivePage = () => {
         </CommentsDiv>
         <CommentDiv>
           <MyImageDiv>
-            <MyImagePhoto src="/testImage.png"></MyImagePhoto>
+            <MyImagePhoto src="/profile.png"></MyImagePhoto>
           </MyImageDiv>
           <CommentInputDiv>
             <CommentInput placeholder="Add a comment" />
