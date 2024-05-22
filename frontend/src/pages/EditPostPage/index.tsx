@@ -513,9 +513,6 @@ const EditPostPage = () => {
         },
         {
           withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-          },
         },
       );
 
