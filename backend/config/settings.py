@@ -196,7 +196,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 if platform_index == "Linux":
-    STATIC_URL = "/app/static/"
+    STATIC_URL = "/static/"
     STATICFILES_DIRS = []
     STATIC_ROOT = "/app/static/"
 else:
