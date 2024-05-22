@@ -47,26 +47,21 @@ const deleteCookie = (name: string) => {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // 로그인 상태 관리
   const [authData, setAuthData] = useState<AuthData | null>(null); // 사용자 인증 데이터 관리
-  const storageUserName = localStorage.getItem('username')
+  const storageUserName = localStorage.getItem('username');
+
   // 로그인 함수
-  const login = (
-    username_data: string
-  ) => {
-    setAuthData({ username_data}); // 인증 데이터를 설정
+  const login = (username_data: string) => {
+    setAuthData({ username_data }); // 인증 데이터를 설정
     setIsLoggedIn(true);
   };
-  
+
   useEffect(() => {
-    
     if (storageUserName) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
-
-
   }, [storageUserName]);
-  
 
   // 로그아웃 함수
   const logout = () => {
@@ -82,7 +77,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         if (response.data.success) {
           setAuthData(null);
           setIsLoggedIn(false);
-          localStorage.removeItem('username')
+          localStorage.clear(); // 로컬 스토리지의 모든 데이터를 삭제
         }
       })
       .catch((error) => {
