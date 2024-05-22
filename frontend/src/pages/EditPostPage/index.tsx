@@ -327,7 +327,7 @@ const EditPostPage = () => {
     const fetchPost = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/v1/post/${params.id}/`,
+          `http://223.130.135.136:8000/api/v1/post/${params.id}/`,
           {
             withCredentials: true,
           },
@@ -503,7 +503,7 @@ const EditPostPage = () => {
 
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/v1/post/${params.id}/update/`,
+        `http://223.130.135.136:8000/api/v1/post/${params.id}/update/`,
         {
           media: imageSrc,
           comment_ck: 'True',
