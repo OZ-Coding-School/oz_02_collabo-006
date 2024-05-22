@@ -145,7 +145,7 @@ interface ButtonProps {
   onClick: () => void;
 }
 
-const MyArchiveAddButton= ({ onClick }: ButtonProps) => {
+const MyArchiveAddButton = ({ onClick }: ButtonProps) => {
   const [isTransformed, setIsTransformed] = useState(false);
 
   return (

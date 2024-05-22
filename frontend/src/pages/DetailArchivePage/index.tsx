@@ -39,8 +39,8 @@ const MakerProfile = styled.div`
 `;
 
 const MakerImage = styled.img`
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   border-radius: 100%;
   cursor: pointer;
   background-color: gray;
@@ -50,7 +50,7 @@ const MakerInfo = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  padding-left: 20px;
+  padding-left: 15px;
   align-items: start;
   justify-content: center;
   height: 100%;
@@ -58,7 +58,7 @@ const MakerInfo = styled.div`
 
 const MakerNameText = styled.span`
   color: black;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   white-space: nowrap;
@@ -66,7 +66,7 @@ const MakerNameText = styled.span`
 
 const MakerFollowerNumberText = styled.span`
   color: #756982;
-  font-size: 15px;
+  font-size: 12px;
 `;
 
 const MakerFollow = styled.div`
@@ -138,8 +138,8 @@ const ItemWrap = styled.div<{ $isCommentActive: boolean }>`
 
 const ItemPhotoDiv = styled.div<{ $isCommentActive: boolean }>`
   position: relative;
-  width: ${(props) => (props.$isCommentActive ? '200px' : '600px')};
-  height: ${(props) => (props.$isCommentActive ? '200px' : '600px')};
+  width: ${(props) => (props.$isCommentActive ? '200px' : '400px')};
+  height: ${(props) => (props.$isCommentActive ? '200px' : '400px')};
   transition:
     width 0.3s ease,
     height 0.3s ease;
@@ -149,12 +149,13 @@ const ItemImage = styled.img`
   border-radius: 3%;
   width: 100%;
   height: 100%;
+  object-fit: cover;
   position: absolute;
 `;
 
-const ItemImageIconWrapper = styled.div`
+const ItemImageIconWrapper = styled.div<{ $isCommentActive: boolean }>`
   position: absolute;
-  padding: 40px;
+  padding: ${(props) => (props.$isCommentActive ? '20px' : '30px')};
   width: 100%;
   height: 100%;
   left: 0;
@@ -164,10 +165,21 @@ const ItemImageIconWrapper = styled.div`
   flex-direction: column;
   align-items: flex-end;
   justify-content: space-between;
+  transition: padding 0.3s ease;
 `;
 
-const ItemImageIcon = styled.div`
+const ItemImageIcon = styled.div<{ $isCommentActive: boolean }>`
   cursor: pointer;
+  width: ${(props) => (props.$isCommentActive ? '20px' : '40px')};
+  height: ${(props) => (props.$isCommentActive ? '20px' : '40px')};
+  transition:
+    width 0.3s ease,
+    height 0.3s ease;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const ItemControlWrap = styled.div`
@@ -292,16 +304,12 @@ const CommentsInnerBox = styled.div`
   gap: 20px;
 `;
 
-const CommentsTitle = styled.span`
-  font-size: 18px;
-  font-weight: bold;
-`;
-
 const CommentsTextDiv = styled.div`
   width: 100%;
   height: 90%;
   border-radius: 20px;
   padding: 30px;
+  margin-top: 80px;
   background-color: #f1e8f9;
 `;
 
@@ -360,6 +368,7 @@ const CommentDiv = styled.div`
   gap: 20px;
   width: 100%;
   height: 10%;
+  margin-bottom: 10px;
 `;
 
 const MyImageDiv = styled.div`
@@ -427,6 +436,7 @@ const BigIcons = [
 ];
 
 const comments = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 interface Media {
   file_url: string;
 }
@@ -436,6 +446,7 @@ interface PostData {
   media_set: Media[];
   // 필요한 다른 속성들...
 }
+
 const DetailArchivePage = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -512,8 +523,8 @@ const DetailArchivePage = () => {
       <MakerInfoWrap>
         <MakerProfile>
           <MakerImage
-            src="/testImage.png"
-            alt="MakerImage"
+            src="/profile.png"
+            alt="profile"
             onClick={() => navigate(`/user/${maker.name}`)}
           />
           <MakerInfo>
@@ -525,25 +536,6 @@ const DetailArchivePage = () => {
             </MakerFollowerNumberText>
           </MakerInfo>
         </MakerProfile>
-        <MakerFollow>
-          {isFollowing ? (
-            <FollowBtn
-              onClick={() => {
-                pressFollowBtn();
-              }}
-            >
-              <FollowBtnText>팔로우</FollowBtnText>
-            </FollowBtn>
-          ) : (
-            <UnFollowBtn
-              onClick={() => {
-                pressUnFollowBtn();
-              }}
-            >
-              <UnFollowBtnText>팔로잉</UnFollowBtnText>{' '}
-            </UnFollowBtn>
-          )}
-        </MakerFollow>
         <EditPostBtn
           onClick={() =>
             navigate(`/edit-post/item/${params.category}/${params.id}`)
@@ -564,9 +556,12 @@ const DetailArchivePage = () => {
                 alt={`Post Image ${index + 1}`}
               />
             ))}
-          <ItemImageIconWrapper>
+          <ItemImageIconWrapper $isCommentActive={commentMenuActivate === true}>
             {BigIcons.map((item, index) => (
-              <ItemImageIcon key={index}>
+              <ItemImageIcon
+                key={index}
+                $isCommentActive={commentMenuActivate === true}
+              >
                 <item.icon
                   onClick={
                     item.handler === 'pressLikeBtn'
@@ -623,14 +618,13 @@ const DetailArchivePage = () => {
       <ItemCommentWrap>
         <CommentsDiv>
           <CommentsInnerBox>
-            <CommentsTitle>댓글</CommentsTitle>
             <CommentsTextDiv>
               <CommentsTexts>
                 {comments.map((item, index) => (
                   <Comments key={index}>
                     <CommentsUserImage
-                      src="/testImage.png"
-                      alt="MakerImage"
+                      src="/profile.png"
+                      alt="profile"
                     ></CommentsUserImage>
                     <CommentsUserInfo>
                       <CommentsUserNameText>Samantha</CommentsUserNameText>
@@ -647,7 +641,7 @@ const DetailArchivePage = () => {
         </CommentsDiv>
         <CommentDiv>
           <MyImageDiv>
-            <MyImagePhoto src="/testImage.png"></MyImagePhoto>
+            <MyImagePhoto src="/profile.png"></MyImagePhoto>
           </MyImageDiv>
           <CommentInputDiv>
             <CommentInput placeholder="Add a comment" />
