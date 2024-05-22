@@ -75,9 +75,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       )
       .then((response) => {
         if (response.data.success) {
+          localStorage.clear(); // 로컬 스토리지의 모든 데이터를 삭제
           setAuthData(null);
           setIsLoggedIn(false);
-          localStorage.clear(); // 로컬 스토리지의 모든 데이터를 삭제
         }
       })
       .catch((error) => {
