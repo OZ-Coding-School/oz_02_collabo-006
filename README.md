@@ -1,8 +1,9 @@
 ## $$\color{purple}\fbox{\Huge \color{pink}{네디플}}$$  
 
-![alt text](images/markdown-image-1.png)
+![image](https://github.com/OZ-Coding-School/oz_02_collabo-006/assets/155132402/52866e71-a29c-4201-b4d8-0a9ba7ffe7e7)
 
 - 사용자에게 네일아트 이미지를 제공하는 서비스  
+
 
 
 
@@ -26,17 +27,17 @@
   <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> 
   <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
   <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white">
   <br>
 
   <img src="https://img.shields.io/badge/react-00A8E1?style=for-the-badge&logo=react&logoColor=black"> 
   <img src="https://img.shields.io/badge/figma-EF2D5E?style=for-the-badge&logo=figma&logoColor=black">
-  <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
   <img src="https://img.shields.io/badge/prettier-FF4F8B?style=for-the-badge&logo=prettier&logoColor=white">
   <br>
 
   <img src="https://img.shields.io/badge/axios-6935D3?style=for-the-badge&logo=axios&logoColor=white">
   <img src="https://img.shields.io/badge/styled Components-E9568E?style=for-the-badge&logo=styledComponents&logoColor=white">
-  <img src="https://img.shields.io/badge/redux toolkit-66459B?style=for-the-badge&logo=redux&logoColor=white">
+ <img src="https://img.shields.io/badge/Context%20API-61DAFB?style=for-the-badge&logo=react&logoColor=white">
   <img src="https://img.shields.io/badge/npm-ED1C24?style=for-the-badge&logo=npm&logoColor=white">
   
   <br>
@@ -77,9 +78,9 @@
 
 ### FE
 
-| <a href=https://github.com/hyun-25><img src="https://avatars.githubusercontent.com/u/112464345?v=4" width=100px/><br/><sub><b>@hyun-25</b></sub></a><br/> | <a href=https://github.com/lsh7465><img src="https://avatars.githubusercontent.com/u/155132402?v=4" width=100px/><br/><sub><b>@lsh7465</b></sub></a><br/> |
-| :--------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|                                                                              박가현                                                                              |                                                                              이승현                                                                              |
+ <a href=https://github.com/lsh7465><img src="https://avatars.githubusercontent.com/u/155132402?v=4" width=100px/><br/><sub><b>@lsh7465</b></sub></a><br/> |
+ :--------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                                                              이승현                                                                              |
 
 ### BE
 
@@ -151,7 +152,6 @@
 
 
 > FE
-> - styled-Component 변수명 S + 변수명 (ex. Swrap)
 > - styled-Component는 return문 위에 작성
 > - 크게는 styled-Component, 그 안에서 className 사용 
 > - Event handler 사용 (ex. handle ~)
