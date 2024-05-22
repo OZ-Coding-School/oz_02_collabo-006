@@ -244,14 +244,12 @@ const IconDiv = styled.div<{
 `;
 
 const HashTagDiv = styled.div`
-  flex-grow: 1;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: start;
+  flex-wrap: wrap;
   gap: 10px;
-  width: 200px;
-  height: 100%;
-  white-space: nowrap;
+  max-width: 100%;
 `;
 
 const HashTagBtn = styled.button`
