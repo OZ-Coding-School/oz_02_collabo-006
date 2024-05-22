@@ -27,6 +27,8 @@ const MakerInfoWrap = styled.div`
   width: 100%;
   height: 10%;
   padding: 0 70px;
+  position: relative;
+  z-index: 10;
 `;
 
 const MakerProfile = styled.div`
@@ -72,31 +74,31 @@ const MakerFollowerNumberText = styled.span`
 const MakerFollow = styled.div`
   display: flex;
   align-items: center;
-  padding: 0 30px;
-  width: 20%;
-  min-width: 200px;
-  height: 100%;
+  padding: 0 10px;
+  width: 100px;
 `;
 
 const FollowBtn = styled.button`
   width: 100%;
   max-width: 120px;
-  height: 40px;
+  height: 30px;
   cursor: pointer;
+  font-weight: bold;
   background-color: #b98ce0;
   border: 1px solid transparent;
   border-radius: 60px;
 `;
 
 const FollowBtnText = styled.span`
-  font-size: 18px;
+  font-size: 14px;
   color: #ffffff;
 `;
 
 const UnFollowBtn = styled.button`
   width: 100%;
   max-width: 120px;
-  height: 40px;
+  height: 30px;
+  font-weight: bold;
   cursor: pointer;
   background-color: #ffffff;
   border: 1px solid #b88cde;
@@ -104,7 +106,7 @@ const UnFollowBtn = styled.button`
 `;
 
 const UnFollowBtnText = styled.span`
-  font-size: 18px;
+  font-size: 14px;
   color: #b88cde;
 `;
 
@@ -464,12 +466,12 @@ const DetailArchivePage = () => {
 
   const pressFollowBtn = () => {
     console.log('팔로우버튼 클릭');
-    setIsFollowing(false);
+    setIsFollowing(true);
   };
 
   const pressUnFollowBtn = () => {
     console.log('언팔로우버튼 클릭');
-    setIsFollowing(true);
+    setIsFollowing(false);
   };
 
   const pressLikeBtn = () => {
@@ -534,6 +536,17 @@ const DetailArchivePage = () => {
             </MakerFollowerNumberText>
           </MakerInfo>
         </MakerProfile>
+        <MakerFollow>
+          {isFollowing ? (
+            <UnFollowBtn onClick={pressUnFollowBtn}>
+              <UnFollowBtnText>팔로잉</UnFollowBtnText>
+            </UnFollowBtn>
+          ) : (
+            <FollowBtn onClick={pressFollowBtn}>
+              <FollowBtnText>팔로우</FollowBtnText>
+            </FollowBtn>
+          )}
+        </MakerFollow>
         <EditPostBtn
           onClick={() =>
             navigate(`/edit-post/item/${params.category}/${params.id}`)
@@ -574,12 +587,7 @@ const DetailArchivePage = () => {
       </ItemWrap>
       <ItemControlWrap>
         <ControlDiv>
-          <IconDiv
-            $isLiked={isLiked}
-            onClick={() => {
-              pressLikeBtn();
-            }}
-          >
+          <IconDiv $isLiked={isLiked} onClick={pressLikeBtn}>
             <HeartIcon />
             <ControlNumberText> 1.5K </ControlNumberText>
           </IconDiv>
@@ -595,11 +603,7 @@ const DetailArchivePage = () => {
             <CommentIcon />
             <ControlNumberText> 200 </ControlNumberText>
           </IconDiv>
-          <IconDiv
-            onClick={() => {
-              copyShareUrl();
-            }}
-          >
+          <IconDiv onClick={copyShareUrl}>
             <ShareIcon />
             <ControlNumberText> 40 </ControlNumberText>
           </IconDiv>
