@@ -73,12 +73,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           withCredentials: true,
         },
       )
-      .then((response) => {
-        if (response.data.success) {
-          localStorage.clear(); // 로컬 스토리지의 모든 데이터를 삭제
-          setAuthData(null);
-          setIsLoggedIn(false);
-        }
+      .then(() => {
+        localStorage.clear(); // 로컬 스토리지의 모든 데이터를 삭제
+        setAuthData(null);
+        setIsLoggedIn(false);
       })
       .catch((error) => {
         console.error('Error:', error);
