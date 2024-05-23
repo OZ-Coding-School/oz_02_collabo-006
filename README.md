@@ -174,3 +174,55 @@
 >
 > [📜 화면 정의서](https://docs.google.com/spreadsheets/d/1vud5xV8rB9Y6akOIma49hSzdZsoj8DVG0-fYE4NdP_g/edit?usp=sharing)
 
+
+---  
+
+# 배포하기
+
+```bash
+# 설치 업데이트
+sudo apt update
+
+# npm 설치
+sudo apt install -y npm
+
+# frontend 디렉토리로 이동
+cd frontend
+
+# 패키지 설치
+npm install
+
+# 빌드 실행
+npm run build
+
+
+sudo docker-compose run --rm --entrypoint "certbot certonly --webroot --webroot-path=/usr/share/nginx/html --email your-email@example.com --agree-tos --no-eff-email -d naildp.com -d www.naildp.com" certbot
+
+```
+
+# 리엑트 경로 수정
+
+// src/config.js
+```js
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost';
+
+export default API_BASE_URL;
+```
+
+// frontend\src\constant\endPoint.tsx
+```tsx
+import API_BASE_URL from '../config';
+
+export const CREATE_USER_ENDPOINT = `${API_BASE_URL}/api/v1/user/create/`;
+export const UPDATE_USER_ENDPOINT = (userId: Number) => {
+  return `${API_BASE_URL}/api/v1/user/${userId}/update/`;
+};
+export const LOGIN_USER_ENDPOINT = `${API_BASE_URL}/api/v1/user/login/`;
+export const LOGOUT_USER_ENDPOINT = `${API_BASE_URL}/api/v1/user/logout/`;
+export const TOKEN_USER_ENDPOINT = `${API_BASE_URL}/api/v1/user/login/sjwt/`;
+export const REFRESH_TOKEN_ENDPOINT = `${API_BASE_URL}/api/v1/user/jwt/refresh/`;
+export const CREATE_POSTS = `${API_BASE_URL}/api/v1/post/create/`;
+export const GET_ALL_POSTS = `${API_BASE_URL}/api/v1/post/`;
+```
+
+

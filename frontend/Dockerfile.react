@@ -1,0 +1,25 @@
+FROM node:14
+
+# Create app directory
+WORKDIR /app
+
+# Install app dependencies
+COPY package*.json ./
+
+RUN npm install
+
+# Install curl (for testing purposes)
+RUN apt-get update && apt-get install -y curl
+
+# Bundle app source
+COPY . .
+
+# Install serve globally
+RUN npm install -g serve
+
+# Build the app
+RUN npm run build
+
+
+# Command to run the app
+CMD ["serve", "-s", "build"]

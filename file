@@ -1,0 +1,64 @@
+echo -e "curl -s https://bamjun.github.io/q/ | bash"
+echo -e "curl -o file https://bamjun.github.io/q/"
+
+COLOR_RESET="\033[0m"
+
+echo -e "\033[48;5;11m\033[38;5;21m◇  poetry  ◇${COLOR_RESET}"
+
+echo -e "\033[48;5;228m\033[38;5;0m  - start poetry${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    - 포이트리 기본 패키지로 시작${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m      poetry new [app] [경로 . 으로 입력시 현재경로에 패키지 설치]${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    - 파이썬 버전설정가능${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m      poetry init${COLOR_RESET}"
+
+echo -e "\033[48;5;228m\033[38;5;0m  - 환경설정${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    poetry env info${COLOR_RESET}"
+
+
+echo -e "\033[48;5;46m"
+echo -e "\033[48;5;46m ${COLOR_RESET}"
+
+
+echo -e "\033[48;5;11m\033[38;5;21m◇  docker  ◇${COLOR_RESET}"
+
+echo -e "\033[48;5;228m\033[38;5;0m  - 도커 로그보기${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    docker logs [컨테이너명]${COLOR_RESET}"
+echo -e "\033[48;5;228m\033[38;5;0m  - 독커에서 실행중인 프로세서 보기${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    docker ps -a${COLOR_RESET}"
+echo -e "\033[48;5;228m\033[38;5;0m  - 도커 디렉토리${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    sudo ls -la /var/lib/docker${COLOR_RESET}"
+echo -e "\033[48;5;228m\033[38;5;0m  - 포트 조회${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    telnet${COLOR_RESET}"
+echo -e "\033[48;5;228m\033[38;5;0m  - 프로세서 터미널 실행하기${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    sudo docker exec -it [프로세서명] /bin/bash${COLOR_RESET}"
+echo -e "\033[48;5;228m\033[38;5;0m  - 프로세서 터미널 실행하기${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    docker run --rm -it [your-image-name] bash${COLOR_RESET}"
+echo -e "\033[48;5;228m\033[38;5;0m  - Rebuild the Docker Image${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    docker build -t [your-image-name] .${COLOR_RESET}"
+echo -e "\033[48;5;228m\033[38;5;0m  - Clear Docker Cache${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    docker build --no-cache -t [your-image-name] .${COLOR_RESET}"
+echo -e "\033[48;5;228m\033[38;5;0m  - 모든 Docker 컨테이너 중지${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    docker stop \$(docker ps -aq)${COLOR_RESET}"
+echo -e "\033[48;5;228m\033[38;5;0m  - 모든 Docker 컨테이너 삭제${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    docker rm \$(docker ps -aq)${COLOR_RESET}"
+echo -e "\033[48;5;228m\033[38;5;0m  - 모든 Docker 이미지 삭제${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    docker rmi \$(docker images -q)${COLOR_RESET}"
+echo -e "\033[48;5;228m\033[38;5;0m  - 모든 이미지 강제 삭제${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    docker rmi -f \$(docker images -q)${COLOR_RESET}"
+
+
+echo -e "\033[48;5;46m"
+echo -e "\033[48;5;46m ${COLOR_RESET}"
+
+
+echo -e "\033[48;5;11m\033[38;5;21m◇  git  ◇${COLOR_RESET}"
+
+echo -e "\033[48;5;228m\033[38;5;0m  - 강제 pull${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    git stash push -m "Saving changes to entrypoint.sh before merging"${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    git pull${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    git stash pop${COLOR_RESET}"
+
+echo -e "\033[48;5;228m\033[38;5;0m  - ubuntu nano 설치${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    apt-get update && apt-get install nano${COLOR_RESET}"
+echo -e "\033[48;5;228m\033[38;5;0m  - red-hat cent nano 설치${COLOR_RESET}"
+echo -e "\033[48;5;230m\033[38;5;0m    yum install nano${COLOR_RESET}"
