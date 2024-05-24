@@ -151,7 +151,6 @@
 
 
 > FE
-> - styled-Component 변수명 S + 변수명 (ex. Swrap)
 > - styled-Component는 return문 위에 작성
 > - 크게는 styled-Component, 그 안에서 className 사용 
 > - Event handler 사용 (ex. handle ~)
@@ -200,6 +199,7 @@ sudo docker-compose run --rm --entrypoint "certbot certonly --webroot --webroot-
 
 ```
 
+
 # 리엑트 경로 수정
 
 // src/config.js
@@ -226,3 +226,4 @@ export const GET_ALL_POSTS = `${API_BASE_URL}/api/v1/post/`;
 ```
 
 
+--- 
